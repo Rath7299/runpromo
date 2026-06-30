@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RunPromo | Smart Coupon Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .toast-enter { animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="glass-effect sticky top-0 z-50 border-b border-slate-200 px-4 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-700 tracking-tight">RunPromo</h1>
+            </div>
+            
+            <div class="hidden md:flex space-x-8 font-medium text-sm text-slate-600">
+                <a href="#searchArea" class="hover:text-blue-600 transition-colors">Run Search</a>
+                <a href="#howItWorks" class="hover:text-blue-600 transition-colors">How it Works</a>
+                <a href="#supportedStores" class="hover:text-blue-600 transition-colors">Supported Platforms</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="searchArea" class="flex-grow max-w-6xl mx-auto px-4 py-16 md:py-24 w-full">
+        
+        <div class="max-w-3xl mx-auto text-center mb-12">
+            <!-- New Savings Momentum Badge -->
+            <div class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 font-semibold px-5 py-2 rounded-full text-sm mb-8 border border-indigo-100 animate-float shadow-sm">
+                <i class="fa-solid fa-fire text-indigo-500"></i> Over $50,000 saved by users today
+            </div>
+
+            <h2 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
+                Stop paying full price <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">ever again.</span>
+            </h2>
+            
+            <p class="text-lg text-slate-500 mb-8">Paste any product, flight, or hotel link from our network of 500+ global brands. Our proprietary deal scanner will instantly verify and unlock the best active coupons for your region.</p>
+
+            <!-- Search/Input Widget -->
+            <div class="bg-white p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200 flex flex-col md:flex-row gap-2 relative z-10">
+                <div class="flex-1 flex items-center px-4 py-2 bg-slate-50 rounded-xl border border-transparent focus-within:border-blue-300 focus-within:bg-white transition-all relative">
+                    <i class="fa-solid fa-link text-slate-400 mr-3"></i>
+                    <input id="productLink" type="text" placeholder="Paste any link from Shopee, Agoda, Skyscanner..." class="w-full bg-transparent border-none outline-none text-slate-700 placeholder-slate-400 text-lg pr-32" oninput="detectRegion()">
+                    
+                    <!-- Right Side Input Actions -->
+                    <div class="absolute right-3 flex items-center gap-2">
+                        <!-- Clear Button -->
+                        <button id="clearBtn" onclick="clearInput()" class="hidden text-slate-400 hover:text-red-500 transition-colors p-1" title="Clear input">
+                            <i class="fa-solid fa-circle-xmark text-lg"></i>
+                        </button>
+                        
+                        <!-- Region Indicator (Dynamic) -->
+                        <div id="regionIndicator" class="hidden items-center gap-1.5 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-200 text-xs font-bold text-slate-600 transition-all">
+                            <span id="regionFlag">🇹🇭</span>
+                            <span id="regionCurrency">THB</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="processLink()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-lg">
+                    <span>Run Search</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Supported Platforms Logos -->
+            <div id="supportedStores" class="flex flex-wrap justify-center items-center gap-6 mt-10 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-bag-shopping text-orange-500"></i> Shopee</div>
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-heart text-blue-600"></i> Lazada</div>
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane-departure text-sky-500"></i> Skyscanner</div>
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane text-cyan-500"></i> Agoda</div>
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-bed text-blue-800"></i> Booking.com</div>
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-suitcase text-blue-400"></i> Trip.com</div>
+                <div class="flex items-center gap-2 font-bold text-lg bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm ml-2 shadow-sm border border-blue-200">+ 500 More Brands</div>
+            </div>
+        </div>
+
+        <!-- Processing State -->
+        <div id="loadingState" class="hidden max-w-2xl mx-auto bg-white rounded-2xl shadow-xl border border-blue-100 p-8 text-center mt-12 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 bg-[length:200%_100%] animate-[gradient_2s_linear_infinite]"></div>
+            
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-blue-600 mb-6">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl"></i>
+            </div>
+            
+            <h3 id="loadingTitle" class="text-2xl font-bold text-slate-900 mb-2">Analyzing product link...</h3>
+            
+            <div class="mt-6 flex flex-col gap-3 text-sm text-left max-w-xs mx-auto">
+                <div id="step1" class="flex items-center gap-3 text-blue-600 font-medium transition-all">
+                    <i class="fa-solid fa-check-circle"></i> Connecting to secure deal network
+                </div>
+                <div id="step2" class="flex items-center gap-3 text-slate-400 transition-all">
+                    <i class="fa-regular fa-circle"></i> Testing verified promo codes
+                </div>
+                <div id="step3" class="flex items-center gap-3 text-slate-400 transition-all">
+                    <i class="fa-regular fa-circle"></i> Generating secure savings route
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Card -->
+        <div id="resultsCard" class="hidden max-w-3xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+            
+            <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-6 flex items-center justify-between">
+                <div class="flex items-center gap-4 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl backdrop-blur-sm shadow-inner">✅</div>
+                    <div>
+                        <h3 class="text-xl font-bold">Deal Unlocked Successfully!</h3>
+                        <p class="text-green-50 text-sm opacity-90">We found valid codes for this merchant.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+                <!-- Product Preview -->
+                <div class="md:w-1/3 flex flex-col items-center border border-slate-100 rounded-2xl p-4 bg-slate-50 relative">
+                    <div id="discountBadge" class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow-sm">-20% OFF</div>
+                    <img src="https://placehold.co/400x400/e2e8f0/64748b?text=Product+Image" alt="Product" class="w-full h-auto rounded-xl object-cover mb-4 shadow-sm border border-slate-200">
+                    <p class="text-sm text-slate-600 font-medium text-center line-clamp-2">Premium Noise Cancelling Wireless Headphones</p>
+                    <div class="mt-3 flex items-center gap-2">
+                        <span id="originalPrice" class="text-slate-400 line-through text-sm">฿1,299</span>
+                        <span id="finalPrice" class="text-2xl font-black text-slate-900">฿1,039</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 text-center mt-4 leading-tight">*Prices are estimates and depend on merchant stock at checkout.</p>
+                </div>
+
+                <!-- Coupons & Actions -->
+                <div class="md:w-2/3 flex flex-col justify-center">
+                    
+                    <div class="mb-2 text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-star text-amber-400"></i> Best Available Code
+                    </div>
+                    
+                    <!-- Main Coupon Box -->
+                    <div onclick="copyAndRedirect('mainCoupon')" class="bg-blue-50 border-2 border-blue-200 border-dashed rounded-2xl p-4 mb-6 flex justify-between items-center group hover:bg-blue-100 hover:border-blue-400 transition-all cursor-pointer active:scale-[0.99]">
+                        <div>
+                            <span id="mainCoupon" class="text-3xl font-mono font-black text-blue-700 tracking-widest">MEGA20OFF</span>
+                            <p id="minSpendText" class="text-xs text-blue-500 mt-1 font-medium">Min. spend ฿500 • Valid for 2 days</p>
+                        </div>
+                        <div class="bg-white border border-blue-200 text-blue-600 group-hover:bg-blue-600 group-hover:text-white font-bold py-2 px-4 rounded-lg shadow-sm transition-all text-sm flex flex-col items-center gap-1 pointer-events-none">
+                            <i class="fa-regular fa-copy"></i>
+                            Copy
+                        </div>
+                    </div>
+
+                    <!-- Alternate Codes -->
+                    <div class="space-y-3 mb-8">
+                        <div onclick="copyAndRedirect('subCoupon1')" class="flex justify-between items-center text-sm p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-all cursor-pointer active:scale-[0.99] group">
+                            <div class="flex items-center gap-3 pointer-events-none">
+                                <span class="bg-green-100 text-green-700 font-bold px-2 py-1 rounded text-xs border border-green-200">FREE SHIP</span>
+                                <span id="subCoupon1" class="font-mono font-bold text-slate-700">FREEDEL26</span>
+                            </div>
+                            <div class="text-slate-400 group-hover:text-blue-600 font-medium text-xs flex items-center gap-1 pointer-events-none">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Redirect Button -->
+                    <button onclick="openAffiliateLink()" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg">
+                        Go to Store to Buy <i class="fa-solid fa-external-link-alt text-sm opacity-80"></i>
+                    </button>
+                    
+                    <!-- Search Again Button -->
+                    <button onclick="resetSearch()" class="w-full mt-3 bg-transparent border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700 font-bold py-3 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Search Another Deal
+                    </button>
+
+                    <p class="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-lock text-slate-300"></i> Secure redirect. Apply your code at merchant checkout.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Coupon State (Lowest Price Verified) -->
+        <div id="noCouponCard" class="hidden max-w-3xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+            
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 flex items-center justify-between">
+                <div class="flex items-center gap-4 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl backdrop-blur-sm shadow-inner"><i class="fa-solid fa-shield-check"></i></div>
+                    <div>
+                        <h3 class="text-xl font-bold">Lowest Price Verified!</h3>
+                        <p class="text-blue-100 text-sm opacity-90">No extra codes needed. Maximum discount already applied.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+                <!-- Product Preview -->
+                <div class="md:w-1/3 flex flex-col items-center border border-slate-100 rounded-2xl p-4 bg-slate-50 relative">
+                    <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow-sm">BEST PRICE</div>
+                    <img src="https://placehold.co/400x400/e2e8f0/64748b?text=Product+Image" alt="Product" class="w-full h-auto rounded-xl object-cover mb-4 shadow-sm border border-slate-200">
+                    <p class="text-sm text-slate-600 font-medium text-center line-clamp-2">Premium Noise Cancelling Wireless Headphones</p>
+                </div>
+
+                <!-- Actions -->
+                <div class="md:w-2/3 flex flex-col justify-center">
+                    
+                    <div class="mb-4 text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-check-double text-blue-500"></i> Deal Status
+                    </div>
+                    
+                    <!-- Notification Box -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6">
+                        <h4 class="text-slate-800 font-bold text-lg mb-2">Price Optimization Complete</h4>
+                        <p class="text-slate-500 text-sm leading-relaxed">Our proprietary scanners checked 500+ databases. This merchant has already dropped this item to its lowest permitted baseline price for your region.</p>
+                    </div>
+
+                    <!-- Redirect Button -->
+                    <button onclick="openAffiliateLink()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-xl hover:shadow-2xl shadow-blue-200 transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg">
+                        Lock in Price & Buy Now <i class="fa-solid fa-arrow-right text-sm opacity-80"></i>
+                    </button>
+                    
+                    <!-- Search Again Button -->
+                    <button onclick="resetSearch()" class="w-full mt-3 bg-transparent border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700 font-bold py-3 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Search Another Deal
+                    </button>
+
+                    <p class="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-bolt text-amber-400"></i> Fast, secure redirect to official merchant checkout.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- How it Works Section -->
+    <section id="howItWorks" class="bg-white border-t border-b border-slate-200 py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h3 class="text-3xl font-black text-center text-slate-900 mb-4 tracking-tight">Simple. Intelligent. Instant.</h3>
+            <p class="text-slate-500 text-center max-w-2xl mx-auto mb-16">RunPromo connects you directly to the lowest available retail prices without advertising trackers, memberships, or spyware.</p>
+            
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">1</div>
+                    <h4 class="font-bold text-lg mb-2 text-slate-900">Insert Destination URL</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">Paste the link of the exact item you've set your sights on from our supported retail platforms.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">2</div>
+                    <h4 class="font-bold text-lg mb-2 text-slate-900">Run Optimization</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">Our system runs real-time checks across our private verified merchant systems to secure authorized codes.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">3</div>
+                    <h4 class="font-bold text-lg mb-2 text-slate-900">Lock In Vouchers</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">Copy the optimized code and follow our encrypted gateway link to apply it directly during checkout.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Legal Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 mt-auto">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 border-b border-slate-800 pb-8 mb-8">
+                <!-- Branding & Disclaimer -->
+                <div class="col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h4 class="text-white font-bold text-lg tracking-wide">RunPromo</h4>
+                    </div>
+                    <p class="text-sm leading-relaxed max-w-xl">
+                        <strong>Affiliate Disclosure:</strong> RunPromo is a reader-supported savings network. When you purchase through links on our site, we may earn an affiliate commission at no extra cost to you. We source data through authorized merchant partnerships.
+                    </p>
+                </div>
+                
+                <!-- Legal Links -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Legal & Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><button onclick="openModal('modal-privacy')" class="hover:text-white transition-colors text-left w-full">Privacy Policy</button></li>
+                        <li><button onclick="openModal('modal-terms')" class="hover:text-white transition-colors text-left w-full">Terms of Service</button></li>
+                        <li><button onclick="openModal('modal-verify')" class="hover:text-white transition-colors text-left w-full">How We Verify Deals</button></li>
+                        <li><button onclick="openModal('modal-contact')" class="hover:text-white transition-colors text-left w-full">Contact Us</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-xs text-slate-500 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2026 RunPromo Network. All rights reserved.</p>
+                <p class="mt-2 md:mt-0">Trademarks belong to their respective owners.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Backdrop Overlay -->
+    <div id="modalBackdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300" onclick="closeAllModals()"></div>
+
+    <!-- Modal: Privacy Policy -->
+    <div id="modal-privacy" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i> Privacy Policy</h3>
+            <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
+            <p><strong>Effective Date:</strong> January 1, 2026</p>
+            <p>At RunPromo.net, accessible from our public web properties, protecting the privacy and personal datasets of our online users is our absolute priority. This Privacy Policy document outlines the precise structures of tracking cookies, affiliate navigation patterns, and information storage handled by our systems.</p>
+            <h4 class="font-bold text-slate-800">1. Information We Collect</h4>
+            <p>We do not require user registrations, logins, names, or email inputs in order to search for valid discount routings. Our servers collect general diagnostic information including IP addresses, browser specifications, and destination domains purely to detect region layouts and optimize currency standards dynamically.</p>
+            <h4 class="font-bold text-slate-800">2. Tracking Technologies and Cookies</h4>
+            <p>To enable automated voucher retrieval, we utilize system integration tracking cookies. These microdata markers are deployed when clicking on customized redirects to secure that merchant systems track purchase parameters for potential partner commissions. Users can configure their browser settings to discard these elements at any time.</p>
+            <h4 class="font-bold text-slate-800">3. Information Storage Safeguards</h4>
+            <p>Since we do not compile databases of physical addresses or billing methods, your shopping parameters remain secured via native HTTPS encryption models. Our protocols enforce high-level security to verify data authenticity.</p>
+        </div>
+        <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Understood</button>
+        </div>
+    </div>
+
+    <!-- Modal: Terms of Service -->
+    <div id="modal-terms" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-file-contract text-blue-600 mr-2"></i> Terms of Service</h3>
+            <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
+            <p><strong>Effective Date:</strong> January 1, 2026</p>
+            <p>By utilizing the tools, scripts, and optimization pathways hosted on RunPromo.net, you explicitly agree to fully abide by our structural user terms listed below.</p>
+            <h4 class="font-bold text-slate-800">1. Usage Scope</h4>
+            <p>RunPromo serves as an interactive routing directory designed solely for individual shoppers looking to find applicable coupon codes. Users are strictly prohibited from automating scans of our platform via bots, commercial scrapers, or other software scripts.</p>
+            <h4 class="font-bold text-slate-800">2. Price and Discount Limitations</h4>
+            <p>Our dynamic platform estimates discounts and original retail rates based on average partner calculations. RunPromo guarantees neither structural accuracy of listed rates nor final code usability at merchant portals, which vary by inventory level and retailer policy changes.</p>
+            <h4 class="font-bold text-slate-800">3. Third Party Limitations</h4>
+            <p>All items belong to external e-commerce and booking sites (Shopee, Lazada, Agoda, Booking.com, Trip.com, AliExpress). Any issues concerning product deliveries, payment processing failures, or catalog mistakes must be settled with the merchant directly.</p>
+        </div>
+        <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Accept Terms</button>
+        </div>
+    </div>
+
+    <!-- Modal: How We Verify Deals -->
+    <div id="modal-verify" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i> How We Verify Deals</h3>
+            <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
+            <h4 class="font-bold text-slate-800">Secure Deal Optimization Routing</h4>
+            <p>Rather than using crowdsourced configurations that lead to stale or fake promotions, RunPromo operates an algorithmic routing network. When you enter a destination product page URL, our platform processes the following layers of verification:</p>
+            <ul class="list-disc pl-5 space-y-2">
+                <li><strong>Merchant Metadata Synthesis:</strong> We query digital routing pathways directly associated with verified retailer systems to confirm that codes are active and valid.</li>
+                <li><strong>Travel Meta-Search Aggregation:</strong> For hotel and flight links, we route requests through specialized meta-search hubs (aggregating OTA inventory) to perform high-speed, deep price comparisons across global databases.</li>
+                <li><strong>Dynamic Price Recalculation:</strong> Our algorithm automatically forecasts real-time final estimates so that your discount display matches real market parameters.</li>
+                <li><strong>Encrypted Redirection Pathing:</strong> By packing authorization headers inside a secure redirection, your device lands on the correct checkout frame safely.</li>
+            </ul>
+        </div>
+        <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Close</button>
+        </div>
+    </div>
+
+    <!-- Modal: Contact Us -->
+    <div id="modal-contact" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-envelope text-blue-600 mr-2"></i> Contact Us</h3>
+            <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="p-6 space-y-4 text-sm text-slate-600">
+            <p>Have inquiries regarding platform verification methods, compliance issues, or merchant partnerships? Get in touch with our team directly:</p>
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <p class="font-bold text-slate-800">✉️ Platform Support Email:</p>
+                <a href="mailto:support@runpromo.net" class="text-blue-600 hover:underline text-lg font-semibold">support@runpromo.net</a>
+            </div>
+            <p class="text-xs text-slate-400 leading-tight">We strive to address all commercial compliance queries within 48 standard business hours.</p>
+        </div>
+        <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
+            <button onclick="closeAllModals()" class="bg-slate-600 text-white font-bold py-2 px-5 rounded-xl hover:bg-slate-700 transition">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+    <script>
+        // Core Variables
+        let currentCurrencySymbol = '฿';
+        let redirectUrl = 'https://shopee.co.th'; 
+
+        // New UX Functions: Clear & Reset
+        function clearInput() {
+            const inputField = document.getElementById('productLink');
+            inputField.value = '';
+            detectRegion(); // This will auto-hide the clear button and flags
+            inputField.focus();
+        }
+
+        function resetSearch() {
+            clearInput();
+            document.getElementById('resultsCard').classList.add('hidden');
+            document.getElementById('noCouponCard').classList.add('hidden');
+            // Smoothly scroll back to the search bar
+            document.getElementById('searchArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Dynamic Region Detection
+        function detectRegion() {
+            const input = document.getElementById('productLink').value.toLowerCase().trim();
+            const indicator = document.getElementById('regionIndicator');
+            const clearBtn = document.getElementById('clearBtn');
+            const flag = document.getElementById('regionFlag');
+            const currencyTxt = document.getElementById('regionCurrency');
+
+            if (input.length === 0) {
+                indicator.classList.add('hidden');
+                indicator.classList.remove('flex');
+                clearBtn.classList.add('hidden');
+                return;
+            }
+
+            indicator.classList.remove('hidden');
+            indicator.classList.add('flex');
+            clearBtn.classList.remove('hidden');
+
+            // 1. Capture the exact link the user pasted so we can redirect them back to it securely
+            if (input.startsWith('http')) {
+                redirectUrl = input;
+            } else {
+                redirectUrl = 'https://' + input;
+            }
+
+            // 2. Detect the Region/Country based on the Domain extension (.th, .sg, .ph, etc)
+            if (input.includes('.co.th') || input.includes('.th')) {
+                flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿';
+            } else if (input.includes('.sg')) {
+                flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$';
+            } else if (input.includes('.com.my') || input.includes('.my')) {
+                flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM';
+            } else if (input.includes('.ph')) {
+                flag.innerText = '🇵🇭'; currencyTxt.innerText = 'PHP'; currentCurrencySymbol = '₱';
+            } else if (input.includes('.id')) {
+                flag.innerText = '🇮🇩'; currencyTxt.innerText = 'IDR'; currentCurrencySymbol = 'Rp';
+            } else if (input.includes('.vn')) {
+                flag.innerText = '🇻🇳'; currencyTxt.innerText = 'VND'; currentCurrencySymbol = '₫';
+            } else {
+                // Global Fallback (Agoda, Booking, AliExpress, etc.)
+                flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$';
+            }
+        }
+
+        function updateResultsUI() {
+            document.getElementById('originalPrice').innerText = `${currentCurrencySymbol}1,299`;
+            document.getElementById('finalPrice').innerText = `${currentCurrencySymbol}1,039`;
+            document.getElementById('minSpendText').innerText = `Min. spend ${currentCurrencySymbol}500 • Valid for 2 days`;
+        }
+
+        function showToast(message, isRedirecting = false) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            let icon = isRedirecting ? '<i class="fa-solid fa-circle-notch fa-spin text-blue-400 text-lg"></i>' : '<i class="fa-solid fa-check-circle text-green-400 text-lg"></i>';
+            toast.className = 'toast-enter bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 font-medium text-sm border border-slate-700';
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000); 
+        }
+
+        // Search Button Logic
+        function processLink() {
+            const input = document.getElementById('productLink').value;
+            if(!input) return;
+
+            document.getElementById('resultsCard').classList.add('hidden');
+            const loadingState = document.getElementById('loadingState');
+            loadingState.classList.remove('hidden');
+
+            document.getElementById('loadingTitle').innerText = "Analyzing product link...";
+            document.getElementById('step2').className = "flex items-center gap-3 text-slate-400 transition-all";
+            document.getElementById('step2').innerHTML = '<i class="fa-regular fa-circle"></i> Testing verified promo codes';
+            document.getElementById('step3').className = "flex items-center gap-3 text-slate-400 transition-all";
+            document.getElementById('step3').innerHTML = '<i class="fa-regular fa-circle"></i> Generating secure savings route';
+
+            updateResultsUI();
+
+            setTimeout(() => {
+                document.getElementById('loadingTitle').innerText = "Scanning for valid discounts...";
+                document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
+                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Testing verified promo codes';
+            }, 1200);
+
+            setTimeout(() => {
+                document.getElementById('loadingTitle').innerText = "Finalizing secure route...";
+                document.getElementById('step3').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
+                document.getElementById('step3').innerHTML = '<i class="fa-solid fa-check-circle"></i> Generating secure savings route';
+            }, 2500);
+
+            setTimeout(() => {
+                loadingState.classList.add('hidden');
+                
+                // PROTOTYPE SIMULATION: 80% chance of showing coupons, 20% chance of "No Coupons Found" state
+                const foundCode = Math.random() > 0.2;
+                
+                if (foundCode) {
+                    document.getElementById('resultsCard').classList.remove('hidden');
+                    document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    document.getElementById('noCouponCard').classList.remove('hidden');
+                    document.getElementById('noCouponCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 3500);
+        }
+
+        // Copy and Secure Redirect
+        function copyAndRedirect(elementId) {
+            const code = document.getElementById(elementId).innerText;
+            
+            // Clipboard copy via fallback input technique
+            const textArea = document.createElement("textarea");
+            textArea.value = code;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try { document.execCommand('copy'); } 
+            catch (err) { console.error('Copy failed', err); }
+            document.body.removeChild(textArea);
+
+            showToast(`Code <b>${code}</b> copied!<br><span class="text-slate-400 text-xs">Opening store securely...</span>`, true);
+            setTimeout(() => { window.open(redirectUrl, '_blank'); }, 1500);
+        }
+
+        function openAffiliateLink() {
+            showToast("Redirecting securely to merchant...", true);
+            setTimeout(() => { window.open(redirectUrl, '_blank'); }, 800);
+        }
+
+        // Modal triggers
+        function openModal(modalId) {
+            const backdrop = document.getElementById('modalBackdrop');
+            const modal = document.getElementById(modalId);
+            
+            backdrop.classList.remove('hidden');
+            modal.classList.remove('hidden');
+            
+            // Slight delay to allow CSS transitions to trigger
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                modal.classList.remove('opacity-0', 'scale-95');
+                modal.classList.add('opacity-100', 'scale-100');
+            }, 10);
+        }
+
+        function closeAllModals() {
+            const backdrop = document.getElementById('modalBackdrop');
+            const modals = document.querySelectorAll('div[id^="modal-"]');
+            
+            backdrop.classList.add('opacity-0');
+            modals.forEach(modal => {
+                modal.classList.remove('opacity-100', 'scale-100');
+                modal.classList.add('opacity-0', 'scale-95');
+            });
+            
+            // Wait for transition to finish before hiding display
+            setTimeout(() => {
+                backdrop.classList.add('hidden');
+                modals.forEach(modal => {
+                    modal.classList.add('hidden');
+                });
+            }, 300);
+        }
+    </script>
+</body>
+</html>
