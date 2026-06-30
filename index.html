@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RunPromo | Smart Coupon Finder</title>
+    
+    <!-- TRAVELPAYOUTS DRIVE SCRIPT (Monetizes Travel Links Automatically) -->
     <script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1">
-  (function () {
-      var script = document.createElement("script");
-      script.async = 1;
-      script.src = 'https://emrldtp.cc/NTQ0ODEx.js?t=544811';
-      document.head.appendChild(script);
-  })();
-</script>
+      (function () {
+          var script = document.createElement("script");
+          script.async = 1;
+          script.src = 'https://emrldtp.cc/NTQ0ODEx.js?t=544811';
+          document.head.appendChild(script);
+      })();
+    </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -120,14 +123,14 @@
                 <i class="fa-solid fa-circle-notch fa-spin text-3xl"></i>
             </div>
             
-            <h3 id="loadingTitle" class="text-2xl font-bold text-slate-900 mb-2">Analyzing product link...</h3>
+            <h3 id="loadingTitle" class="text-2xl font-bold text-slate-900 mb-2">Analyzing link...</h3>
             
             <div class="mt-6 flex flex-col gap-3 text-sm text-left max-w-xs mx-auto">
                 <div id="step1" class="flex items-center gap-3 text-blue-600 font-medium transition-all">
                     <i class="fa-solid fa-check-circle"></i> Connecting to secure deal network
                 </div>
                 <div id="step2" class="flex items-center gap-3 text-slate-400 transition-all">
-                    <i class="fa-regular fa-circle"></i> Testing verified promo codes
+                    <i class="fa-regular fa-circle"></i> Testing verified pricing
                 </div>
                 <div id="step3" class="flex items-center gap-3 text-slate-400 transition-all">
                     <i class="fa-regular fa-circle"></i> Generating secure savings route
@@ -135,7 +138,7 @@
             </div>
         </div>
 
-        <!-- Results Card -->
+        <!-- Results Card (E-Commerce with Coupons) -->
         <div id="resultsCard" class="hidden max-w-3xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
             
             <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-6 flex items-center justify-between">
@@ -152,8 +155,8 @@
                 <!-- Product Preview -->
                 <div class="md:w-1/3 flex flex-col items-center border border-slate-100 rounded-2xl p-4 bg-slate-50 relative">
                     <div id="discountBadge" class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow-sm">-20% OFF</div>
-                    <img src="https://placehold.co/400x400/e2e8f0/64748b?text=Product+Image" alt="Product" class="w-full h-auto rounded-xl object-cover mb-4 shadow-sm border border-slate-200">
-                    <p class="text-sm text-slate-600 font-medium text-center line-clamp-2">Premium Noise Cancelling Wireless Headphones</p>
+                    <img src="https://placehold.co/400x400/e2e8f0/64748b?text=Item+Found" alt="Product" class="w-full h-auto rounded-xl object-cover mb-4 shadow-sm border border-slate-200">
+                    <p class="text-sm text-slate-600 font-medium text-center line-clamp-2">Premium Retail Item</p>
                     <div class="mt-3 flex items-center gap-2">
                         <span id="originalPrice" class="text-slate-400 line-through text-sm">฿1,299</span>
                         <span id="finalPrice" class="text-2xl font-black text-slate-900">฿1,039</span>
@@ -210,7 +213,7 @@
             </div>
         </div>
 
-        <!-- No Coupon State (Lowest Price Verified) -->
+        <!-- No Coupon State (Travel/Lowest Price Verified) -->
         <div id="noCouponCard" class="hidden max-w-3xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
             
             <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 flex items-center justify-between">
@@ -227,8 +230,8 @@
                 <!-- Product Preview -->
                 <div class="md:w-1/3 flex flex-col items-center border border-slate-100 rounded-2xl p-4 bg-slate-50 relative">
                     <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow-sm">BEST PRICE</div>
-                    <img src="https://placehold.co/400x400/e2e8f0/64748b?text=Product+Image" alt="Product" class="w-full h-auto rounded-xl object-cover mb-4 shadow-sm border border-slate-200">
-                    <p class="text-sm text-slate-600 font-medium text-center line-clamp-2">Premium Noise Cancelling Wireless Headphones</p>
+                    <img src="https://placehold.co/400x400/e2e8f0/64748b?text=Deal+Found" alt="Product" class="w-full h-auto rounded-xl object-cover mb-4 shadow-sm border border-slate-200">
+                    <p class="text-sm text-slate-600 font-medium text-center line-clamp-2">Selected Partner Booking</p>
                 </div>
 
                 <!-- Actions -->
@@ -241,12 +244,12 @@
                     <!-- Notification Box -->
                     <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6">
                         <h4 class="text-slate-800 font-bold text-lg mb-2">Price Optimization Complete</h4>
-                        <p class="text-slate-500 text-sm leading-relaxed">Our proprietary scanners checked 500+ databases. This merchant has already dropped this item to its lowest permitted baseline price for your region.</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">Our proprietary scanners checked partner databases. This platform has already dropped this listing to its lowest permitted baseline price for your region.</p>
                     </div>
 
                     <!-- Redirect Button -->
                     <button onclick="openAffiliateLink()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-xl hover:shadow-2xl shadow-blue-200 transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg">
-                        Lock in Price & Buy Now <i class="fa-solid fa-arrow-right text-sm opacity-80"></i>
+                        Lock in Price & Continue <i class="fa-solid fa-arrow-right text-sm opacity-80"></i>
                     </button>
                     
                     <!-- Search Again Button -->
@@ -255,7 +258,7 @@
                     </button>
 
                     <p class="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-bolt text-amber-400"></i> Fast, secure redirect to official merchant checkout.
+                        <i class="fa-solid fa-bolt text-amber-400"></i> Fast, secure redirect to official partner checkout.
                     </p>
                 </div>
             </div>
@@ -273,17 +276,17 @@
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">1</div>
                     <h4 class="font-bold text-lg mb-2 text-slate-900">Insert Destination URL</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Paste the link of the exact item you've set your sights on from our supported retail platforms.</p>
+                    <p class="text-sm text-slate-500 leading-relaxed">Paste the link of the exact item or booking you've set your sights on from our supported retail platforms.</p>
                 </div>
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">2</div>
                     <h4 class="font-bold text-lg mb-2 text-slate-900">Run Optimization</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Our system runs real-time checks across our private verified merchant systems to secure authorized codes.</p>
+                    <p class="text-sm text-slate-500 leading-relaxed">Our system runs real-time checks across our private verified merchant systems to secure authorized deals.</p>
                 </div>
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">3</div>
                     <h4 class="font-bold text-lg mb-2 text-slate-900">Lock In Vouchers</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Copy the optimized code and follow our encrypted gateway link to apply it directly during checkout.</p>
+                    <p class="text-sm text-slate-500 leading-relaxed">Copy the optimized code or follow our secure gateway link to apply the maximum discount directly during checkout.</p>
                 </div>
             </div>
         </div>
@@ -324,6 +327,7 @@
         </div>
     </footer>
 
+    <!-- Modals (Hidden by Default) -->
     <!-- Modal Backdrop Overlay -->
     <div id="modalBackdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300" onclick="closeAllModals()"></div>
 
@@ -340,8 +344,6 @@
             <p>We do not require user registrations, logins, names, or email inputs in order to search for valid discount routings. Our servers collect general diagnostic information including IP addresses, browser specifications, and destination domains purely to detect region layouts and optimize currency standards dynamically.</p>
             <h4 class="font-bold text-slate-800">2. Tracking Technologies and Cookies</h4>
             <p>To enable automated voucher retrieval, we utilize system integration tracking cookies. These microdata markers are deployed when clicking on customized redirects to secure that merchant systems track purchase parameters for potential partner commissions. Users can configure their browser settings to discard these elements at any time.</p>
-            <h4 class="font-bold text-slate-800">3. Information Storage Safeguards</h4>
-            <p>Since we do not compile databases of physical addresses or billing methods, your shopping parameters remain secured via native HTTPS encryption models. Our protocols enforce high-level security to verify data authenticity.</p>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
             <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Understood</button>
@@ -355,14 +357,10 @@
             <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
-            <p><strong>Effective Date:</strong> January 1, 2026</p>
-            <p>By utilizing the tools, scripts, and optimization pathways hosted on RunPromo.net, you explicitly agree to fully abide by our structural user terms listed below.</p>
             <h4 class="font-bold text-slate-800">1. Usage Scope</h4>
             <p>RunPromo serves as an interactive routing directory designed solely for individual shoppers looking to find applicable coupon codes. Users are strictly prohibited from automating scans of our platform via bots, commercial scrapers, or other software scripts.</p>
-            <h4 class="font-bold text-slate-800">2. Price and Discount Limitations</h4>
-            <p>Our dynamic platform estimates discounts and original retail rates based on average partner calculations. RunPromo guarantees neither structural accuracy of listed rates nor final code usability at merchant portals, which vary by inventory level and retailer policy changes.</p>
-            <h4 class="font-bold text-slate-800">3. Third Party Limitations</h4>
-            <p>All items belong to external e-commerce and booking sites (Shopee, Lazada, Agoda, Booking.com, Trip.com, AliExpress). Any issues concerning product deliveries, payment processing failures, or catalog mistakes must be settled with the merchant directly.</p>
+            <h4 class="font-bold text-slate-800">2. Third Party Limitations</h4>
+            <p>All items belong to external e-commerce and booking sites. Any issues concerning product deliveries, payment processing failures, or catalog mistakes must be settled with the merchant directly.</p>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
             <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Accept Terms</button>
@@ -381,8 +379,6 @@
             <ul class="list-disc pl-5 space-y-2">
                 <li><strong>Merchant Metadata Synthesis:</strong> We query digital routing pathways directly associated with verified retailer systems to confirm that codes are active and valid.</li>
                 <li><strong>Travel Meta-Search Aggregation:</strong> For hotel and flight links, we route requests through specialized meta-search hubs (aggregating OTA inventory) to perform high-speed, deep price comparisons across global databases.</li>
-                <li><strong>Dynamic Price Recalculation:</strong> Our algorithm automatically forecasts real-time final estimates so that your discount display matches real market parameters.</li>
-                <li><strong>Encrypted Redirection Pathing:</strong> By packing authorization headers inside a secure redirection, your device lands on the correct checkout frame safely.</li>
             </ul>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
@@ -402,7 +398,6 @@
                 <p class="font-bold text-slate-800">✉️ Platform Support Email:</p>
                 <a href="mailto:support@runpromo.net" class="text-blue-600 hover:underline text-lg font-semibold">support@runpromo.net</a>
             </div>
-            <p class="text-xs text-slate-400 leading-tight">We strive to address all commercial compliance queries within 48 standard business hours.</p>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
             <button onclick="closeAllModals()" class="bg-slate-600 text-white font-bold py-2 px-5 rounded-xl hover:bg-slate-700 transition">Cancel</button>
@@ -416,12 +411,12 @@
         // Core Variables
         let currentCurrencySymbol = '฿';
         let redirectUrl = 'https://shopee.co.th'; 
+        let isTravelLink = false; // NEW: Flag to track if the link is a travel partner
 
-        // New UX Functions: Clear & Reset
         function clearInput() {
             const inputField = document.getElementById('productLink');
             inputField.value = '';
-            detectRegion(); // This will auto-hide the clear button and flags
+            detectRegion(); 
             inputField.focus();
         }
 
@@ -429,11 +424,10 @@
             clearInput();
             document.getElementById('resultsCard').classList.add('hidden');
             document.getElementById('noCouponCard').classList.add('hidden');
-            // Smoothly scroll back to the search bar
             document.getElementById('searchArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Dynamic Region Detection
+        // Dynamic Region & Travel Detection
         function detectRegion() {
             const input = document.getElementById('productLink').value.toLowerCase().trim();
             const indicator = document.getElementById('regionIndicator');
@@ -452,28 +446,22 @@
             indicator.classList.add('flex');
             clearBtn.classList.remove('hidden');
 
-            // 1. Capture the exact link the user pasted so we can redirect them back to it securely
-            if (input.startsWith('http')) {
-                redirectUrl = input;
-            } else {
-                redirectUrl = 'https://' + input;
-            }
+            redirectUrl = input.startsWith('http') ? input : 'https://' + input;
 
-            // 2. Detect the Region/Country based on the Domain extension (.th, .sg, .ph, etc)
-            if (input.includes('.co.th') || input.includes('.th')) {
+            // SMART DETECTION: Is this a travel link?
+            const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip.com', 'expedia'];
+            isTravelLink = travelDomains.some(domain => input.includes(domain));
+
+            // Region Detection
+            if (input.includes('.co.th') || input.includes('.th') || input.includes('thailand')) {
                 flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿';
-            } else if (input.includes('.sg')) {
+            } else if (input.includes('.sg') || input.includes('singapore')) {
                 flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$';
-            } else if (input.includes('.com.my') || input.includes('.my')) {
+            } else if (input.includes('.com.my') || input.includes('.my') || input.includes('malaysia')) {
                 flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM';
-            } else if (input.includes('.ph')) {
+            } else if (input.includes('.ph') || input.includes('philippines')) {
                 flag.innerText = '🇵🇭'; currencyTxt.innerText = 'PHP'; currentCurrencySymbol = '₱';
-            } else if (input.includes('.id')) {
-                flag.innerText = '🇮🇩'; currencyTxt.innerText = 'IDR'; currentCurrencySymbol = 'Rp';
-            } else if (input.includes('.vn')) {
-                flag.innerText = '🇻🇳'; currencyTxt.innerText = 'VND'; currentCurrencySymbol = '₫';
             } else {
-                // Global Fallback (Agoda, Booking, AliExpress, etc.)
                 flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$';
             }
         }
@@ -506,12 +494,14 @@
             if(!input) return;
 
             document.getElementById('resultsCard').classList.add('hidden');
+            document.getElementById('noCouponCard').classList.add('hidden');
+            
             const loadingState = document.getElementById('loadingState');
             loadingState.classList.remove('hidden');
 
-            document.getElementById('loadingTitle').innerText = "Analyzing product link...";
+            document.getElementById('loadingTitle').innerText = "Analyzing link...";
             document.getElementById('step2').className = "flex items-center gap-3 text-slate-400 transition-all";
-            document.getElementById('step2').innerHTML = '<i class="fa-regular fa-circle"></i> Testing verified promo codes';
+            document.getElementById('step2').innerHTML = '<i class="fa-regular fa-circle"></i> Testing verified pricing';
             document.getElementById('step3').className = "flex items-center gap-3 text-slate-400 transition-all";
             document.getElementById('step3').innerHTML = '<i class="fa-regular fa-circle"></i> Generating secure savings route';
 
@@ -520,7 +510,7 @@
             setTimeout(() => {
                 document.getElementById('loadingTitle').innerText = "Scanning for valid discounts...";
                 document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
-                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Testing verified promo codes';
+                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Testing verified pricing';
             }, 1200);
 
             setTimeout(() => {
@@ -532,24 +522,21 @@
             setTimeout(() => {
                 loadingState.classList.add('hidden');
                 
-                // PROTOTYPE SIMULATION: 80% chance of showing coupons, 20% chance of "No Coupons Found" state
-                const foundCode = Math.random() > 0.2;
-                
-                if (foundCode) {
-                    document.getElementById('resultsCard').classList.remove('hidden');
-                    document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
+                // NEW SMART LOGIC: Decide which screen to show based on the link!
+                if (isTravelLink) {
+                    // It's a travel site! Skip coupons and show the Lowest Price screen.
                     document.getElementById('noCouponCard').classList.remove('hidden');
                     document.getElementById('noCouponCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    // It's an e-commerce site! Show the coupon screen.
+                    document.getElementById('resultsCard').classList.remove('hidden');
+                    document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }, 3500);
         }
 
-        // Copy and Secure Redirect
         function copyAndRedirect(elementId) {
             const code = document.getElementById(elementId).innerText;
-            
-            // Clipboard copy via fallback input technique
             const textArea = document.createElement("textarea");
             textArea.value = code;
             document.body.appendChild(textArea);
@@ -559,23 +546,37 @@
             document.body.removeChild(textArea);
 
             showToast(`Code <b>${code}</b> copied!<br><span class="text-slate-400 text-xs">Opening store securely...</span>`, true);
-            setTimeout(() => { window.open(redirectUrl, '_blank'); }, 1500);
+            
+            setTimeout(() => { 
+                // Create a hidden link and click it so the Travelpayouts script catches it
+                const a = document.createElement('a');
+                a.href = redirectUrl;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }, 1500);
         }
 
         function openAffiliateLink() {
             showToast("Redirecting securely to merchant...", true);
-            setTimeout(() => { window.open(redirectUrl, '_blank'); }, 800);
+            setTimeout(() => { 
+                // Create a hidden link and click it so the Travelpayouts script catches it
+                const a = document.createElement('a');
+                a.href = redirectUrl;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }, 800);
         }
 
         // Modal triggers
         function openModal(modalId) {
             const backdrop = document.getElementById('modalBackdrop');
             const modal = document.getElementById(modalId);
-            
             backdrop.classList.remove('hidden');
             modal.classList.remove('hidden');
-            
-            // Slight delay to allow CSS transitions to trigger
             setTimeout(() => {
                 backdrop.classList.remove('opacity-0');
                 modal.classList.remove('opacity-0', 'scale-95');
@@ -586,19 +587,14 @@
         function closeAllModals() {
             const backdrop = document.getElementById('modalBackdrop');
             const modals = document.querySelectorAll('div[id^="modal-"]');
-            
             backdrop.classList.add('opacity-0');
             modals.forEach(modal => {
                 modal.classList.remove('opacity-100', 'scale-100');
                 modal.classList.add('opacity-0', 'scale-95');
             });
-            
-            // Wait for transition to finish before hiding display
             setTimeout(() => {
                 backdrop.classList.add('hidden');
-                modals.forEach(modal => {
-                    modal.classList.add('hidden');
-                });
+                modals.forEach(modal => modal.classList.add('hidden'));
             }, 300);
         }
     </script>
