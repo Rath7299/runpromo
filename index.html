@@ -520,7 +520,7 @@
             // 3. E-commerce Link: Send to our Node.js Backend Server
             try {
                 // NOTE: Right now we point to localhost. Later we will change this to the real server URL.
-                const response = await fetch('http://localhost:3000/api/optimize-link', {
+                const response = await fetch('https://runpromo-backend.onrender.com/api/optimize-link', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
