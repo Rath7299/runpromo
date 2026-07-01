@@ -489,10 +489,11 @@
         }
 
         // Search Button Logic
-        function processLink() {
+        async function processLink() {
             const input = document.getElementById('productLink').value;
             if(!input) return;
 
+            // 1. Hide old cards and show loading state
             document.getElementById('resultsCard').classList.add('hidden');
             document.getElementById('noCouponCard').classList.add('hidden');
             
@@ -505,34 +506,63 @@
             document.getElementById('step3').className = "flex items-center gap-3 text-slate-400 transition-all";
             document.getElementById('step3').innerHTML = '<i class="fa-regular fa-circle"></i> Generating secure savings route';
 
-            updateResultsUI();
-
-            setTimeout(() => {
-                document.getElementById('loadingTitle').innerText = "Scanning for valid discounts...";
-                document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
-                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Testing verified pricing';
-            }, 1200);
-
-            setTimeout(() => {
-                document.getElementById('loadingTitle').innerText = "Finalizing secure route...";
-                document.getElementById('step3').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
-                document.getElementById('step3').innerHTML = '<i class="fa-solid fa-check-circle"></i> Generating secure savings route';
-            }, 2500);
-
-            setTimeout(() => {
-                loadingState.classList.add('hidden');
-                
-                // NEW SMART LOGIC: Decide which screen to show based on the link!
-                if (isTravelLink) {
-                    // It's a travel site! Skip coupons and show the Lowest Price screen.
+            // 2. Smart Check: Is it a Travel Link?
+            if (isTravelLink) {
+                // For Travelpayouts, we skip the backend for now because the Drive script handles it automatically!
+                setTimeout(() => {
+                    loadingState.classList.add('hidden');
                     document.getElementById('noCouponCard').classList.remove('hidden');
                     document.getElementById('noCouponCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    // It's an e-commerce site! Show the coupon screen.
+                }, 1500);
+                return; // Stop here for travel links
+            }
+
+            // 3. E-commerce Link: Send to our Node.js Backend Server
+            try {
+                // NOTE: Right now we point to localhost. Later we will change this to the real server URL.
+                const response = await fetch('http://localhost:3000/api/optimize-link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ targetUrl: redirectUrl })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                
+                // 4. Update the UI with data from the server
+                document.getElementById('mainCoupon').innerText = data.coupons[0].code;
+                document.getElementById('minSpendText').innerText = data.coupons[0].minSpend;
+                document.getElementById('subCoupon1').innerText = data.coupons[1].code;
+
+                // Animate Loading Steps
+                setTimeout(() => {
+                    document.getElementById('loadingTitle').innerText = "Scanning for valid discounts...";
+                    document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
+                    document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Testing verified pricing';
+                }, 800);
+
+                setTimeout(() => {
+                    document.getElementById('loadingTitle').innerText = "Finalizing secure route...";
+                    document.getElementById('step3').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
+                    document.getElementById('step3').innerHTML = '<i class="fa-solid fa-check-circle"></i> Generating secure savings route';
+                }, 1600);
+
+                setTimeout(() => {
+                    loadingState.classList.add('hidden');
                     document.getElementById('resultsCard').classList.remove('hidden');
                     document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 3500);
+                }, 2500);
+
+            } catch (error) {
+                console.error('Error contacting backend:', error);
+                showToast("Error connecting to deal server. Please try again.");
+                loadingState.classList.add('hidden');
+            }
         }
 
         function copyAndRedirect(elementId) {
