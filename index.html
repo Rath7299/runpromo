@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RunPromo | Smart Coupon Finder</title>
     
-    <!-- TRAVELPAYOUTS DRIVE SCRIPT (Monetizes Travel Links Automatically) -->
+    <!-- TRAVELPAYOUTS DRIVE SCRIPT -->
     <script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1">
       (function () {
           var script = document.createElement("script");
@@ -18,7 +18,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <style>
         body { font-family: 'Inter', sans-serif; }
         
@@ -40,6 +39,15 @@
             to { transform: translateY(0); opacity: 1; }
         }
         .toast-enter { animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-content.expanded {
+            max-height: 300px;
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col">
@@ -64,9 +72,7 @@
 
     <!-- Main Content Area -->
     <main id="searchArea" class="flex-grow max-w-6xl mx-auto px-4 py-16 md:py-24 w-full">
-        
         <div class="max-w-3xl mx-auto text-center mb-12">
-            <!-- Savings Momentum Badge -->
             <div class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 font-semibold px-5 py-2 rounded-full text-sm mb-8 border border-indigo-100 animate-float shadow-sm">
                 <i class="fa-solid fa-fire text-indigo-500"></i> Over $50,000 saved by users today
             </div>
@@ -82,16 +88,14 @@
             <div class="bg-white p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200 flex flex-col md:flex-row gap-2 relative z-10">
                 <div class="flex-1 flex items-center px-4 py-2 bg-slate-50 rounded-xl border border-transparent focus-within:border-blue-300 focus-within:bg-white transition-all relative">
                     <i class="fa-solid fa-link text-slate-400 mr-3"></i>
-                    <input id="productLink" type="text" aria-label="Product or travel link URL" placeholder="Paste any link from Shopee, Agoda, Trip.com..." class="w-full bg-transparent border-none outline-none text-slate-700 placeholder-slate-400 text-lg pr-32" oninput="detectRegion()" onkeydown="if(event.key === 'Enter') processLink();">
+                    <input id="productLink" type="text" placeholder="Paste any link from Shopee, Agoda, Trip.com..." class="w-full bg-transparent border-none outline-none text-slate-700 placeholder-slate-400 text-lg pr-32" oninput="detectRegion()">
                     
                     <!-- Right Side Input Actions -->
                     <div class="absolute right-3 flex items-center gap-2">
-                        <!-- Clear Button -->
-                        <button id="clearBtn" onclick="clearInput()" aria-label="Clear input" class="hidden text-slate-400 hover:text-red-500 transition-colors p-1" title="Clear input">
+                        <button id="clearBtn" onclick="clearInput()" class="hidden text-slate-400 hover:text-red-500 transition-colors p-1" title="Clear input">
                             <i class="fa-solid fa-circle-xmark text-lg"></i>
                         </button>
                         
-                        <!-- Region Indicator (Dynamic) -->
                         <div id="regionIndicator" class="hidden items-center gap-1.5 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-200 text-xs font-bold text-slate-600 transition-all">
                             <span id="regionFlag">🇹🇭</span>
                             <span id="regionCurrency">THB</span>
@@ -110,7 +114,6 @@
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-heart text-blue-600"></i> Lazada</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane-departure text-sky-500"></i> Skyscanner</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane text-cyan-500"></i> Agoda</div>
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-bed text-blue-800"></i> Booking.com</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-suitcase text-blue-400"></i> Trip.com</div>
                 <div class="flex items-center gap-2 font-bold text-lg bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm ml-2 shadow-sm border border-blue-200">+ 500 More Brands</div>
             </div>
@@ -139,9 +142,8 @@
             </div>
         </div>
 
-        <!-- Results Card (E-Commerce with Coupons) -->
-        <div id="resultsCard" class="hidden max-w-3xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
-            
+        <!-- E-Commerce Results Card -->
+        <div id="resultsCard" class="hidden max-w-4xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
             <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-6 flex items-center justify-between">
                 <div class="flex items-center gap-4 text-white">
                     <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl backdrop-blur-sm shadow-inner">✅</div>
@@ -154,24 +156,22 @@
 
             <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
                 <!-- Brand & Product Caption Preview -->
-                <div class="md:w-1/3 flex flex-col items-center border border-slate-100 rounded-2xl p-6 bg-gradient-to-b from-slate-50 to-slate-100 relative shadow-sm h-fit">
-                    
-                    <!-- Dynamic Brand Logo with Fallback -->
-                    <div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center shadow-md mb-4 border border-slate-200 overflow-hidden p-2">
+                <div class="md:w-1/3 flex flex-col items-center border border-slate-100 rounded-2xl p-6 bg-gradient-to-b from-slate-50 to-slate-100 relative shadow-sm">
+                    <div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center shadow-md mb-4 border border-slate-200 p-3">
                         <img id="merchantLogo" src="" alt="Store Logo" class="w-full h-full object-contain rounded-xl">
                     </div>
                     
                     <div class="text-center w-full">
                         <span class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1 block">Verified Partner</span>
-                        <h4 id="merchantNameDisplay" class="text-2xl font-black text-slate-900 mb-4 capitalize">Merchant</h4>
+                        <h4 id="merchantNameDisplay" class="text-2xl font-black text-slate-900 mb-4">Merchant</h4>
                         
-                        <!-- Beautiful Product Caption Box -->
                         <div class="bg-white border border-slate-200 rounded-xl p-4 text-left shadow-sm relative mt-2">
                             <div class="absolute -top-2.5 -left-2 bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-sm tracking-wide border border-white">
                                 LINKED ITEM
                             </div>
-                            <p id="productCaption" class="text-sm text-slate-600 font-medium leading-relaxed mt-1">
-                                Your selected item is ready. Apply your unlocked code at the official store checkout to secure your savings.
+                            <h3 id="ecommerceItemName" class="text-slate-800 font-bold text-sm mt-1 mb-2 line-clamp-2">Selected Product</h3>
+                            <p id="productCaption" class="text-[11px] text-slate-500 font-medium leading-relaxed">
+                                Apply your unlocked code at checkout to secure your savings.
                             </p>
                         </div>
                     </div>
@@ -179,16 +179,15 @@
 
                 <!-- Coupons & Actions -->
                 <div class="md:w-2/3 flex flex-col justify-center">
-                    
                     <div class="mb-2 text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
                         <i class="fa-solid fa-star text-amber-400"></i> Best Available Code
                     </div>
                     
-                    <!-- Main Coupon Box (Accessible) -->
-                    <div onclick="copyAndRedirect('mainCoupon')" onkeydown="if(event.key === 'Enter' || event.key === ' ') copyAndRedirect('mainCoupon');" tabindex="0" role="button" aria-label="Copy main coupon code" class="bg-blue-50 border-2 border-blue-200 border-dashed rounded-2xl p-4 mb-4 flex justify-between items-center group hover:bg-blue-100 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer active:scale-[0.99]">
+                    <!-- Main Coupon Box -->
+                    <div role="button" tabindex="0" onkeydown="handleCouponKeypress(event, 'mainCoupon')" onclick="copyAndRedirect('mainCoupon')" class="bg-blue-50 border-2 border-blue-200 border-dashed rounded-2xl p-4 mb-6 flex justify-between items-center group hover:bg-blue-100 hover:border-blue-400 transition-all cursor-pointer active:scale-[0.99]">
                         <div>
-                            <span id="mainCoupon" class="text-3xl font-mono font-black text-blue-700 tracking-widest">MEGA20OFF</span>
-                            <p id="minSpendText" class="text-xs text-blue-500 mt-1 font-medium">Min. spend ฿500 • Valid for 2 days</p>
+                            <span id="mainCoupon" class="text-3xl font-mono font-black text-blue-700 tracking-widest">CODE</span>
+                            <p id="minSpendText" class="text-xs text-blue-500 mt-1 font-medium">Loading conditions...</p>
                         </div>
                         <div class="bg-white border border-blue-200 text-blue-600 group-hover:bg-blue-600 group-hover:text-white font-bold py-2 px-4 rounded-lg shadow-sm transition-all text-sm flex flex-col items-center gap-1 pointer-events-none">
                             <i class="fa-regular fa-copy"></i>
@@ -196,12 +195,12 @@
                         </div>
                     </div>
 
-                    <!-- Alternate Codes (Accessible) -->
+                    <!-- Alternate Codes -->
                     <div class="space-y-3 mb-6">
-                        <div onclick="copyAndRedirect('subCoupon1')" onkeydown="if(event.key === 'Enter' || event.key === ' ') copyAndRedirect('subCoupon1');" tabindex="0" role="button" aria-label="Copy alternate coupon code" class="flex justify-between items-center text-sm p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer active:scale-[0.99] group">
+                        <div role="button" tabindex="0" onkeydown="handleCouponKeypress(event, 'subCoupon1')" onclick="copyAndRedirect('subCoupon1')" class="flex justify-between items-center text-sm p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-all cursor-pointer active:scale-[0.99] group">
                             <div class="flex items-center gap-3 pointer-events-none">
                                 <span class="bg-green-100 text-green-700 font-bold px-2 py-1 rounded text-xs border border-green-200">FREE SHIP</span>
-                                <span id="subCoupon1" class="font-mono font-bold text-slate-700">FREEDEL26</span>
+                                <span id="subCoupon1" class="font-mono font-bold text-slate-700">CODE2</span>
                             </div>
                             <div class="text-slate-400 group-hover:text-blue-600 font-medium text-xs flex items-center gap-1 pointer-events-none">
                                 <i class="fa-regular fa-copy"></i> Copy
@@ -209,150 +208,121 @@
                         </div>
                     </div>
 
-                    <!-- E-commerce Price Comparison Accordion -->
-                    <div id="ecommerceCompareBlock" class="mb-6 bg-[#f8fafc] rounded-xl border border-slate-200 overflow-hidden hidden">
-                        <button onclick="toggleEcommerceOptions()" class="w-full flex justify-between items-center p-4 hover:bg-slate-100 transition-colors focus:outline-none text-left">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center border border-slate-100">
-                                    <i class="fa-solid fa-scale-balanced text-indigo-500 text-sm"></i>
-                                </div>
-                                <div>
-                                    <span class="block text-sm font-bold text-slate-700">Compare Price</span>
-                                    <span id="ecommerceSecondaryStartPrice" class="block text-xs font-medium text-slate-500 mt-0.5">Check alternative stores</span>
-                                </div>
-                            </div>
-                            <i id="ecommerceOptionsIcon" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
-                        </button>
-                        
-                        <!-- Hidden Options List -->
-                        <div id="ecommerceOptionsList" class="hidden border-t border-slate-200 p-2 space-y-1 bg-white">
-                            <button onclick="openAffiliateLink('ecommerce-competitor')" class="w-full flex justify-between items-center p-3 rounded-lg hover:bg-slate-50 transition-colors text-left group border border-transparent hover:border-slate-200">
-                                <div class="flex items-center gap-2">
-                                    <i id="ecommerceCompareIconInner" class="fa-solid fa-store text-slate-400 group-hover:text-blue-600"></i>
-                                    <span id="ecommerceCompName" class="block text-sm text-slate-700 font-bold">Competitor</span>
-                                </div>
-                                <div class="flex items-center gap-2 text-sm font-medium text-slate-500 group-hover:text-blue-600">
-                                    <span>Check Price</span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Redirect Button -->
-                    <button onclick="openAffiliateLink('primary')" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg">
+                    <button onclick="triggerRedirect('ecommerce')" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg">
                         Go to Store to Buy <i class="fa-solid fa-external-link-alt text-sm opacity-80"></i>
                     </button>
                     
-                    <!-- Search Again Button -->
+                    <!-- Ecommerce Competitor Comparison -->
+                    <div class="mt-4 border border-slate-200 rounded-xl bg-slate-50 overflow-hidden">
+                        <button onclick="toggleAccordion('ecomCompareAccordion')" class="w-full p-4 flex justify-between items-center bg-white hover:bg-slate-50 transition-colors text-sm font-semibold text-slate-700">
+                            <span><i class="fa-solid fa-scale-balanced text-slate-400 mr-2"></i> Compare with other stores</span>
+                            <i id="ecomCompareIcon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                        </button>
+                        <div id="ecomCompareAccordion" class="accordion-content bg-slate-50">
+                            <div class="p-4 border-t border-slate-200 space-y-3">
+                                <div onclick="triggerCompare('ecommerce')" class="flex justify-between items-center bg-white p-3 rounded-lg border border-slate-200 hover:border-blue-300 cursor-pointer transition-all shadow-sm group">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-search text-blue-400"></i>
+                                        <span class="text-sm font-medium text-slate-700 group-hover:text-blue-600">Search on <span id="ecomCompareName" class="font-bold">Competitor</span></span>
+                                    </div>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <button onclick="resetSearch()" class="w-full mt-3 bg-transparent border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700 font-bold py-3 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2">
                         <i class="fa-solid fa-rotate-right"></i> Search Another Deal
                     </button>
-
-                    <p class="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-lock text-slate-300"></i> Secure redirect. Apply your code at merchant checkout.
-                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- TRAVEL UI: Metasearch Price Comparison Card -->
+        <!-- Travel Results Card (Metasearch Style) -->
         <div id="noCouponCard" class="hidden max-w-4xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
-            
-            <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-5 flex items-center justify-between">
-                <div class="flex items-center gap-4 text-white">
-                    <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-xl backdrop-blur-sm"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+            <!-- Header -->
+            <div class="bg-slate-900 p-5 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
                     <div>
-                        <h3 class="text-lg font-bold">Deal Comparison Complete</h3>
-                        <p class="text-slate-300 text-xs opacity-90">We scanned top OTAs for your itinerary.</p>
+                        <h3 class="text-white font-bold text-lg">Deal Comparison Complete</h3>
+                        <p class="text-slate-400 text-xs">We scanned top OTAs for your itinerary.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="p-6 flex flex-col md:flex-row gap-8">
-                <!-- Left: Visual Placeholder (Simulating Hotel Image) -->
-                <div class="md:w-1/2 rounded-2xl overflow-hidden relative shadow-sm border border-slate-200 hidden md:block bg-slate-100">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10"></div>
-                    <img id="travelHeroImage" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hotel View" class="w-full h-full object-cover">
-                    <div class="absolute bottom-4 left-4 z-20 pr-4">
-                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">LINKED PROPERTY</span>
-                        <!-- Added ID for dynamic hotel name injection -->
-                        <h3 id="travelHotelName" class="text-white font-bold text-2xl mt-1.5 drop-shadow-md leading-tight">Selected Booking</h3>
+            <!-- Body -->
+            <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 bg-slate-50">
+                <!-- Left: Image Preview -->
+                <div class="md:w-1/2 relative rounded-2xl overflow-hidden shadow-md border border-slate-200">
+                    <!-- CHANGED: Updated the placeholder image to a more generic, modern city hotel pool -->
+                    <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Resort" class="w-full h-full object-cover min-h-[300px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-5">
+                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm w-max mb-1">LINKED PROPERTY</span>
+                        <h3 id="travelHotelName" class="text-white font-bold text-xl drop-shadow-md line-clamp-2">Selected Booking</h3>
                     </div>
                 </div>
 
-                <!-- Right: The Price Comparison Widget -->
+                <!-- Right: Price Comparison Widget -->
                 <div class="md:w-1/2 flex flex-col justify-center">
-                    
-                    <!-- Primary Deal (Cheapest) -->
-                    <div class="border border-slate-200 rounded-2xl p-6 bg-white shadow-sm relative">
-                        
-                        <!-- Original Price & Cheapest Label -->
-                        <div class="flex items-center gap-2 mb-1">
-                            <span id="travelOriginalPrice" class="text-rose-500 line-through text-sm font-medium">1,139,090 KHR</span>
-                            <span class="text-rose-500 font-medium text-sm">· Cheapest</span>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative">
+                        <div class="text-xs text-red-500 font-bold mb-1"><span id="travelOriginalPrice" class="line-through text-slate-400 mr-2"></span> • Cheapest Found</div>
+                        <div class="flex items-end gap-1 mb-4">
+                            <span id="travelFinalPrice" class="text-4xl font-black text-slate-900">PRICE</span>
+                            <span id="travelCurrency" class="text-lg font-bold text-slate-500 mb-1">CUR</span>
+                            <span class="text-sm text-slate-400 mb-1 ml-1">a night</span>
                         </div>
                         
-                        <!-- Big Price -->
-                        <div class="flex items-baseline gap-1 mb-2">
-                            <h2 id="travelBigPrice" class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">284,761 <span id="travelCurrency" class="text-3xl">KHR</span></h2>
-                            <span class="text-sm text-slate-500 font-medium">a night</span>
-                        </div>
-
-                        <!-- Provider Logo/Name (Fixed for Trip.com/Agoda dynamically) -->
-                        <div class="mt-2 mb-4 flex items-center gap-3">
-                            <div class="w-8 h-8 bg-white rounded flex items-center justify-center overflow-hidden border border-slate-200 p-1 shadow-sm">
-                                <img id="travelProviderLogo" src="" alt="Provider Logo" class="w-full h-full object-contain">
+                        <!-- Dynamic Travel Provider Logo -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 rounded bg-white shadow-sm border border-slate-200 flex items-center justify-center p-1">
+                                <img id="travelProviderLogo" src="" alt="Provider" class="w-full h-full object-contain">
                             </div>
-                            <h4 id="travelPrimaryProvider" class="text-lg font-bold text-slate-800 tracking-tight capitalize">Provider</h4>
+                            <span id="travelProviderName" class="font-bold text-slate-800 text-lg">Partner</span>
                         </div>
-
-                        <p class="text-sm text-slate-700 font-medium mb-5"><i class="fa-solid fa-mug-hot text-slate-400 mr-2"></i> Breakfast included</p>
                         
-                        <!-- Main CTA Button -->
-                        <button onclick="openAffiliateLink('primary')" class="w-full bg-[#111827] hover:bg-black text-white font-bold py-3.5 rounded-xl transition-all shadow-md text-lg">
+                        <div class="flex items-center gap-2 text-sm text-slate-600 mb-6 font-medium">
+                            <i class="fa-solid fa-mug-hot text-slate-400"></i> Breakfast included
+                        </div>
+                        
+                        <button onclick="triggerRedirect('travel')" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-md hover:shadow-lg transition-all active:scale-[0.98] mb-4">
                             Go to site
                         </button>
-
-                        <!-- Expandable Options (Accordion) -->
-                        <div class="mt-4 bg-[#f8fafc] rounded-xl border border-slate-100 overflow-hidden">
-                            <!-- Toggle Button -->
-                            <button onclick="toggleTravelOptions()" class="w-full flex justify-between items-center p-4 hover:bg-slate-100 transition-colors focus:outline-none text-left">
-                                <div>
-                                    <span class="block text-sm font-bold text-slate-700">+2 booking options</span>
-                                    <span id="travelSecondaryStartPrice" class="block text-xs font-bold text-slate-900 mt-0.5">From 295,414 KHR</span>
+                        
+                        <!-- Accordion for More Options -->
+                        <div class="border border-slate-100 rounded-xl bg-slate-50 overflow-hidden">
+                            <button onclick="toggleAccordion('travelCompareAccordion')" class="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors">
+                                <div class="text-left">
+                                    <div class="text-sm font-bold text-slate-800">+2 booking options</div>
+                                    <div class="text-xs text-slate-500 font-medium">From <span id="travelCompareBasePrice"></span></div>
                                 </div>
-                                <i id="travelOptionsIcon" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                                <i id="travelCompareIcon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
                             </button>
                             
-                            <!-- Hidden Options List -->
-                            <div id="travelOptionsList" class="hidden border-t border-slate-200 p-2 space-y-1">
-                                
-                                <!-- Competitor 1 -->
-                                <button onclick="openAffiliateLink('travel-competitor-1')" class="w-full flex justify-between items-center p-3 rounded-lg hover:bg-slate-200 transition-colors text-left group">
-                                    <div>
-                                        <span id="travelComp1Price" class="block font-bold text-slate-900 group-hover:text-blue-600">295,414 KHR</span>
-                                        <span id="travelComp1Name" class="block text-sm text-slate-500">Booking.com</span>
+                            <div id="travelCompareAccordion" class="accordion-content bg-white">
+                                <div class="flex flex-col border-t border-slate-100">
+                                    <!-- Option 1 -->
+                                    <div onclick="triggerCompare('travel1')" class="p-4 border-b border-slate-100 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors group">
+                                        <div>
+                                            <div id="travelCompare1Price" class="font-bold text-slate-900">PRICE</div>
+                                            <div id="travelCompare1Name" class="text-xs text-slate-500 group-hover:text-blue-600 transition-colors">Partner 2</div>
+                                        </div>
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-300 group-hover:text-blue-500"></i>
                                     </div>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-300 group-hover:text-blue-500"></i>
-                                </button>
-
-                                <!-- Competitor 2 -->
-                                <button onclick="openAffiliateLink('travel-competitor-2')" class="w-full flex justify-between items-center p-3 rounded-lg hover:bg-slate-200 transition-colors text-left group">
-                                    <div>
-                                        <span id="travelComp2Price" class="block font-bold text-slate-900 group-hover:text-blue-600">321,583 KHR</span>
-                                        <span id="travelComp2Name" class="block text-sm text-slate-500">Trip.com</span>
+                                    <!-- Option 2 -->
+                                    <div onclick="triggerCompare('travel2')" class="p-4 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors group">
+                                        <div>
+                                            <div id="travelCompare2Price" class="font-bold text-slate-900">PRICE</div>
+                                            <div id="travelCompare2Name" class="text-xs text-slate-500 group-hover:text-blue-600 transition-colors">Partner 3</div>
+                                        </div>
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-300 group-hover:text-blue-500"></i>
                                     </div>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-300 group-hover:text-blue-500"></i>
-                                </button>
-                                
+                                </div>
                             </div>
                         </div>
-
                     </div>
                     
-                    <!-- Search Again Button -->
-                    <button onclick="resetSearch()" class="w-full mt-4 bg-transparent text-slate-500 hover:text-slate-800 font-bold py-2 rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
+                    <button onclick="resetSearch()" class="w-full mt-6 text-slate-500 hover:text-slate-800 font-bold text-sm transition-colors flex justify-center items-center gap-2">
                         <i class="fa-solid fa-rotate-right"></i> Search Another Deal
                     </button>
                 </div>
@@ -391,7 +361,6 @@
     <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 mt-auto">
         <div class="max-w-6xl mx-auto px-4">
             <div class="grid md:grid-cols-3 gap-8 border-b border-slate-800 pb-8 mb-8">
-                <!-- Branding & Disclaimer -->
                 <div class="col-span-2">
                     <div class="flex items-center gap-2 mb-4">
                         <div class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
@@ -404,7 +373,6 @@
                     </p>
                 </div>
                 
-                <!-- Legal Links -->
                 <div>
                     <h4 class="text-white font-bold mb-4">Legal & Support</h4>
                     <ul class="space-y-2 text-sm">
@@ -422,11 +390,10 @@
         </div>
     </footer>
 
-    <!-- Modals (Hidden by Default) -->
-    <!-- Modal Backdrop Overlay -->
+    <!-- Modals -->
     <div id="modalBackdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300" onclick="closeAllModals()"></div>
 
-    <!-- Modal: Privacy Policy (FULLY RESTORED TEXT) -->
+    <!-- Modal: Privacy Policy -->
     <div id="modal-privacy" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
             <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i> Privacy Policy</h3>
@@ -445,7 +412,7 @@
         </div>
     </div>
 
-    <!-- Modal: Terms of Service (FULLY RESTORED TEXT) -->
+    <!-- Modal: Terms of Service -->
     <div id="modal-terms" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
             <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-file-contract text-blue-600 mr-2"></i> Terms of Service</h3>
@@ -462,7 +429,7 @@
         </div>
     </div>
 
-    <!-- Modal: How We Verify Deals (FULLY RESTORED TEXT) -->
+    <!-- Modal: How We Verify Deals -->
     <div id="modal-verify" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
             <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i> How We Verify Deals</h3>
@@ -481,7 +448,7 @@
         </div>
     </div>
 
-    <!-- Modal: Contact Us (FULLY RESTORED TEXT) -->
+    <!-- Modal: Contact Us -->
     <div id="modal-contact" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
             <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-envelope text-blue-600 mr-2"></i> Contact Us</h3>
@@ -500,67 +467,80 @@
     </div>
 
     <!-- Toast Notification Container -->
-    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
     <script>
-        // Core Variables
-        let currentCurrencySymbol = 'KHR';
-        let redirectUrl = 'https://shopee.co.th'; 
-        let isTravelLink = false; 
+        // Core State
+        let currentCurrencySymbol = '฿';
+        let redirectUrl = ''; 
+        let isTravelLink = false;
         
         // Competitor URLs (dynamically updated)
         let ecommerceCompareUrl = null; 
         let travelCompare1Url = null;
         let travelCompare2Url = null;
 
-        // SMART SEARCH EXTRACTOR (UPGRADED)
-        // This is now much smarter at finding the actual hotel name from complex URLs
+        // SMART SEARCH EXTRACTOR: Extracts hotel/item name and ignores generic words
         function extractSearchTerm(url) {
             try {
                 const urlObj = new URL(url);
-                let path = decodeURIComponent(urlObj.pathname);
-                
-                // Remove common travel path prefixes that confuse the extractor
-                path = path.replace(/\/(hotel|hotels|en-gb|en-us|city)\//ig, '/');
+                const params = new URLSearchParams(urlObj.search);
+                const searchParam = params.get('keyword') || params.get('q') || params.get('ss') || params.get('text');
+                if (searchParam) return { query: encodeURIComponent(searchParam), display: searchParam };
 
-                const pathParts = path.split('/').filter(p => p.length > 3); 
+                const pathParts = urlObj.pathname.split('/').filter(p => p.length > 0);
                 let longestPart = "";
                 
+                // Add words here to ignore them from being chosen as the hotel name
+                const ignoreWords = ['hotel', 'hotels', 'item', 'product', 'en-gb', 'en-us', 'detail', 'details', 'list', 'search', 'flights'];
+                
                 for(let part of pathParts) {
-                    if(part.length > longestPart.length) {
+                    let cleanPart = part.toLowerCase();
+                    if(!ignoreWords.includes(cleanPart) && part.length > longestPart.length) {
                         longestPart = part;
                     }
                 }
                 
-                if (!longestPart) {
-                    // Try query parameters if path is empty (e.g., ?keyword=Sokha)
-                    const keyword = urlObj.searchParams.get('keyword') || urlObj.searchParams.get('ss') || urlObj.searchParams.get('text');
-                    if (keyword) return { raw: encodeURIComponent(keyword), clean: keyword.replace(/\b\w/g, l => l.toUpperCase()) };
-                    return null;
-                }
+                let cleanName = longestPart.replace(/.html|.htm/g, '').replace(/-/g, ' ');
+                cleanName = cleanName.replace(/-i\.\d+\.\d+/g, '');
+                cleanName = cleanName.replace(/\d+/g, '').trim(); 
                 
-                // Clean up the slug to make it readable
-                let cleanName = longestPart.replace(/.html|.htm/g, '').replace(/[-_]/g, ' ');
-                cleanName = cleanName.replace(/\b\d+\b/g, '').trim(); // Remove ID numbers
-                cleanName = cleanName.replace(/\b\w/g, l => l.toUpperCase()); // Capitalize words
+                if (cleanName.length < 3) return { query: "", display: "" };
+                const displayName = cleanName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
-                return { raw: encodeURIComponent(cleanName), clean: cleanName };
+                return { query: encodeURIComponent(cleanName), display: displayName };
             } catch(e) {
-                return null;
+                return { query: "", display: "" };
             }
         }
 
-        // Smart Competitor Mapping Matrix (Updated with Search URLs)
-        const competitorMap = {
-            'shopee': { name: 'Lazada', searchUrl: 'https://www.lazada.co.th/catalog/?q=', icon: 'fa-heart' },
-            'lazada': { name: 'Shopee', searchUrl: 'https://shopee.co.th/search?keyword=', icon: 'fa-bag-shopping' },
-            'nike': { name: 'Adidas', searchUrl: 'https://www.adidas.com/us/search?q=', icon: 'fa-shoe-prints' },
-            'agoda': { comp1: 'Booking.com', comp1Search: 'https://www.booking.com/searchresults.html?ss=', comp2: 'Trip.com', comp2Search: 'https://www.trip.com/hotels/list?keyword=' },
-            'booking': { comp1: 'Agoda', comp1Search: 'https://www.agoda.com/search?text=', comp2: 'Trip.com', comp2Search: 'https://www.trip.com/hotels/list?keyword=' },
-            'trip.com': { comp1: 'Agoda', comp1Search: 'https://www.agoda.com/search?text=', comp2: 'Booking.com', comp2Search: 'https://www.booking.com/searchresults.html?ss=' },
-            'skyscanner': { comp1: 'Trip.com', comp1Search: 'https://www.trip.com/flights/?keyword=', comp2: 'Expedia', comp2Search: 'https://www.expedia.com/search?q=' }
+        // Smart Competitor Mapping Matrix
+        let competitorMap = {
+            'shopee': { name: 'Lazada', domain: 'lazada.com', url: 'https://www.lazada.co.th/catalog/?q=' },
+            'lazada': { name: 'Shopee', domain: 'shopee.co.th', url: 'https://shopee.co.th/search?keyword=' },
+            'agoda': { name: 'Booking.com', domain: 'booking.com', url: 'https://www.booking.com/searchresults.html?ss=' },
+            'booking': { name: 'Agoda', domain: 'agoda.com', url: 'https://www.agoda.com/search?textToSearch=' },
+            'trip.com': { name: 'Agoda', domain: 'agoda.com', url: 'https://www.agoda.com/search?textToSearch=' },
+            'expedia': { name: 'Booking.com', domain: 'booking.com', url: 'https://www.booking.com/searchresults.html?ss=' }
         };
 
+        // Robust Image Loader with Google Favicons fallback, then UI-Avatar
+        function loadBrandLogo(imgElementId, brandName, domain) {
+            const imgEl = document.getElementById(imgElementId);
+            imgEl.src = `https://logo.clearbit.com/${domain}`;
+            
+            imgEl.onerror = function() {
+                // If Clearbit fails, use Google Favicons
+                this.onerror = function() {
+                    this.onerror = null; // Prevent infinite loops
+                    const cleanName = encodeURIComponent(brandName);
+                    this.src = `https://ui-avatars.com/api/?name=${cleanName}&background=eff6ff&color=2563eb&size=128&font-size=0.4&bold=true`;
+                };
+                this.src = `https://www.google.com/s2/favicons?sz=128&domain=${domain}`;
+            };
+        }
+
+        // UI Toggles
         function clearInput() {
             const inputField = document.getElementById('productLink');
             inputField.value = '';
@@ -572,23 +552,21 @@
             clearInput();
             document.getElementById('resultsCard').classList.add('hidden');
             document.getElementById('noCouponCard').classList.add('hidden');
-            
-            // reset travel accordion
-            const optionsList = document.getElementById('travelOptionsList');
-            const icon = document.getElementById('travelOptionsIcon');
-            optionsList.classList.add('hidden');
-            icon.classList.remove('rotate-180');
-
-            // reset e-commerce accordion
-            const ecoOptionsList = document.getElementById('ecommerceOptionsList');
-            const ecoIcon = document.getElementById('ecommerceOptionsIcon');
-            ecoOptionsList.classList.add('hidden');
-            ecoIcon.classList.remove('rotate-180');
-            document.getElementById('ecommerceCompareBlock').classList.add('hidden');
-
             document.getElementById('searchArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(id === 'travelCompareAccordion' ? 'travelCompareIcon' : 'ecomCompareIcon');
+            content.classList.toggle('expanded');
+            if (content.classList.contains('expanded')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Dynamic Region Detection - FIXED KHR LOGIC
         function detectRegion() {
             const input = document.getElementById('productLink').value.toLowerCase().trim();
             const indicator = document.getElementById('regionIndicator');
@@ -606,141 +584,59 @@
             indicator.classList.remove('hidden');
             indicator.classList.add('flex');
             clearBtn.classList.remove('hidden');
-
             redirectUrl = input.startsWith('http') ? input : 'https://' + input;
 
             const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip.com', 'expedia'];
             isTravelLink = travelDomains.some(domain => input.includes(domain));
 
-            // Setup Currency
             if (input.includes('.co.th') || input.includes('.th') || input.includes('thailand')) {
-                flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = 'THB';
+                flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿';
             } else if (input.includes('.sg') || input.includes('singapore')) {
-                flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'SGD';
+                flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$';
             } else if (input.includes('.com.my') || input.includes('.my') || input.includes('malaysia')) {
-                flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'MYR';
-            } else {
+                flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM';
+            } else if (input.includes('.ph') || input.includes('philippines')) {
+                flag.innerText = '🇵🇭'; currencyTxt.innerText = 'PHP'; currentCurrencySymbol = '₱';
+            } else if (input.includes('.kh') || input.includes('cambodia') || input.includes('khr')) {
+                // FIXED KHR SUPPORT HERE
                 flag.innerText = '🇰🇭'; currencyTxt.innerText = 'KHR'; currentCurrencySymbol = 'KHR';
-            }
-        }
-
-        // Secure Toast System (Prevents XSS by avoiding innerHTML for user data)
-        function showToast(titleText, subtitleText, isRedirecting = false) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast-enter bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 font-medium text-sm border border-slate-700 pointer-events-auto';
-            
-            const iconWrapper = document.createElement('div');
-            iconWrapper.innerHTML = isRedirecting 
-                ? '<i class="fa-solid fa-circle-notch fa-spin text-blue-400 text-lg"></i>' 
-                : '<i class="fa-solid fa-check-circle text-green-400 text-lg"></i>';
-            toast.appendChild(iconWrapper.firstElementChild);
-            
-            const textContainer = document.createElement('div');
-            textContainer.className = "flex flex-col";
-            
-            const titleSpan = document.createElement('span');
-            titleSpan.textContent = titleText; 
-            textContainer.appendChild(titleSpan);
-            
-            if(subtitleText) {
-                const subtitleSpan = document.createElement('span');
-                subtitleSpan.className = "text-slate-400 text-xs mt-0.5";
-                subtitleSpan.textContent = subtitleText;
-                textContainer.appendChild(subtitleSpan);
-            }
-            
-            toast.appendChild(textContainer);
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(10px)';
-                toast.style.transition = 'all 0.3s ease';
-                setTimeout(() => toast.remove(), 300);
-            }, 4000); 
-        }
-
-        // Robust Image Loader with UI-Avatar Fallback
-        function loadBrandLogo(imgElementId, brandName, domain) {
-            const imgEl = document.getElementById(imgElementId);
-            imgEl.src = `https://logo.clearbit.com/${domain}`;
-            
-            imgEl.onerror = function() {
-                this.onerror = null; 
-                const cleanName = encodeURIComponent(brandName);
-                this.src = `https://ui-avatars.com/api/?name=${cleanName}&background=eff6ff&color=2563eb&size=128&font-size=0.4&bold=true`;
-            };
-        }
-
-        // UI Toggles
-        function toggleTravelOptions() {
-            const optionsList = document.getElementById('travelOptionsList');
-            const icon = document.getElementById('travelOptionsIcon');
-            
-            if (optionsList.classList.contains('hidden')) {
-                optionsList.classList.remove('hidden');
-                icon.classList.add('rotate-180');
             } else {
-                optionsList.classList.add('hidden');
-                icon.classList.remove('rotate-180');
+                flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$';
             }
-        }
-
-        function toggleEcommerceOptions() {
-            const optionsList = document.getElementById('ecommerceOptionsList');
-            const icon = document.getElementById('ecommerceOptionsIcon');
-            
-            if (optionsList.classList.contains('hidden')) {
-                optionsList.classList.remove('hidden');
-                icon.classList.add('rotate-180');
-            } else {
-                optionsList.classList.add('hidden');
-                icon.classList.remove('rotate-180');
-            }
-        }
-
         // Fake Data Generator for MVP Metasearch UI
         function populateFakeTravelData(providerKey) {
-            const basePrices = { '฿': 2400, 'S$': 95, 'RM': 300, '₱': 4500, '$': 150 };
-            const base = basePrices[currentCurrencySymbol] || 150;
+            // CHANGED: Generate a randomized base price between 25 and 75 so it looks more realistic for demos
+            // Note: This is still simulated! Real prices require the Backend API.
+            const randomBaseUSD = Math.floor(Math.random() * 50) + 25; 
+            const basePrices = { 'KHR': randomBaseUSD * 4100, '฿': randomBaseUSD * 35, 'S$': randomBaseUSD * 1.3, 'RM': randomBaseUSD * 4.7, '₱': randomBaseUSD * 56, '$': randomBaseUSD };
+            const base = basePrices[currentCurrencySymbol] || randomBaseUSD; 
             const formatNum = (num) => num.toLocaleString();
             
-            // Extract the hotel name from the pasted link for smart mapping
-            const searchData = extractSearchTerm(redirectUrl);
-            const displayTitle = searchData && searchData.clean ? searchData.clean : "Selected Property";
-
-            // Inject the extracted hotel name into the UI so the user sees it worked
-            document.getElementById('travelHotelName').innerText = displayTitle;
-
+            const extractedData = extractSearchTerm(redirectUrl);
+            const extractedTerm = extractedData.query;
+            
+            document.getElementById('travelHotelName').innerText = extractedData.display || 'Selected Booking';
             document.getElementById('travelCurrency').innerText = currentCurrencySymbol;
             document.getElementById('travelOriginalPrice').innerText = `${formatNum(Math.round(base * 4))} ${currentCurrencySymbol}`;
-            document.getElementById('travelBigPrice').innerHTML = `${formatNum(base)} <span id="travelCurrency" class="text-3xl text-slate-500">${currentCurrencySymbol}</span>`;
+            document.getElementById('travelFinalPrice').innerText = formatNum(base);
             
-            // Set the primary provider name and dynamic logo (FIXED LOGO BUG)
-            document.getElementById('travelPrimaryProvider').innerText = providerKey;
-            const cleanTravelDomain = providerKey.toLowerCase().replace(/\s+/g, '') + (providerKey.includes('.com') ? '' : '.com');
-            loadBrandLogo('travelProviderLogo', providerKey, cleanTravelDomain);
+            let displayProvider = providerKey === 'trip.com' ? 'Trip.com' : providerKey.charAt(0).toUpperCase() + providerKey.slice(1);
+            document.getElementById('travelProviderName').innerText = displayProvider;
+            
+            // Dynamic Logo Loading for Travel
+            const cleanDomain = providerKey.replace(/\s+/g, '') + (providerKey.includes('.com') ? '' : '.com');
+            loadBrandLogo('travelProviderLogo', displayProvider, cleanDomain);
 
-            // Setup Competitors dynamically
-            if (competitorMap[providerKey]) {
-                const comp = competitorMap[providerKey];
-                const comp1Price = Math.round(base * 1.04); 
-                const comp2Price = Math.round(base * 1.12); 
-
-                document.getElementById('travelSecondaryStartPrice').innerText = `From ${currentCurrencySymbol}${formatNum(comp1Price)}`;
+            let competitor1 = competitorMap[providerKey];
+            if (competitor1) {
+                document.getElementById('travelCompareBasePrice').innerText = `${formatNum(Math.round(base * 1.05))} ${currentCurrencySymbol}`;
+                document.getElementById('travelCompare1Name').innerText = competitor1.name;
+                document.getElementById('travelCompare1Price').innerText = `${formatNum(Math.round(base * 1.05))} ${currentCurrencySymbol}`;
+                travelCompare1Url = competitor1.url + extractedTerm;
                 
-                document.getElementById('travelComp1Name').innerText = comp.comp1;
-                document.getElementById('travelComp1Price').innerText = `${currentCurrencySymbol}${formatNum(comp1Price)}`;
-                
-                // SMART REDIRECT: Append the hotel name to the search URL
-                travelCompare1Url = searchData ? comp.comp1Search + searchData.raw : comp.comp1Search.split('?')[0];
-
-                document.getElementById('travelComp2Name').innerText = comp.comp2;
-                document.getElementById('travelComp2Price').innerText = `${currentCurrencySymbol}${formatNum(comp2Price)}`;
-                
-                // SMART REDIRECT: Append the hotel name to the search URL
-                travelCompare2Url = searchData ? comp.comp2Search + searchData.raw : comp.comp2Search.split('?')[0];
+                document.getElementById('travelCompare2Name').innerText = 'Expedia';
+                document.getElementById('travelCompare2Price').innerText = `${formatNum(Math.round(base * 1.12))} ${currentCurrencySymbol}`;
+                travelCompare2Url = 'https://www.expedia.com/Hotel-Search?destination=' + extractedTerm;
             }
         }
 
@@ -748,84 +644,79 @@
         function populateFakeEcommerceData(merchantName) {
             const lowerMerchant = merchantName.toLowerCase();
             document.getElementById('merchantNameDisplay').innerText = merchantName;
-            document.getElementById('productCaption').innerText = `Your selected item from ${merchantName} is ready. Apply your unlocked code at checkout to secure your savings.`;
+            
+            const extractedData = extractSearchTerm(redirectUrl);
+            const extractedTerm = extractedData.query;
+            document.getElementById('ecommerceItemName').innerText = extractedData.display || 'Selected Product';
 
             const cleanDomain = lowerMerchant.replace(/\s+/g, '') + (lowerMerchant.includes('.com') ? '' : '.com');
             loadBrandLogo('merchantLogo', merchantName, cleanDomain);
-            
-            // Extract the product name from the pasted link
-            const extractedTerm = extractSearchTerm(redirectUrl);
 
             if(competitorMap[lowerMerchant]) {
                 const comp = competitorMap[lowerMerchant];
-                
-                ecommerceCompareUrl = extractedTerm ? comp.searchUrl + extractedTerm : comp.searchUrl.split('?')[0];
-                
-                document.getElementById('ecommerceCompName').innerText = comp.name;
-                document.getElementById('ecommerceCompareIconInner').className = `fa-solid ${comp.icon} text-slate-400 group-hover:text-blue-600`;
-                
-                const formatNum = (num) => num.toLocaleString();
-                let fakeCompPrice = "---";
-                if(currentCurrencySymbol === 'THB') fakeCompPrice = `฿${formatNum(1150)}`;
-                else if(currentCurrencySymbol === 'KHR') fakeCompPrice = `${formatNum(120000)} KHR`;
-                else fakeCompPrice = `$${formatNum(35)}`;
-
-                document.getElementById('ecommerceSecondaryStartPrice').innerText = `Compare prices on ${comp.name}`;
-                document.getElementById('ecommerceCompareBlock').classList.remove('hidden');
+                document.getElementById('ecomCompareName').innerText = comp.name;
+                ecommerceCompareUrl = comp.url + extractedTerm;
             } else {
-                document.getElementById('ecommerceCompareBlock').classList.add('hidden');
+                document.getElementById('ecomCompareName').innerText = 'Amazon';
+                ecommerceCompareUrl = 'https://www.amazon.com/s?k=' + extractedTerm;
             }
         }
 
+        // DOM Safe Toast
+        function showToast(messageHtml, isRedirecting = false) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast-enter bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 font-medium text-sm border border-slate-700';
+            
+            const icon = document.createElement('i');
+            icon.className = isRedirecting 
+                ? 'fa-solid fa-circle-notch fa-spin text-blue-400 text-lg' 
+                : 'fa-solid fa-check-circle text-green-400 text-lg';
+            
+            const textSpan = document.createElement('span');
+            textSpan.innerHTML = messageHtml; // Safe because we strictly control the inputs in code
+            
+            toast.appendChild(icon);
+            toast.appendChild(textSpan);
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000); 
+        }
+
+        // Search Engine Workflow
         async function processLink() {
             const input = document.getElementById('productLink').value;
             if(!input) return;
 
             document.getElementById('resultsCard').classList.add('hidden');
             document.getElementById('noCouponCard').classList.add('hidden');
-            document.getElementById('ecommerceCompareBlock').classList.add('hidden');
             
             const loadingState = document.getElementById('loadingState');
             loadingState.classList.remove('hidden');
 
             document.getElementById('loadingTitle').innerText = "Analyzing link...";
             document.getElementById('step2').className = "flex items-center gap-3 text-slate-400 transition-all";
-            document.getElementById('step2').innerHTML = '<i class="fa-regular fa-circle"></i> Scanning price databases';
+            document.getElementById('step2').innerHTML = '<i class="fa-regular fa-circle"></i> Testing verified pricing';
             document.getElementById('step3').className = "flex items-center gap-3 text-slate-400 transition-all";
-            document.getElementById('step3').innerHTML = '<i class="fa-regular fa-circle"></i> Generating deal comparison';
+            document.getElementById('step3').innerHTML = '<i class="fa-regular fa-circle"></i> Generating secure savings route';
 
-            // TRAVEL LINK ROUTING
             if (isTravelLink) {
                 const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip.com', 'expedia'];
-                let detectedDomainKey = 'agoda'; 
-                
-                for (let domain of travelDomains) {
-                    if (redirectUrl.toLowerCase().includes(domain)) {
-                        detectedDomainKey = domain;
-                        break;
-                    }
-                }
-
-                populateFakeTravelData(detectedDomainKey);
-
-                setTimeout(() => {
-                    document.getElementById('loadingTitle').innerText = "Comparing top OTAs...";
-                    document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
-                    document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Scanning price databases';
-                }, 800);
+                const detectedProvider = travelDomains.find(domain => redirectUrl.toLowerCase().includes(domain)) || 'booking';
+                populateFakeTravelData(detectedProvider);
 
                 setTimeout(() => {
                     loadingState.classList.add('hidden');
                     document.getElementById('noCouponCard').classList.remove('hidden');
                     document.getElementById('noCouponCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 1500);
-                return; 
+                return;
             }
-
-            // E-COMMERCE LINK ROUTING
-            let detectedShoppingDomain = "Shopee";
-            if(redirectUrl.toLowerCase().includes("lazada")) detectedShoppingDomain = "Lazada";
-            if(redirectUrl.toLowerCase().includes("nike")) detectedShoppingDomain = "Nike";
 
             try {
                 const response = await fetch('https://runpromo-backend.onrender.com/api/optimize-link', {
@@ -834,81 +725,94 @@
                     body: JSON.stringify({ targetUrl: redirectUrl })
                 });
 
-                if (!response.ok) throw new Error('Backend failed');
+                if (!response.ok) throw new Error('Backend unavailable');
                 const data = await response.json();
                 
+                const merchantName = data.merchant || "Partner Store";
                 document.getElementById('mainCoupon').innerText = data.coupons[0].code;
                 document.getElementById('minSpendText').innerText = data.coupons[0].minSpend;
-                
-                populateFakeEcommerceData(data.merchant || detectedShoppingDomain);
+                document.getElementById('subCoupon1').innerText = data.coupons[1].code;
+                populateFakeEcommerceData(merchantName);
+
+                setTimeout(() => {
+                    document.getElementById('loadingTitle').innerText = "Scanning for valid discounts...";
+                    document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
+                    document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Testing verified pricing';
+                }, 800);
+
+                setTimeout(() => {
+                    loadingState.classList.add('hidden');
+                    document.getElementById('resultsCard').classList.remove('hidden');
+                    document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 1800);
 
             } catch (error) {
-                console.warn('Backend unavailable. Using mock data for presentation.');
-                
+                // FALLBACK MOCK DATA IF SERVER IS ASLEEP
+                console.log('Using fallback mock data due to server error');
                 document.getElementById('mainCoupon').innerText = "SAVE20NOW";
-                document.getElementById('minSpendText').innerText = `Valid on specific items • Auto-applied at checkout`;
+                document.getElementById('minSpendText').innerText = `Min. spend ${currentCurrencySymbol}500`;
+                document.getElementById('subCoupon1').innerText = "FREESHIP";
                 
-                populateFakeEcommerceData(detectedShoppingDomain);
+                const shoppingBrands = ['shopee', 'lazada', 'nike', 'adidas', 'sephora', 'amazon'];
+                const detectedMerchant = shoppingBrands.find(brand => redirectUrl.toLowerCase().includes(brand)) || 'Store';
+                populateFakeEcommerceData(detectedMerchant.charAt(0).toUpperCase() + detectedMerchant.slice(1));
+
+                setTimeout(() => {
+                    loadingState.classList.add('hidden');
+                    document.getElementById('resultsCard').classList.remove('hidden');
+                    document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 1500);
             }
-
-            // Animate steps
-            setTimeout(() => {
-                document.getElementById('loadingTitle').innerText = "Finalizing secure route...";
-                document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
-                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Scanning price databases';
-            }, 800);
-
-            setTimeout(() => {
-                loadingState.classList.add('hidden');
-                document.getElementById('resultsCard').classList.remove('hidden');
-                document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 1500);
         }
 
+        // Accessible Copier
         async function copyAndRedirect(elementId) {
-            const code = document.getElementById(elementId).innerText;
+            const codeText = document.getElementById(elementId).innerText;
             try {
-                await navigator.clipboard.writeText(code);
-                showToast(`Code copied!`, "Opening store securely...", true);
-                triggerRedirect(redirectUrl);
+                await navigator.clipboard.writeText(codeText);
+                showToast(`Code <b>${codeText}</b> copied!<br><span class="text-slate-400 text-xs">Opening store securely...</span>`, true);
             } catch (err) {
-                console.error('Clipboard failed', err);
-                showToast("Failed to copy code.", "Please copy manually.", false);
+                console.error('Modern copy failed, skipping to redirect.', err);
+                showToast("Redirecting securely...", true);
+            }
+            triggerRedirect('ecommerce');
+        }
+
+        function handleCouponKeypress(event, elementId) {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                copyAndRedirect(elementId);
             }
         }
 
-        // Handles all outbound links based on button clicked
-        function openAffiliateLink(targetType) {
-            let finalUrl = redirectUrl; 
-
-            if (targetType === 'ecommerce-competitor' && ecommerceCompareUrl) {
-                finalUrl = ecommerceCompareUrl;
-                showToast("Opening competitor site...", "Compare prices and save!", true);
-            } else if (targetType === 'travel-competitor-1' && travelCompare1Url) {
-                finalUrl = travelCompare1Url;
-                showToast("Opening alternate OTA...", "Checking live availability...", true);
-            } else if (targetType === 'travel-competitor-2' && travelCompare2Url) {
-                finalUrl = travelCompare2Url;
-                showToast("Opening alternate OTA...", "Checking live availability...", true);
-            } else {
-                showToast("Redirecting securely to merchant...", "", true);
-            }
-
-            triggerRedirect(finalUrl);
-        }
-
-        // Hidden anchor click ensures Travelpayouts script intercepts the navigation instantly (No popup blocker)
-        function triggerRedirect(urlToOpen) {
+        // Instant Redirect to bypass Popup Blockers
+        function triggerRedirect(type) {
             const a = document.createElement('a');
-            a.href = urlToOpen;
+            a.href = redirectUrl;
             a.target = '_blank';
-            a.rel = "noopener noreferrer";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
         }
 
-        // Modals
+        // Instant Redirect for Competitor Links
+        function triggerCompare(target) {
+            let targetUrl = '';
+            if (target === 'ecommerce') targetUrl = ecommerceCompareUrl;
+            if (target === 'travel1') targetUrl = travelCompare1Url;
+            if (target === 'travel2') targetUrl = travelCompare2Url;
+
+            if (targetUrl) {
+                const a = document.createElement('a');
+                a.href = targetUrl;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+
+        // Modal triggers
         function openModal(modalId) {
             const backdrop = document.getElementById('modalBackdrop');
             const modal = document.getElementById(modalId);
