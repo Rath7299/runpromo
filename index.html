@@ -257,10 +257,10 @@
             <!-- Body -->
             <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 bg-slate-50">
                 <!-- Left: Image Preview -->
-                <div class="md:w-1/2 relative rounded-2xl overflow-hidden shadow-md border border-slate-200">
-                    <img id="travelHeroImage" src="" alt="Property" class="w-full h-full object-cover min-h-[300px]">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-5">
-                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm w-max mb-1">LINKED PROPERTY</span>
+                <div class="md:w-1/2 relative rounded-2xl overflow-hidden shadow-md border border-slate-200 bg-black flex items-center justify-center">
+                    <img id="travelHeroImage" src="" alt="Property" class="w-full h-full object-cover min-h-[300px] opacity-90">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-5">
+                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm w-max mb-1 tracking-wider uppercase">Linked Property</span>
                         <h3 id="travelHotelName" class="text-white font-bold text-xl drop-shadow-md line-clamp-2">Selected Booking</h3>
                     </div>
                 </div>
@@ -291,7 +291,7 @@
                             Go to site
                         </button>
                         
-                        <!-- Accordion for More Options -->
+                        <!-- Accordion for More Options WITH LOGOS -->
                         <div class="border border-slate-100 rounded-xl bg-slate-50 overflow-hidden">
                             <button onclick="toggleAccordion('travelCompareAccordion')" class="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors">
                                 <div class="text-left">
@@ -303,17 +303,30 @@
                             
                             <div id="travelCompareAccordion" class="accordion-content bg-white">
                                 <div class="flex flex-col border-t border-slate-100">
+                                    <!-- Competitor 1 -->
                                     <div onclick="triggerCompare('travel1')" class="p-4 border-b border-slate-100 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors group">
-                                        <div>
-                                            <div id="travelCompare1Price" class="font-bold text-slate-900">PRICE</div>
-                                            <div id="travelCompare1Name" class="text-xs text-slate-500 group-hover:text-blue-600 transition-colors">Partner 2</div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-6 h-6 rounded bg-white shadow-sm border border-slate-200 p-0.5 flex items-center justify-center">
+                                                <img id="travelCompare1Logo" src="" class="w-full h-full object-contain">
+                                            </div>
+                                            <div>
+                                                <div id="travelCompare1Price" class="font-bold text-slate-900">PRICE</div>
+                                                <div id="travelCompare1Name" class="text-xs text-slate-500 group-hover:text-blue-600 transition-colors">Partner 2</div>
+                                            </div>
                                         </div>
                                         <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-300 group-hover:text-blue-500"></i>
                                     </div>
+                                    
+                                    <!-- Competitor 2 (Expedia) -->
                                     <div onclick="triggerCompare('travel2')" class="p-4 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors group">
-                                        <div>
-                                            <div id="travelCompare2Price" class="font-bold text-slate-900">PRICE</div>
-                                            <div id="travelCompare2Name" class="text-xs text-slate-500 group-hover:text-blue-600 transition-colors">Partner 3</div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-6 h-6 rounded bg-white shadow-sm border border-slate-200 p-0.5 flex items-center justify-center">
+                                                <img id="travelCompare2Logo" src="" class="w-full h-full object-contain">
+                                            </div>
+                                            <div>
+                                                <div id="travelCompare2Price" class="font-bold text-slate-900">PRICE</div>
+                                                <div id="travelCompare2Name" class="text-xs text-slate-500 group-hover:text-blue-600 transition-colors">Partner 3</div>
+                                            </div>
                                         </div>
                                         <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-300 group-hover:text-blue-500"></i>
                                     </div>
@@ -471,7 +484,7 @@
 
     <script>
         // Core State
-        let currentCurrencySymbol = '฿';
+        let currentCurrencySymbol = '$';
         let redirectUrl = ''; 
         let isTravelLink = false;
         
@@ -516,7 +529,7 @@
 
         // Smart Competitor Mapping Matrix
         let competitorMap = {
-            'shopee': { name: 'Lazada', domain: 'lazada.com', url: 'https://www.lazada.co.th/catalog/?q=' },
+            'shopee': { name: 'Lazada', domain: 'lazada.co.th', url: 'https://www.lazada.co.th/catalog/?q=' },
             'lazada': { name: 'Shopee', domain: 'shopee.co.th', url: 'https://shopee.co.th/search?keyword=' },
             'agoda': { name: 'Booking.com', domain: 'booking.com', url: 'https://www.booking.com/searchresults.html?ss=' },
             'booking': { name: 'Agoda', domain: 'agoda.com', url: 'https://www.agoda.com/search?textToSearch=' },
@@ -566,7 +579,7 @@
             }
         }
 
-        // Dynamic Region Detection - FIXED SYNTAX ERROR HERE
+        // Dynamic Region Detection
         function detectRegion() {
             const input = document.getElementById('productLink').value.toLowerCase().trim();
             const indicator = document.getElementById('regionIndicator');
@@ -601,7 +614,7 @@
             } else {
                 flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$';
             }
-        } // <-- THIS WAS THE MISSING BRACKET THAT CAUSED THE FREEZE
+        }
 
         // Data Generator for MVP Metasearch UI
         function populateFakeTravelData(providerKey, metaTitle = null, metaImage = null) {
@@ -616,7 +629,7 @@
             // Prefer the real scraped title, otherwise fallback to our extracted guess
             document.getElementById('travelHotelName').innerText = metaTitle || extractedData.display || 'Selected Booking';
             
-            // Prefer the real scraped image, otherwise use a generic city hotel placeholder
+            // Prefer the real scraped image, otherwise use a generic city hotel placeholder (since scraper is getting blocked by cloudflare)
             const imgEl = document.getElementById('travelHeroImage');
             if (metaImage) {
                 imgEl.src = metaImage;
@@ -625,26 +638,32 @@
             }
 
             document.getElementById('travelCurrency').innerText = currentCurrencySymbol;
-            document.getElementById('travelOriginalPrice').innerText = `${formatNum(Math.round(base * 4))} ${currentCurrencySymbol}`;
+            document.getElementById('travelOriginalPrice').innerText = `${formatNum(Math.round(base * 1.3))} ${currentCurrencySymbol}`;
             document.getElementById('travelFinalPrice').innerText = formatNum(base);
             
             let displayProvider = providerKey === 'trip.com' ? 'Trip.com' : providerKey.charAt(0).toUpperCase() + providerKey.slice(1);
             document.getElementById('travelProviderName').innerText = displayProvider;
             
-            // Dynamic Logo Loading
+            // Dynamic Logo Loading for Main Provider
             const cleanDomain = providerKey.replace(/\s+/g, '') + (providerKey.includes('.com') ? '' : '.com');
             loadBrandLogo('travelProviderLogo', displayProvider, cleanDomain);
 
+            // Populate Competitors
             let competitor1 = competitorMap[providerKey];
             if (competitor1) {
                 document.getElementById('travelCompareBasePrice').innerText = `${formatNum(Math.round(base * 1.05))} ${currentCurrencySymbol}`;
+                
+                // Set Name & Price for Comp 1
                 document.getElementById('travelCompare1Name').innerText = competitor1.name;
                 document.getElementById('travelCompare1Price').innerText = `${formatNum(Math.round(base * 1.05))} ${currentCurrencySymbol}`;
                 travelCompare1Url = competitor1.url + extractedTerm;
+                loadBrandLogo('travelCompare1Logo', competitor1.name, competitor1.domain);
                 
+                // Set Name & Price for Comp 2 (Expedia Default)
                 document.getElementById('travelCompare2Name').innerText = 'Expedia';
                 document.getElementById('travelCompare2Price').innerText = `${formatNum(Math.round(base * 1.12))} ${currentCurrencySymbol}`;
                 travelCompare2Url = 'https://www.expedia.com/Hotel-Search?destination=' + extractedTerm;
+                loadBrandLogo('travelCompare2Logo', 'Expedia', 'expedia.com');
             }
         }
 
@@ -704,7 +723,7 @@
             }, 3000); 
         }
 
-        // NEW: UNIFIED SEARCH ENGINE WORKFLOW
+        // UNIFIED SEARCH ENGINE WORKFLOW
         async function processLink() {
             let inputUrl = document.getElementById('productLink').value.trim();
             if(!inputUrl) return;
@@ -733,14 +752,14 @@
             }, 4000);
 
             try {
-                // We now ALWAYS call the backend so it can scrape the real image and title!
+                // We ALWAYS call the backend so it can scrape the real image and title!
                 const response = await fetch('https://runpromo-backend.onrender.com/api/optimize-link', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ targetUrl: redirectUrl })
                 });
 
-                clearTimeout(coldStartWarning); // Clear the warning if server responded fast
+                clearTimeout(coldStartWarning);
 
                 if (!response.ok) throw new Error('Backend unavailable');
                 const data = await response.json();
