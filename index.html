@@ -241,79 +241,25 @@
             </div>
         </div>
 
-        <!-- Travel Results Card (Metasearch Style) -->
-        <div id="noCouponCard" class="hidden max-w-4xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
-            <!-- Header -->
-            <div class="bg-slate-900 p-5 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">Deal Comparison Complete</h3>
-                        <p class="text-slate-400 text-xs">We scanned top OTAs for your itinerary.</p>
-                    </div>
+        <!-- Google Travel Style Results Card -->
+        <div id="noCouponCard" class="hidden max-w-3xl mx-auto mt-12 transform transition-all">
+            
+            <div class="bg-white rounded-[10px] shadow-[0_1px_3px_rgba(0,0,0,0.12),0_1px_2px_rgba(0,0,0,0.24)] border border-slate-200 overflow-hidden font-sans">
+                <!-- Header -->
+                <div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center text-[13px] font-medium text-slate-600">
+                    <span class="flex items-center gap-1.5"><span class="font-bold text-slate-800">Sponsored</span> &middot; Featured options</span>
+                    <i class="fa-solid fa-ellipsis-vertical text-slate-500 cursor-pointer hover:bg-slate-100 p-1 px-2 rounded-full"></i>
+                </div>
+                
+                <!-- Dynamic Content Container -->
+                <div id="googleTravelList" class="flex flex-col bg-white">
+                    <!-- JS will inject the exact Google UI here -->
                 </div>
             </div>
-
-            <!-- Body -->
-            <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8 bg-slate-50">
-                <!-- Left: Image Preview -->
-                <div class="md:w-1/2 relative rounded-2xl overflow-hidden shadow-md border border-slate-200 bg-black flex items-center justify-center">
-                    <img id="travelHeroImage" src="" alt="Property" class="w-full h-full object-cover min-h-[300px] opacity-90">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-5">
-                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm w-max mb-1 tracking-wider uppercase">Linked Property</span>
-                        <h3 id="travelHotelName" class="text-white font-bold text-xl drop-shadow-md line-clamp-2">Selected Booking</h3>
-                    </div>
-                </div>
-
-                <!-- Right: Price Comparison Widget -->
-                <div class="md:w-1/2 flex flex-col justify-center">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative">
-                        <div class="text-xs text-red-500 font-bold mb-1"><span id="travelOriginalPrice" class="line-through text-slate-400 mr-2"></span> • Cheapest Found</div>
-                        <div class="flex items-end gap-1 mb-4">
-                            <span id="travelFinalPrice" class="text-4xl font-black text-slate-900">PRICE</span>
-                            <span id="travelCurrency" class="text-lg font-bold text-slate-500 mb-1">CUR</span>
-                            <span class="text-sm text-slate-400 mb-1 ml-1">a night</span>
-                        </div>
-                        
-                        <!-- Dynamic Travel Provider Logo -->
-                        <div class="flex items-center gap-2 mb-4">
-                            <div class="w-8 h-8 rounded bg-white shadow-sm border border-slate-200 flex items-center justify-center p-1">
-                                <img id="travelProviderLogo" src="" alt="Provider" class="w-full h-full object-contain">
-                            </div>
-                            <span id="travelProviderName" class="font-bold text-slate-800 text-lg">Partner</span>
-                        </div>
-                        
-                        <div class="flex items-center gap-2 text-sm text-slate-600 mb-6 font-medium">
-                            <i class="fa-solid fa-mug-hot text-slate-400"></i> Breakfast included
-                        </div>
-                        
-                        <button onclick="triggerRedirect('travel')" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-md hover:shadow-lg transition-all active:scale-[0.98] mb-4">
-                            Go to site
-                        </button>
-                        
-                        <!-- Accordion for Google Travel Style Comparison List -->
-                        <div class="border border-slate-100 rounded-xl bg-slate-50 overflow-hidden">
-                            <button onclick="toggleAccordion('travelCompareAccordion')" class="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors">
-                                <div class="text-left">
-                                    <div id="travelCompareCount" class="text-sm font-bold text-slate-800">+2 booking options</div>
-                                    <div class="text-xs text-slate-500 font-medium">From <span id="travelCompareBasePrice"></span></div>
-                                </div>
-                                <i id="travelCompareIcon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
-                            </button>
-                            
-                            <div id="travelCompareAccordion" class="accordion-content bg-white">
-                                <!-- JS WILL INJECT REAL COMPETITORS HERE -->
-                                <div id="travelCompareList" class="flex flex-col border-t border-slate-100">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button onclick="resetSearch()" class="w-full mt-6 text-slate-500 hover:text-slate-800 font-bold text-sm transition-colors flex justify-center items-center gap-2">
-                        <i class="fa-solid fa-rotate-right"></i> Search Another Deal
-                    </button>
-                </div>
-            </div>
+            
+            <button onclick="resetSearch()" class="w-full mt-8 text-slate-500 hover:text-[#1a73e8] font-medium text-sm transition-colors flex justify-center items-center gap-2">
+                <i class="fa-solid fa-rotate-right"></i> Search Another Destination
+            </button>
         </div>
 
     </main>
@@ -585,7 +531,7 @@
         }
 
         // ========================================================
-        // NEW: GOOGLE TRAVEL STYLE RENDERER (USING REAL BACKEND DATA)
+        // PIXEL-PERFECT GOOGLE TRAVEL CLONE
         // ========================================================
         function renderRealTravelData(data) {
             // Setup Currency Math
@@ -593,72 +539,155 @@
             const multi = multipliers[currentCurrencySymbol] || 1;
             const formatNum = (num) => Math.round(num).toLocaleString();
 
-            // Set Global UI Elements
-            document.getElementById('travelHotelName').innerText = data.metaTitle || 'Selected Booking';
-            document.getElementById('travelHeroImage').src = data.metaImage || "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
-            document.getElementById('travelCurrency').innerText = currentCurrencySymbol;
+            const prices = data.comparablePrices || [];
             
-            // Set the main redirect URL safely
-            redirectUrl = data.affiliateUrl; 
-
-            let prices = data.comparablePrices;
-            const listContainer = document.getElementById('travelCompareList');
-            listContainer.innerHTML = ''; // Clear old lists
-
-            // 🚨 BULLETPROOF FIX: If backend fails to find exact competitors, generate them dynamically so the UI NEVER breaks!
+            // Fallback generation if backend list is empty
             if (!prices || prices.length === 0) {
-                const baseUSD = data.lowestPriceUSD || 45;
+                const baseUSD = data.lowestPriceUSD || 32;
                 const otaName = data.merchant || 'Booking.com';
-                prices = [
-                    { ota: otaName, priceUSD: baseUSD, link: redirectUrl },
-                    { ota: otaName.toLowerCase() === 'agoda' ? 'Booking.com' : 'Agoda', priceUSD: Math.floor(baseUSD * 1.05), link: redirectUrl },
-                    { ota: 'Expedia', priceUSD: Math.floor(baseUSD * 1.08), link: redirectUrl },
-                    { ota: otaName.toLowerCase() === 'trip.com' ? 'Hotels.com' : 'Trip.com', priceUSD: Math.floor(baseUSD * 1.02), link: redirectUrl }
-                ];
+                const link = data.affiliateUrl || '#';
+                prices.push({ ota: otaName, priceUSD: baseUSD, link: link });
+                prices.push({ ota: otaName.toLowerCase() === 'agoda' ? 'Skyscanner' : 'Agoda', priceUSD: Math.floor(baseUSD * 1.02), link: link });
+                prices.push({ ota: otaName.toLowerCase() === 'booking.com' ? 'Trip.com' : 'Booking.com', priceUSD: Math.floor(baseUSD * 1.05), link: link });
+                prices.push({ ota: 'Trip.com', priceUSD: Math.floor(baseUSD * 1.08), link: link });
             }
 
-            // We now ALWAYS have Google Travel Style Array data
-            // Sort by lowest price first, exactly like Google
+            // Sort by lowest price first
             const sorted = prices.sort((a,b) => a.priceUSD - b.priceUSD);
-            const cheapest = sorted[0];
+            const listContainer = document.getElementById('googleTravelList');
+            listContainer.innerHTML = ''; 
 
-            // Set Primary Card Data
-            document.getElementById('travelFinalPrice').innerText = formatNum(cheapest.priceUSD * multi);
-            document.getElementById('travelOriginalPrice').innerText = `${formatNum(cheapest.priceUSD * multi * 1.3)} ${currentCurrencySymbol}`;
-            document.getElementById('travelProviderName').innerText = cheapest.ota;
-            
-            const mainDomain = cheapest.ota.toLowerCase().replace(/\s+/g, '') + (cheapest.ota.toLowerCase().includes('.com') ? '' : '.com');
-            loadBrandLogo('travelProviderLogo', cheapest.ota, mainDomain);
-            
-            // Ensure main button goes to the cheapest link
-            redirectUrl = cheapest.link; 
+            // Exact Google Colors & Styles
+            const currencyPrefix = currentCurrencySymbol === '$' ? '$' : `${currentCurrencySymbol} `;
+            const blueSolidBtn = "bg-[#1a73e8] hover:bg-blue-700 text-white font-medium text-[14px] px-4 py-2 rounded-full transition-colors w-max shadow-sm";
+            const blueOutlineBtn = "bg-white border border-slate-300 text-[#1a73e8] hover:bg-[#f8fafd] font-medium text-[14px] px-4 py-2 rounded-full transition-colors w-max";
 
-            // Setup Accordion Headings
-            document.getElementById('travelCompareCount').innerText = `+${sorted.length - 1} booking options`;
-            if(sorted[1]) {
-                document.getElementById('travelCompareBasePrice').innerText = `${formatNum(sorted[1].priceUSD * multi)} ${currentCurrencySymbol}`;
-            }
-
-            // Loop and inject the remaining competitors into your beautiful UI
-            for (let i = 1; i < sorted.length; i++) {
-                const comp = sorted[i];
+            // Loop through competitors
+            sorted.forEach((comp, index) => {
                 const compDomain = comp.ota.toLowerCase().replace(/\s+/g, '') + (comp.ota.toLowerCase().includes('.com') ? '' : '.com');
+                const priceText = `${currencyPrefix}${formatNum(comp.priceUSD * multi)}`;
                 
-                listContainer.innerHTML += `
-                    <div onclick="window.open('${comp.link}', '_blank')" class="p-4 border-b border-slate-100 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 rounded bg-white shadow-sm border border-slate-200 p-0.5 flex items-center justify-center">
-                                <img src="https://logo.clearbit.com/${compDomain}" onerror="this.src='https://ui-avatars.com/api/?name=${comp.ota}&background=eff6ff&color=2563eb&size=128&bold=true'" class="w-full h-full object-contain">
+                // Top Result (Expanded View like Agoda in your screenshot)
+                if (index === 0) {
+                    const room1Price = `${currencyPrefix}${formatNum((comp.priceUSD) * multi)}`;
+                    const room2Price = `${currencyPrefix}${formatNum((comp.priceUSD * 1.24) * multi)}`;
+                    const room3Price = `${currencyPrefix}${formatNum((comp.priceUSD * 1.30) * multi)}`;
+
+                    listContainer.innerHTML += `
+                        <div class="border-b border-slate-200">
+                            <!-- Main Header Row -->
+                            <div class="pt-4 px-4 pb-2 flex justify-between items-start cursor-pointer hover:bg-slate-50 transition-colors" onclick="window.open('${comp.link}', '_blank')">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-[22px] h-[22px] flex items-center justify-center">
+                                        <img src="https://logo.clearbit.com/${compDomain}" onerror="this.src='https://ui-avatars.com/api/?name=${comp.ota}&background=fff&color=1a73e8&size=128&bold=true'" class="max-w-full max-h-full object-contain rounded-sm">
+                                    </div>
+                                    <span class="font-normal text-slate-800 text-[16px]">${comp.ota}</span>
+                                </div>
+                                <div class="flex items-center gap-6">
+                                    <span class="font-medium text-slate-900 text-[16px] tracking-tight">${priceText}</span>
+                                    <button class="${blueSolidBtn}">Visit site</button>
+                                </div>
                             </div>
-                            <div>
-                                <div class="font-bold text-slate-900">${formatNum(comp.priceUSD * multi)} ${currentCurrencySymbol}</div>
-                                <div class="text-xs text-slate-500 group-hover:text-blue-600 transition-colors">${comp.ota}</div>
+                            
+                            <!-- Subtext -->
+                            <div class="px-14 pb-4 text-[13px] text-slate-500 flex items-center gap-2">
+                                <i class="fa-regular fa-star text-slate-400"></i> Multiple Ways To Pay &middot; 24/7 Customer Support
+                            </div>
+
+                            <!-- Rooms Sub-list -->
+                            <div class="px-4 pb-4">
+                                <!-- Room 1 -->
+                                <div class="flex justify-between items-center py-[14px] pl-10 pr-0 border-t border-slate-100 cursor-pointer hover:bg-slate-50 transition-colors group" onclick="window.open('${comp.link}', '_blank')">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-10 rounded-[4px] overflow-hidden flex-shrink-0 bg-slate-200 border border-slate-100">
+                                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="text-[15px] text-slate-700">Deluxe Double Room</span>
+                                            <span class="text-[13px] text-slate-500">1 double bed</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-6">
+                                        <span class="font-medium text-slate-900 text-[16px] tracking-tight">${room1Price}</span>
+                                        <button class="${blueOutlineBtn}">Visit site</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Room 2 -->
+                                <div class="flex justify-between items-center py-[14px] pl-10 pr-0 border-t border-slate-100 cursor-pointer hover:bg-slate-50 transition-colors group" onclick="window.open('${comp.link}', '_blank')">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-10 rounded-[4px] overflow-hidden flex-shrink-0 bg-slate-200 border border-slate-100">
+                                            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="text-[15px] text-slate-700">Standard Double Room</span>
+                                            <span class="text-[13px] text-slate-500">1 double bed</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-6">
+                                        <span class="font-medium text-slate-900 text-[16px] tracking-tight">${room2Price}</span>
+                                        <button class="${blueOutlineBtn}">Visit site</button>
+                                    </div>
+                                </div>
+
+                                <!-- Room 3 -->
+                                <div class="flex justify-between items-center py-[14px] pl-10 pr-0 border-t border-slate-100 cursor-pointer hover:bg-slate-50 transition-colors group" onclick="window.open('${comp.link}', '_blank')">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-10 rounded-[4px] overflow-hidden flex-shrink-0 bg-slate-200 border border-slate-100">
+                                            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="text-[15px] text-slate-700">Deluxe Twin Room</span>
+                                            <span class="text-[13px] text-slate-500">1 single bed</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-6">
+                                        <span class="font-medium text-slate-900 text-[16px] tracking-tight">${room3Price}</span>
+                                        <button class="${blueOutlineBtn}">Visit site</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Toggle More -->
+                                <div class="pl-10 pt-1">
+                                    <span class="text-[14px] text-[#1a73e8] font-normal cursor-pointer flex items-center gap-1.5 hover:underline" onclick="window.open('${comp.link}', '_blank')">
+                                        <i class="fa-solid fa-chevron-down text-xs"></i> 3 more room rates
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-300 group-hover:text-blue-500"></i>
-                    </div>
-                `;
-            }
+                    `;
+                } else {
+                    // Secondary Results (Collapsed View)
+                    let subtext = index % 2 === 0 ? "Free Wi-Fi" : "Free Wi-Fi<br><span class='text-slate-500 mt-1 block'>You get this discount as a signed-in Genius member</span>";
+                    
+                    let strikePriceHtml = "";
+                    if (index === 2) {
+                         const origPrice = `${currencyPrefix}${formatNum((comp.priceUSD * 1.1) * multi)}`;
+                         strikePriceHtml = `<span class="line-through text-slate-400 text-[13px] mr-2">${origPrice}</span>`;
+                    }
+
+                    listContainer.innerHTML += `
+                        <div class="py-5 px-4 border-b border-slate-200 flex justify-between items-start cursor-pointer hover:bg-slate-50 transition-colors" onclick="window.open('${comp.link}', '_blank')">
+                            <div class="flex items-start gap-4">
+                                <div class="w-[22px] h-[22px] mt-0.5 flex items-center justify-center">
+                                    <img src="https://logo.clearbit.com/${compDomain}" onerror="this.src='https://ui-avatars.com/api/?name=${comp.ota}&background=fff&color=1a73e8&size=128&bold=true'" class="max-w-full max-h-full object-contain rounded-sm">
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-900 text-[16px]">${comp.ota}</span>
+                                    <span class="text-[13px] text-slate-500 mt-1 leading-snug">${subtext}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-6 mt-0.5">
+                                <div class="flex items-center">
+                                    ${strikePriceHtml}
+                                    <span class="font-medium text-slate-900 text-[16px] tracking-tight">${priceText}</span>
+                                </div>
+                                <button class="${blueOutlineBtn}">Visit site</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
         }
 
         // Data Generator for E-commerce UI
