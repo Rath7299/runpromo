@@ -241,7 +241,7 @@
             </div>
         </div>
 
-        <!-- Travel Results Card (Google Travel / Metasearch Style) -->
+        <!-- Travel Results Card (Metasearch Style) -->
         <div id="noCouponCard" class="hidden max-w-4xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
             <!-- Header -->
             <div class="bg-slate-900 p-5 flex justify-between items-center">
@@ -755,7 +755,7 @@
 
                 clearTimeout(coldStartWarning);
 
-                if (!response.ok) throw new Error('Backend unavailable');
+                if (!response.ok) throw new Error(`Backend Error ${response.status}`);
                 const data = await response.json();
                 
                 if (data.error) {
@@ -808,9 +808,9 @@
                 }
 
             } catch (error) {
-                console.log('Using fallback mock data due to server error');
+                console.log('Using fallback mock data due to server error:', error);
                 clearTimeout(coldStartWarning);
-                showToast("Server error. Please ensure backend is running.");
+                showToast(`<b>Server failed to connect.</b><br><span class="text-xs text-slate-400">Error: ${error.message}</span>`);
                 loadingState.classList.add('hidden');
             }
         }
