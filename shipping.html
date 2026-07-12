@@ -17,7 +17,7 @@
             -webkit-backdrop-filter: blur(10px);
         }
 
-        /* Tooltip styling for the $2 profit margin */
+        /* Tooltip styling */
         .tooltip .tooltip-text {
             visibility: hidden;
             background-color: #1e293b;
@@ -71,8 +71,11 @@
             </a>
             
             <div class="hidden md:flex items-center space-x-8 font-medium text-sm text-slate-600">
-                <a href="index.html" class="hover:text-blue-600 transition-colors">Smart Coupons</a>
-                <a href="shipping.html" class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1">Compare Shipping</a>
+                <a href="index.html" class="hover:text-blue-600 transition-colors">Find Coupons</a>
+                <a href="shipping.html" class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1 flex items-center gap-1.5">
+                    Compare Shipping
+                    <span class="bg-green-100 text-green-700 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest shadow-sm">New</span>
+                </a>
             </div>
         </div>
     </nav>
@@ -188,7 +191,7 @@
         <div id="bottomAd" class="hidden w-full max-w-4xl mx-auto mt-6 bg-slate-100 border border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center text-center">
             <span class="text-slate-400 text-sm font-bold tracking-widest uppercase mb-2">Sponsored Partner</span>
             <p class="text-slate-500 text-sm mb-3">Save an extra 10% on international shipping with our preferred package forwarder.</p>
-            <button class="bg-blue-100 text-blue-700 hover:bg-blue-200 font-bold py-2 px-6 rounded-lg transition-colors text-sm">
+            <button onclick="window.open('https://planetexpress.com/?ref=370828', '_blank')" class="bg-blue-100 text-blue-700 hover:bg-blue-200 font-bold py-2 px-6 rounded-lg transition-colors text-sm">
                 Claim Offer
             </button>
         </div>
@@ -225,7 +228,6 @@
                 if (data && data.country) {
                     let found = false;
                     
-                    // Match their detected country with our massive list
                     for (let i = 0; i < destDropdown.options.length; i++) {
                         if (destDropdown.options[i].value.toLowerCase() === data.country.toLowerCase()) {
                             destDropdown.selectedIndex = i;
@@ -234,7 +236,6 @@
                         }
                     }
                     
-                    // If geojs gives a weird format, append it anyway
                     if (!found) {
                         const newOption = document.createElement('option');
                         newOption.value = data.country;
@@ -248,11 +249,10 @@
             }
         });
 
-        // Simulated Database (Updated to Package Forwarders with Affiliate Programs!)
+        // Simulated Database (Updated with your real Affiliate Links, MyUS removed!)
         const carrierDatabase = [
-            { id: 'myus', name: 'MyUS Forwarding', logo: 'fa-globe-americas', color: 'bg-blue-100 text-blue-600', speed: '4-8 days', type: 'Tax-Free Warehouse', basePrice: 6.50, link: 'https://www.myus.com/' },
-            { id: 'shipito', name: 'Shipito', logo: 'fa-box-open', color: 'bg-emerald-100 text-emerald-600', speed: '7-14 days', type: 'Package Consolidation', basePrice: 4.00, link: 'https://www.shipito.com/' },
-            { id: 'planet', name: 'Planet Express', logo: 'fa-rocket', color: 'bg-violet-100 text-violet-600', speed: '3-6 days', type: 'Express Air', basePrice: 12.00, link: 'https://planetexpress.com/' }
+            { id: 'shipito', name: 'Shipito', logo: 'fa-box-open', color: 'bg-emerald-100 text-emerald-600', speed: '7-14 days', type: 'Package Consolidation', basePrice: 4.00, link: 'https://www.shipito.com/?id_affiliate=24792' },
+            { id: 'planet', name: 'Planet Express', logo: 'fa-rocket', color: 'bg-violet-100 text-violet-600', speed: '3-6 days', type: 'Express Air', basePrice: 12.00, link: 'https://planetexpress.com/?ref=370828' }
         ];
 
         async function runShippingComparison() {
@@ -272,21 +272,19 @@
             const btnIcon = document.getElementById('btnIcon');
             btnIcon.className = "fa-solid fa-circle-notch fa-spin";
             document.getElementById('searchBtn').disabled = true;
-
-            // --- SIMULATING ROUTING CHAIN ---
             
-            // Step 1: Processing product dimensions
+            // Step 1
             document.getElementById('step1').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing product dimensions...';
             document.getElementById('step1').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
             document.getElementById('step2').className = "flex items-center gap-3 text-slate-400 transition-all";
             
             await new Promise(r => setTimeout(r, 1200));
-            const simulatedWeight = (Math.random() * (2.5 - 0.5) + 0.5).toFixed(1); // 0.5kg - 2.5kg
+            const simulatedWeight = (Math.random() * (2.5 - 0.5) + 0.5).toFixed(1);
             
             document.getElementById('step1').innerHTML = `<i class="fa-solid fa-check-circle"></i> Extracted weight: ${simulatedWeight}kg`;
             document.getElementById('step1').className = "flex items-center gap-3 text-green-500 font-medium transition-all";
             
-            // Step 2: Querying partner networks
+            // Step 2
             document.getElementById('step2').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Querying partner networks...';
             document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
             
@@ -295,7 +293,7 @@
             document.getElementById('step2').innerHTML = `<i class="fa-solid fa-check-circle"></i> Connected to global carriers`;
             document.getElementById('step2').className = "flex items-center gap-3 text-green-500 font-medium transition-all";
 
-            // Step 3: Finalizing
+            // Step 3
             document.getElementById('step3').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Applying RunPromo optimizations...';
             document.getElementById('step3').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
             
@@ -321,7 +319,6 @@
             tbody.innerHTML = '';
 
             carrierDatabase.forEach((carrier, index) => {
-                // MATH: Display pure API estimate (No manual markup needed for ad/affiliate model)
                 let calculatedBase = carrier.basePrice * parseFloat(weight);
                 let displayPrice = calculatedBase.toFixed(2);
                 
