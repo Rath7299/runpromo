@@ -392,12 +392,10 @@
 
             let prices = data.comparablePrices || [];
             
-            // Bulletproof Fallback: Generates accurate links if backend is unreachable or returns empty data
+            // Bulletproof Fallback
             if (!prices || prices.length === 0) {
                 const baseUSD = data.lowestPriceUSD || 32;
                 const extractedName = extractSearchTerm(redirectUrl).query || 'hotel';
-                
-                // Automatically generate Travelpayouts affiliate deep links
                 const tpMarker = '544811';
                 const makeTpLink = (target) => `https://c.travelpayouts.com/click?marker=${tpMarker}&url=${encodeURIComponent(target)}`;
                 
@@ -417,12 +415,9 @@
             sorted.forEach((comp, index) => {
                 const compDomain = comp.ota.toLowerCase().replace(/\s+/g, '') + (comp.ota.toLowerCase().includes('.com') ? '' : '.com');
                 const priceText = `${currencyPrefix}${formatNum(comp.priceUSD * multi)}`;
-                
-                // Using High-Res Google Favicon API
                 const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${compDomain}`;
                 const fallbackLogo = `https://ui-avatars.com/api/?name=${comp.ota}&background=eff6ff&color=2563eb&bold=true`;
 
-                // The Premium "Top Pick" Card
                 if (index === 0) {
                     const room1Price = `${currencyPrefix}${formatNum((comp.priceUSD) * multi)}`;
                     const room2Price = `${currencyPrefix}${formatNum((comp.priceUSD * 1.15) * multi)}`;
@@ -430,7 +425,6 @@
                     
                     listContainer.innerHTML += `
                         <div class="bg-gradient-to-br from-blue-50 to-indigo-50/50 border border-blue-100 rounded-3xl p-1 relative overflow-hidden deal-card-hover cursor-pointer mb-6 shadow-sm hover:shadow-md transition-all" onclick="window.open('${comp.link}', '_blank')">
-                            <!-- Absolute Badge -->
                             <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest shadow-sm z-10">
                                 🏆 Best Value
                             </div>
@@ -443,6 +437,64 @@
                                         </div>
                                         <div>
                                             <h4 class="text-xl font-bold text-slate-900">${comp.ota}</h4>
+                                            <div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+                                                <i class="fa-solid fa-check-circle text-green-500"></i> Official Partner
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center md:items-end flex-row md:flex-col justify-between md:justify-center w-full md:w-auto">
+                                        <div class="flex flex-col items-start md:items-end">
+                                            <span class="text-xs text-slate-400 line-through font-medium mb-[-4px]">${strikePrice}</span>
+                                            <span class="text-3xl font-black text-blue-700 tracking-tight">${priceText}</span>
+                                        </div>
+                                        <button class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg shadow-blue-200 transition-all md:mt-2 shrink-0">
+                                            Lock in Deal
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-blue-100/50">
+                                    <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-bold text-slate-800">Deluxe Double Room</span>
+                                            <span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 1 double bed</span>
+                                        </div>
+                                        <span class="font-bold text-slate-900">${room1Price}</span>
+                                    </div>
+                                    <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
+                                        <div class="flex flex-col">
+                                            <span class="text-sm font-bold text-slate-800">Standard Twin Room</span>
+                                            <span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 2 single beds</span>
+                                        </div>
+                                        <span class="font-bold text-slate-900">${room2Price}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    listContainer.innerHTML += `
+                        <div onclick="window.open('${comp.link}', '_blank')" class="bg-white rounded-2xl p-4 border border-slate-100 flex items-center justify-between hover:border-blue-300 hover:shadow-md cursor-pointer transition-all mb-3 group">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center p-2">
+                                    <img src="${logoUrl}" onerror="this.src='${fallbackLogo}'" class="w-full h-full object-contain">
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-slate-800 group-hover:text-blue-700 transition-colors">${comp.ota}</span>
+                                    <span class="text-xs text-slate-400">Verified option</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-lg font-black text-slate-700">${priceText}</span>
+                                <div class="text-slate-300 group-hover:text-blue-500 transition-colors"><i class="fa-solid fa-chevron-right"></i></div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
         function populateFakeEcommerceData(merchantName, metaTitle = null, metaImage = null, coupons = []) {
             const lowerMerchant = merchantName.toLowerCase();
             
@@ -455,12 +507,10 @@
             const compDomain = lowerMerchant.replace(/\s+/g, '') + (lowerMerchant.includes('.com') ? '' : '.com');
             const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${compDomain}`;
 
-            // E-commerce Competitor List Logic
             const listContainer = document.getElementById('ecomCompareList');
             if (!listContainer) return;
             listContainer.innerHTML = '';
             
-            // Smart Estimate Algorithm: Generates a stable baseline price based on product name
             let hash = 0;
             const nameToHash = extractedData.display || "product";
             for (let i = 0; i < nameToHash.length; i++) { hash = nameToHash.charCodeAt(i) + ((hash << 5) - hash); }
@@ -486,7 +536,6 @@
                 alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.6, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 0, days: '1-2' });
                 alternatives.push({ name: 'Walmart', domain: 'walmart.com', price: baseUSD * 1.55, link: `https://www.walmart.com/search?q=${extractedTerm}`, shipping: 0, days: '2-3' });
             } else {
-                // Default US/Global Comparison
                 alternatives.push({ name: 'Walmart', domain: 'walmart.com', price: baseUSD * 0.98, link: `https://www.walmart.com/search?q=${extractedTerm}`, shipping: 0, days: '2-3' });
                 alternatives.push({ name: 'eBay', domain: 'ebay.com', price: baseUSD * 0.85, link: `https://www.ebay.com/sch/i.html?_nkw=${extractedTerm}`, shipping: 4.50, days: '4-7' });
                 alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.60, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 2.50, days: '12-20' });
@@ -494,7 +543,6 @@
 
             const currencyPrefix = currentCurrencySymbol === '$' ? '$' : `${currentCurrencySymbol} `;
 
-            // Ensure coupons exist
             if (!coupons || coupons.length === 0) {
                 coupons = [
                     { code: merchantName.toUpperCase() + "20", description: "20% Off Code" },
@@ -509,10 +557,8 @@
             const mainAffiliateLink = `https://invl.me/aff_m?url=${encodeURIComponent(redirectUrl)}`;
             const fallbackLogo = `https://ui-avatars.com/api/?name=${merchantName}&background=eff6ff&color=2563eb&bold=true`;
 
-            // 1. Render Top Pick Card (The searched merchant)
             listContainer.innerHTML += `
                 <div class="bg-gradient-to-br from-blue-50 to-indigo-50/50 border border-blue-100 rounded-3xl p-1 relative overflow-hidden deal-card-hover cursor-pointer mb-6 shadow-sm hover:shadow-md transition-all">
-                    <!-- Absolute Badge -->
                     <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest shadow-sm z-10">
                         🏆 Best Value
                     </div>
@@ -542,7 +588,6 @@
                             </div>
                         </div>
                         
-                        <!-- Sub-cards for Coupons (Replaces Hotel Rooms) -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-blue-100/50">
                             <div onclick="navigator.clipboard.writeText('${coupons[0].code}'); showToast('Coupon copied!');" class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors group cursor-pointer">
                                 <div class="flex flex-col">
@@ -563,15 +608,12 @@
                 </div>
             `;
 
-            // 2. Render Secondary Comparison Cards
             alternatives.forEach(alt => {
                 const affiliateLink = `https://invl.me/aff_m?url=${encodeURIComponent(alt.link)}`;
                 const priceStr = `${currencyPrefix}${formatNum(alt.price * multi)}`;
                 
-                // Smart Shipping Formatting
                 const shippingCostNum = alt.shipping * multi;
                 const shippingStr = shippingCostNum === 0 ? 'Free Shipping' : `+${currencyPrefix}${formatNum(shippingCostNum)} ship`;
-                
                 const altLogo = `https://www.google.com/s2/favicons?sz=128&domain=${alt.domain}`;
                 
                 listContainer.innerHTML += `
