@@ -120,10 +120,10 @@
             </div>
             
             <div id="supportedStores" class="flex flex-wrap justify-center items-center gap-6 mt-10 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-brands fa-amazon text-orange-400"></i> Amazon</div>
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-certificate text-blue-500"></i> Walmart</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-bag-shopping text-orange-500"></i> Shopee</div>
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-heart text-blue-600"></i> Lazada</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane-departure text-sky-500"></i> Skyscanner</div>
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane text-cyan-500"></i> Agoda</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-suitcase text-blue-400"></i> Trip.com</div>
                 <div class="flex items-center gap-2 font-bold text-lg bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm ml-2 shadow-sm border border-blue-200">+ 500 More Brands</div>
             </div>
@@ -473,6 +473,7 @@
             else if (input.includes('.com.my') || input.includes('.my') || input.includes('malaysia')) { flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM'; } 
             else if (input.includes('.ph') || input.includes('philippines')) { flag.innerText = '🇵🇭'; currencyTxt.innerText = 'PHP'; currentCurrencySymbol = '₱'; } 
             else if (input.includes('.kh') || input.includes('cambodia') || input.includes('khr')) { flag.innerText = '🇰🇭'; currencyTxt.innerText = 'KHR'; currentCurrencySymbol = 'KHR'; } 
+            else if (input.includes('amazon.com') || input.includes('walmart.com') || input.includes('target.com') || input.includes('bestbuy.com')) { flag.innerText = '🇺🇸'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$'; }
             else { flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$'; }
         }
 
@@ -626,40 +627,62 @@
             const formatNum = (num) => Math.round(num).toLocaleString();
 
             const alternatives = [];
+            
             if(lowerMerchant.includes('shopee')) {
-                alternatives.push({ name: 'Lazada', domain: 'lazada.co.th', price: baseUSD * 1.05, link: `https://www.lazada.co.th/catalog/?q=${extractedTerm}` });
-                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.92, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}` });
+                alternatives.push({ name: 'Lazada', domain: 'lazada.co.th', price: baseUSD * 1.05, link: `https://www.lazada.co.th/catalog/?q=${extractedTerm}`, shipping: 0, days: '2-3' });
+                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.85, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 1.50, days: '10-15' });
             } else if (lowerMerchant.includes('lazada')) {
-                alternatives.push({ name: 'Shopee', domain: 'shopee.co.th', price: baseUSD * 0.98, link: `https://shopee.co.th/search?keyword=${extractedTerm}` });
-                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.15, link: `https://www.amazon.com/s?k=${extractedTerm}` });
+                alternatives.push({ name: 'Shopee', domain: 'shopee.co.th', price: baseUSD * 0.98, link: `https://shopee.co.th/search?keyword=${extractedTerm}`, shipping: 0, days: '2-3' });
+                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.15, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 12.00, days: '5-9' });
+            } else if (lowerMerchant.includes('walmart')) {
+                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.02, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 0, days: '1-2' });
+                alternatives.push({ name: 'Target', domain: 'target.com', price: baseUSD * 1.08, link: `https://www.target.com/s?searchTerm=${extractedTerm}`, shipping: 5.99, days: '3-4' });
+                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.65, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 2.99, days: '12-20' });
+            } else if (lowerMerchant.includes('aliexpress') || lowerMerchant.includes('alibaba')) {
+                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.6, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 0, days: '1-2' });
+                alternatives.push({ name: 'Walmart', domain: 'walmart.com', price: baseUSD * 1.55, link: `https://www.walmart.com/search?q=${extractedTerm}`, shipping: 0, days: '2-3' });
             } else {
-                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.05, link: `https://www.amazon.com/s?k=${extractedTerm}` });
-                alternatives.push({ name: 'eBay', domain: 'ebay.com', price: baseUSD * 0.95, link: `https://www.ebay.com/sch/i.html?_nkw=${extractedTerm}` });
+                // Default US/Global Comparison
+                alternatives.push({ name: 'Walmart', domain: 'walmart.com', price: baseUSD * 0.98, link: `https://www.walmart.com/search?q=${extractedTerm}`, shipping: 0, days: '2-3' });
+                alternatives.push({ name: 'eBay', domain: 'ebay.com', price: baseUSD * 0.85, link: `https://www.ebay.com/sch/i.html?_nkw=${extractedTerm}`, shipping: 4.50, days: '4-7' });
+                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.60, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 2.50, days: '12-20' });
             }
 
             const currencyPrefix = currentCurrencySymbol === '$' ? '$' : `${currentCurrencySymbol} `;
 
             alternatives.forEach(alt => {
-                // Force link through Involve Asia Universal Deeplink structure
                 const affiliateLink = `https://invl.me/aff_m?url=${encodeURIComponent(alt.link)}`;
                 const priceStr = `${currencyPrefix}${formatNum(alt.price * multi)}`;
+                
+                // Smart Shipping Formatting
+                const shippingCostNum = alt.shipping * multi;
+                const shippingStr = shippingCostNum === 0 ? '<span class="text-green-600 font-bold">Free Shipping</span>' : `+${currencyPrefix}${formatNum(shippingCostNum)} ship`;
+                
                 const altLogo = `https://www.google.com/s2/favicons?sz=128&domain=${alt.domain}`;
                 
                 listContainer.innerHTML += `
-                    <div onclick="window.open('${affiliateLink}', '_blank')" class="p-4 border-b border-slate-100 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-8 h-8 rounded bg-white shadow-sm border border-slate-200 p-1 flex items-center justify-center">
+                    <div onclick="window.open('${affiliateLink}', '_blank')" class="p-4 border-b border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center hover:bg-slate-50 cursor-pointer transition-colors group gap-4 md:gap-0">
+                        <div class="flex items-center gap-4 w-full md:w-auto">
+                            <div class="w-10 h-10 rounded-xl bg-white shadow-sm border border-slate-200 p-1.5 flex items-center justify-center shrink-0">
                                 <img src="${altLogo}" onerror="this.src='https://ui-avatars.com/api/?name=${alt.name}&background=fff&color=8b5cf6&size=128&bold=true'" class="max-w-full max-h-full object-contain rounded-sm">
                             </div>
                             <div class="flex flex-col text-left">
                                 <span class="font-bold text-slate-800 text-[15px] group-hover:text-violet-700 transition-colors">${alt.name}</span>
-                                <span class="text-[11px] text-slate-400 font-medium">Verified retailer</span>
+                                <div class="flex items-center gap-2 mt-0.5 text-[11px]">
+                                    <span class="text-slate-500 font-medium"><i class="fa-solid fa-truck-fast text-slate-300 mr-1"></i>${shippingStr}</span>
+                                    <span class="text-slate-300">•</span>
+                                    <span class="text-slate-500 font-medium"><i class="fa-regular fa-calendar text-slate-300 mr-1"></i>${alt.days} days</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-4">
-                            <span class="font-black text-slate-700 text-[15px] tracking-tight">${priceStr}</span>
-                            <button class="bg-white border border-slate-200 text-violet-600 group-hover:bg-violet-50 group-hover:border-violet-300 font-bold text-[12px] px-3 py-1.5 rounded-lg transition-colors shadow-sm">
-                                View
+                        
+                        <div class="flex items-center justify-between w-full md:w-auto gap-4 pl-14 md:pl-0">
+                            <div class="flex flex-col items-start md:items-end">
+                                <span class="font-black text-slate-700 text-lg tracking-tight">${priceStr}</span>
+                                <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Base Price</span>
+                            </div>
+                            <button class="bg-white border border-slate-200 text-violet-600 group-hover:bg-violet-600 group-hover:text-white group-hover:border-violet-600 font-bold text-[12px] px-4 py-2 rounded-xl transition-all shadow-sm shrink-0">
+                                View Deal
                             </button>
                         </div>
                     </div>
