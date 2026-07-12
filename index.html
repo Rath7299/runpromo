@@ -538,24 +538,26 @@
 
             const alternatives = [];
             
-            // Logic for E-commerce shipping estimates and alternatives
-            if(lowerMerchant.includes('shopee')) {
-                alternatives.push({ name: 'Lazada', domain: 'lazada.co.th', price: baseUSD * 1.05, link: `https://www.lazada.co.th/catalog/?q=${extractedTerm}`, shipping: 0, days: '2-3' });
-                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.85, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 1.50, days: '10-15' });
-            } else if (lowerMerchant.includes('lazada')) {
-                alternatives.push({ name: 'Shopee', domain: 'shopee.co.th', price: baseUSD * 0.98, link: `https://shopee.co.th/search?keyword=${extractedTerm}`, shipping: 0, days: '2-3' });
-                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.15, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 12.00, days: '5-9' });
-            } else if (lowerMerchant.includes('walmart')) {
-                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.02, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 0, days: '1-2' });
-                alternatives.push({ name: 'Target', domain: 'target.com', price: baseUSD * 1.08, link: `https://www.target.com/s?searchTerm=${extractedTerm}`, shipping: 5.99, days: '3-4' });
-                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.65, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 2.99, days: '12-20' });
-            } else if (lowerMerchant.includes('aliexpress') || lowerMerchant.includes('alibaba')) {
-                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.6, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 0, days: '1-2' });
-                alternatives.push({ name: 'Walmart', domain: 'walmart.com', price: baseUSD * 1.55, link: `https://www.walmart.com/search?q=${extractedTerm}`, shipping: 0, days: '2-3' });
+            // Logic for E-commerce shipping estimates and alternatives - NOW WITH GLOBAL TAOBAO & ALIBABA
+            if(lowerMerchant.includes('shopee') || lowerMerchant.includes('lazada')) {
+                const mainComp = lowerMerchant.includes('shopee') ? { name: 'Lazada', domain: 'lazada.co.th', link: `https://www.lazada.co.th/catalog/?q=${extractedTerm}` } : { name: 'Shopee', domain: 'shopee.co.th', link: `https://shopee.co.th/search?keyword=${extractedTerm}` };
+                alternatives.push({ name: mainComp.name, domain: mainComp.domain, price: baseUSD * 1.05, link: mainComp.link, shipping: 0, days: '2-3' });
+                alternatives.push({ name: 'Taobao', domain: 'taobao.com', price: baseUSD * 0.45, link: `https://s.taobao.com/search?q=${extractedTerm}`, shipping: 2.50, days: '7-14' });
+                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.65, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 1.50, days: '10-15' });
+            } else if (lowerMerchant.includes('walmart') || lowerMerchant.includes('amazon') || lowerMerchant.includes('target')) {
+                const mainComp = lowerMerchant.includes('amazon') ? 'Walmart' : 'Amazon';
+                const compDomain = mainComp.toLowerCase() + '.com';
+                alternatives.push({ name: mainComp, domain: compDomain, price: baseUSD * 1.02, link: `https://www.${compDomain}/search?q=${extractedTerm}`, shipping: 0, days: '1-2' });
+                alternatives.push({ name: 'Alibaba', domain: 'alibaba.com', price: baseUSD * 0.35, link: `https://www.alibaba.com/trade/search?SearchText=${extractedTerm}`, shipping: 15.00, days: '15-25' });
+                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.55, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 2.99, days: '12-20' });
+            } else if (lowerMerchant.includes('aliexpress') || lowerMerchant.includes('alibaba') || lowerMerchant.includes('taobao')) {
+                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 2.2, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 0, days: '1-2' });
+                alternatives.push({ name: 'Walmart', domain: 'walmart.com', price: baseUSD * 2.1, link: `https://www.walmart.com/search?q=${extractedTerm}`, shipping: 0, days: '2-3' });
             } else {
-                alternatives.push({ name: 'Walmart', domain: 'walmart.com', price: baseUSD * 0.98, link: `https://www.walmart.com/search?q=${extractedTerm}`, shipping: 0, days: '2-3' });
-                alternatives.push({ name: 'eBay', domain: 'ebay.com', price: baseUSD * 0.85, link: `https://www.ebay.com/sch/i.html?_nkw=${extractedTerm}`, shipping: 4.50, days: '4-7' });
-                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.60, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 2.50, days: '12-20' });
+                // Global Default Fallback
+                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.10, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 5.00, days: '3-7' });
+                alternatives.push({ name: 'Taobao', domain: 'taobao.com', price: baseUSD * 0.45, link: `https://s.taobao.com/search?q=${extractedTerm}`, shipping: 4.50, days: '7-14' });
+                alternatives.push({ name: 'Alibaba', domain: 'alibaba.com', price: baseUSD * 0.35, link: `https://www.alibaba.com/trade/search?SearchText=${extractedTerm}`, shipping: 18.00, days: '15-25' });
             }
 
             const currencyPrefix = currentCurrencySymbol === '$' ? '$' : `${currentCurrencySymbol} `;
