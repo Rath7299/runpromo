@@ -115,6 +115,13 @@
             </button>
         </div>
 
+        <!-- ADVERTISEMENT PLACEHOLDER (Top) -->
+        <div class="w-full max-w-3xl mx-auto mt-8 bg-slate-100 border border-slate-200 rounded-xl h-24 flex items-center justify-center relative overflow-hidden group">
+            <span class="text-slate-400 text-sm font-bold tracking-widest uppercase">Advertisement</span>
+            <div class="absolute top-2 right-2 flex items-center gap-1 bg-white/50 px-2 py-0.5 rounded text-[10px] text-slate-400 font-medium">Ad <i class="fa-solid fa-circle-info"></i></div>
+            <!-- Google AdSense Code will go here later -->
+        </div>
+
         <!-- Loading State -->
         <div id="loadingState" class="hidden max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-blue-100 p-8 text-center mt-12 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 bg-[length:200%_100%] animate-[gradient_2s_linear_infinite]"></div>
@@ -177,27 +184,13 @@
             </div>
         </div>
 
-        <!-- Payment Modal (Simulation) -->
-        <div id="bookingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center px-4">
-            <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 text-center transform scale-95 transition-all duration-300">
-                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-5 text-blue-600 text-2xl shadow-inner border border-blue-200">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <h3 class="text-2xl font-extrabold text-slate-900 mb-2">Secure Your Label</h3>
-                <p class="text-slate-500 text-sm mb-8 leading-relaxed">
-                    You selected <strong id="modalCarrier" class="text-slate-800"></strong>.<br>
-                    The total shipping cost is <strong id="modalPrice" class="text-blue-600 text-lg font-black"></strong>.
-                </p>
-                
-                <div class="flex flex-col gap-3">
-                    <button onclick="closeModal()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-3.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition shadow-md">
-                        Proceed to Payment
-                    </button>
-                    <button onclick="closeModal()" class="w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-200 transition">
-                        Cancel
-                    </button>
-                </div>
-            </div>
+        <!-- ADVERTISEMENT PLACEHOLDER (Bottom) -->
+        <div id="bottomAd" class="hidden w-full max-w-4xl mx-auto mt-6 bg-slate-100 border border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center text-center">
+            <span class="text-slate-400 text-sm font-bold tracking-widest uppercase mb-2">Sponsored Partner</span>
+            <p class="text-slate-500 text-sm mb-3">Save an extra 10% on international shipping with our preferred package forwarder.</p>
+            <button class="bg-blue-100 text-blue-700 hover:bg-blue-200 font-bold py-2 px-6 rounded-lg transition-colors text-sm">
+                Claim Offer
+            </button>
         </div>
 
     </main>
@@ -255,16 +248,11 @@
             }
         });
 
-        // ==========================================
-        // YOUR BUSINESS MODEL ($2 Markup)
-        // ==========================================
-        const OUR_MARKUP_FEE = 2.00;
-
-        // Simulated Database (What partner networks would return)
+        // Simulated Database (Updated to Package Forwarders with Affiliate Programs!)
         const carrierDatabase = [
-            { id: 'yun', name: 'YunExpress', logo: 'fa-cloud', color: 'bg-teal-100 text-teal-600', speed: '10-15 days', type: 'Eco Carton', basePrice: 4.50 },
-            { id: 'post', name: 'Aramex / Local Post', logo: 'fa-truck-fast', color: 'bg-orange-100 text-orange-600', speed: '7-12 days', type: 'Standard Box', basePrice: 6.00 },
-            { id: 'dhl', name: 'DHL Express', logo: 'fa-plane', color: 'bg-yellow-100 text-yellow-600', speed: '3-5 days', type: 'Premium Air', basePrice: 17.00 }
+            { id: 'myus', name: 'MyUS Forwarding', logo: 'fa-globe-americas', color: 'bg-blue-100 text-blue-600', speed: '4-8 days', type: 'Tax-Free Warehouse', basePrice: 6.50, link: 'https://www.myus.com/' },
+            { id: 'shipito', name: 'Shipito', logo: 'fa-box-open', color: 'bg-emerald-100 text-emerald-600', speed: '7-14 days', type: 'Package Consolidation', basePrice: 4.00, link: 'https://www.shipito.com/' },
+            { id: 'planet', name: 'Planet Express', logo: 'fa-rocket', color: 'bg-violet-100 text-violet-600', speed: '3-6 days', type: 'Express Air', basePrice: 12.00, link: 'https://planetexpress.com/' }
         ];
 
         async function runShippingComparison() {
@@ -320,6 +308,9 @@
             loadingState.classList.add('hidden');
             btnIcon.className = "fa-solid fa-arrow-right";
             document.getElementById('searchBtn').disabled = false;
+            
+            // Show bottom ad
+            document.getElementById('bottomAd').classList.remove('hidden');
         }
 
         function renderResults(weight, destination) {
@@ -330,9 +321,9 @@
             tbody.innerHTML = '';
 
             carrierDatabase.forEach((carrier, index) => {
-                // MATH: Multiply base price by weight, then ADD YOUR $2 PROFIT!
+                // MATH: Display pure API estimate (No manual markup needed for ad/affiliate model)
                 let calculatedBase = carrier.basePrice * parseFloat(weight);
-                let finalPriceToCustomer = (calculatedBase + OUR_MARKUP_FEE).toFixed(2);
+                let displayPrice = calculatedBase.toFixed(2);
                 
                 let badgeHtml = index === 0 ? `<span class="ml-3 bg-green-100 text-green-700 text-[10px] px-2.5 py-1 rounded-md uppercase font-black tracking-wider border border-green-200">Best Value</span>` : '';
 
@@ -355,20 +346,12 @@
                         <div class="text-xs text-slate-500 flex items-center gap-1 mt-0.5"><i class="fa-solid fa-location-crosshairs text-blue-400"></i> Tracked</div>
                     </td>
                     <td class="p-5 text-right">
-                        <!-- Tooltip Container showing your magic margin -->
-                        <div class="tooltip relative inline-block cursor-help">
-                            <div class="text-xl font-black text-slate-900">$${finalPriceToCustomer}</div>
-                            <div class="text-[10px] text-blue-500 font-bold border-b border-dashed border-blue-500 inline mt-1"><i class="fa-solid fa-info-circle"></i> Includes Fees</div>
-                            
-                            <span class="tooltip-text">
-                                Carrier Rate: $${calculatedBase.toFixed(2)}<br>
-                                RunPromo Fee: $${OUR_MARKUP_FEE.toFixed(2)}
-                            </span>
-                        </div>
+                        <div class="text-xl font-black text-slate-900">~$${displayPrice}</div>
+                        <div class="text-[10px] text-slate-400 font-bold inline mt-1">Est. Carrier Rate</div>
                     </td>
                     <td class="p-5 pr-8 text-right">
-                        <button onclick="openBooking('${carrier.name}', '${finalPriceToCustomer}')" class="bg-white border border-slate-200 hover:border-slate-800 hover:bg-slate-800 text-slate-800 hover:text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm">
-                            Book
+                        <button onclick="window.open('${carrier.link}', '_blank')" class="bg-white border border-slate-200 hover:border-slate-800 hover:bg-slate-800 text-slate-800 hover:text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm flex items-center gap-2 justify-end w-full md:w-auto ml-auto">
+                            Visit Site <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i>
                         </button>
                     </td>
                 `;
@@ -376,21 +359,6 @@
             });
 
             document.getElementById('resultsCard').classList.remove('hidden');
-        }
-
-        function openBooking(carrierName, price) {
-            document.getElementById('modalCarrier').innerText = carrierName;
-            document.getElementById('modalPrice').innerText = "$" + price;
-            const modal = document.getElementById('bookingModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => { modal.classList.remove('opacity-0'); modal.firstElementChild.classList.remove('scale-95'); }, 10);
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('bookingModal');
-            modal.classList.add('opacity-0');
-            modal.firstElementChild.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
     </script>
 </body>
