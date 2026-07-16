@@ -503,6 +503,8 @@
             const listContainer = document.getElementById('unifiedComparisonList');
             listContainer.innerHTML = ''; 
 
+            const isFlight = (redirectUrl.toLowerCase().includes('flight') || redirectUrl.toLowerCase().includes('skyscanner'));
+
             sorted.forEach((comp, index) => {
                 const compDomain = comp.ota.toLowerCase().replace(/\s+/g, '') + (comp.ota.toLowerCase().includes('.com') ? '' : '.com');
                 const priceText = `${currencyPrefix}${formatNum(comp.priceUSD * multi)}`;
@@ -513,23 +515,32 @@
                 if (index === 0) {
                     const strikePrice = `${currencyPrefix}${formatNum((comp.priceUSD * 1.35) * multi)}`;
                     
-                    // Generate specific Bottom Grid content based on type (Travel Rooms vs E-commerce Coupons)
                     let bottomGridHtml = "";
                     if (data.type === 'travel') {
-                        const room1Price = `${currencyPrefix}${formatNum((comp.priceUSD) * multi)}`;
-                        const room2Price = `${currencyPrefix}${formatNum((comp.priceUSD * 1.15) * multi)}`;
-                        bottomGridHtml = `
-                            <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
-                                <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Deluxe Double Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 1 double bed</span></div>
-                                <span class="font-bold text-slate-900">${room1Price}</span>
-                            </div>
-                            <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
-                                <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Standard Twin Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 2 single beds</span></div>
-                                <span class="font-bold text-slate-900">${room2Price}</span>
-                            </div>
-                        `;
+                        if (isFlight) {
+                            // Display Flight Info
+                            bottomGridHtml = `
+                                <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
+                                    <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Economy Standard</span><span class="text-xs text-slate-500"><i class="fa-solid fa-suitcase-rolling text-slate-300 mr-1"></i> Cabin bag included</span></div>
+                                    <span class="font-bold text-slate-900">${priceText}</span>
+                                </div>
+                            `;
+                        } else {
+                            // Display Hotel Room Info
+                            const room1Price = `${currencyPrefix}${formatNum((comp.priceUSD) * multi)}`;
+                            const room2Price = `${currencyPrefix}${formatNum((comp.priceUSD * 1.15) * multi)}`;
+                            bottomGridHtml = `
+                                <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
+                                    <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Standard Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 1 Double / 2 Twin</span></div>
+                                    <span class="font-bold text-slate-900">${room1Price}</span>
+                                </div>
+                                <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
+                                    <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Premium Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-mug-hot text-slate-300 mr-1"></i> Breakfast Included</span></div>
+                                    <span class="font-bold text-slate-900">${room2Price}</span>
+                                </div>
+                            `;
+                        }
                     } else {
-                        // Shopping Coupons display in the big card instead of rooms!
                         const mainCode = (data.coupons && data.coupons[0]) ? data.coupons[0].code : "SAVE20";
                         const subCode = (data.coupons && data.coupons[1]) ? data.coupons[1].code : "FREESHIP";
                         bottomGridHtml = `
@@ -603,6 +614,15 @@
                     `;
                 }
             });
+
+            // ADD THE 'SEE MORE' BUTTON AT THE BOTTOM OF THE LIST
+            listContainer.innerHTML += `
+                <div class="mt-4 pt-4 border-t border-slate-100 flex justify-center">
+                    <button onclick="window.open('https://booking.com', '_blank')" class="text-slate-500 hover:text-blue-600 font-bold text-sm bg-slate-50 hover:bg-blue-50 px-6 py-2.5 rounded-xl border border-slate-200 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group"></i> See 12+ More Availability Options
+                    </button>
+                </div>
+            `;
         }
 
         async function copyAndRedirect(codeText) {
