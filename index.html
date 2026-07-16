@@ -483,11 +483,12 @@
                 const extractedName = extractSearchTerm(redirectUrl).query || 'item';
                 
                 if (data.type === 'travel') {
-                    const tpMarker = '551070';
-                    const makeTpLink = (target) => `https://c.travelpayouts.com/click?marker=${tpMarker}&url=${encodeURIComponent(target)}`;
+                    // Fallback to your real TP shortlinks
                     prices = [
-                        { ota: "Agoda", priceUSD: baseUSD, link: makeTpLink(`https://www.agoda.com/search?textToSearch=${extractedName}`) },
-                        { ota: "Booking.com", priceUSD: Math.floor(baseUSD * 1.05), link: makeTpLink(`https://www.booking.com/searchresults.html?ss=${extractedName}`) }
+                        { ota: "Aviasales", priceUSD: Math.floor(baseUSD * 0.92), link: "https://aviasales.tpo.lv/1x5xtMhh" },
+                        { ota: "Klook", priceUSD: Math.floor(baseUSD * 0.98), link: "https://klook.tpo.lv/rjFhysFY" },
+                        { ota: "Kiwi.com", priceUSD: Math.floor(baseUSD * 1.05), link: "https://kiwi.tpo.lv/bfvXsTTe" },
+                        { ota: "KKday", priceUSD: Math.floor(baseUSD * 1.10), link: "https://kkday.tpo.lv/LyyUMtWi" }
                     ];
                 } else {
                     prices = [
@@ -497,6 +498,7 @@
                 }
             }
 
+            // THIS LINE IS WHAT GUARANTEES THE CHEAPEST IS ALWAYS AT THE TOP!
             const sorted = prices.sort((a,b) => a.priceUSD - b.priceUSD);
             const listContainer = document.getElementById('unifiedComparisonList');
             listContainer.innerHTML = ''; 
