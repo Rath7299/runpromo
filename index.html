@@ -566,7 +566,6 @@
             if (!prices || prices.length === 0) {
                 const baseUSD = data.lowestPriceUSD || 32;
                 const extractedName = extractSearchTerm(redirectUrl).query || 'hotel';
-                // UPDATED WITH NEW MARKER ID 551070
                 const tpMarker = '551070';
                 const makeTpLink = (target) => `https://c.travelpayouts.com/click?marker=${tpMarker}&url=${encodeURIComponent(target)}`;
                 
@@ -770,7 +769,8 @@
             }, 3000);
 
             try {
-                const response = await fetch('https://runpromo-backend-1.onrender.com/api/optimize-link', {
+                // THE ONLY CHANGE IS RIGHT HERE: Pointing to Vercel instead of Render
+                const response = await fetch('https://runpromo-backend.vercel.app/api/optimize-link', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ targetUrl: redirectUrl })
