@@ -18,6 +18,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         body { font-family: 'Inter', sans-serif; }
         
@@ -32,6 +33,22 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+        }
+
+        .date-picker-transition {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 0;
+            border-color: transparent;
+        }
+        
+        .date-picker-visible {
+            max-height: 150px;
+            opacity: 1;
+            margin-top: 1rem;
+            border-color: #f1f5f9;
         }
 
         @keyframes slideInUp {
@@ -68,64 +85,107 @@
                 <h1 class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-700 tracking-tight">RunPromo</h1>
             </div>
             
-            <div class="hidden md:flex space-x-8 font-medium text-sm text-slate-600 items-center">
-                <a href="#searchArea" class="hover:text-blue-600 transition-colors font-semibold text-slate-800">Find Coupons</a>
-                <a href="shipping.html" class="flex items-center gap-1.5 text-blue-600 font-bold hover:text-indigo-700 transition-colors">
+            <div class="hidden md:flex space-x-8 font-medium text-sm text-slate-600">
+                <a href="#searchArea" class="hover:text-blue-600 transition-colors">Run Search</a>
+                <a href="#howItWorks" class="hover:text-blue-600 transition-colors">How it Works</a>
+                <a href="shipping.html" class="hover:text-blue-600 transition-colors flex items-center gap-1.5">
                     Compare Shipping
                     <span class="bg-green-100 text-green-700 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest shadow-sm">New</span>
                 </a>
-                <a href="#howItWorks" class="hover:text-blue-600 transition-colors">How it Works</a>
-                <a href="#supportedStores" class="hover:text-blue-600 transition-colors">Supported Platforms</a>
             </div>
         </div>
     </nav>
 
-    <main id="searchArea" class="flex-grow max-w-6xl mx-auto px-4 py-16 md:py-24 w-full">
-        <div class="max-w-3xl mx-auto text-center mb-12">
+    <main id="searchArea" class="flex-grow max-w-6xl mx-auto px-4 py-16 md:py-20 w-full">
+        <div class="max-w-3xl mx-auto text-center mb-10">
+            <!-- Animated Banner -->
             <div class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 font-semibold px-5 py-2 rounded-full text-sm mb-8 border border-indigo-100 animate-float shadow-sm">
-                <i class="fa-solid fa-fire text-indigo-500"></i> Over $50,000 saved by users today
+                <i class="fa-solid fa-fire text-orange-500 fa-beat" style="--fa-animation-duration: 2s;"></i> Over $50,000 saved by users today
             </div>
 
             <h2 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
-                Stop paying full price <br/>
+                Stop paying full price <br class="hidden md:block"/>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">ever again.</span>
             </h2>
             
-            <p class="text-lg text-slate-500 mb-8">Paste any product, flight, or hotel link from our network of 500+ global brands. Our proprietary deal scanner will instantly verify and unlock the best active coupons and rates for your region.</p>
+            <p class="text-lg text-slate-500 mb-10">Paste any product, flight, or hotel link from our network of 500+ global brands. Our proprietary deal scanner will instantly verify and unlock the best active coupons and rates for your region.</p>
 
-            <div class="bg-white p-2 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200 flex flex-col md:flex-row gap-2 relative z-10">
-                <div class="flex-1 flex items-center px-4 py-2 bg-slate-50 rounded-xl border border-transparent focus-within:border-blue-300 focus-within:bg-white transition-all relative">
-                    <i class="fa-solid fa-link text-slate-400 mr-3"></i>
-                    <input id="productLink" type="text" placeholder="Paste link from Shopee, Agoda, Walmart, Amazon..." class="w-full bg-transparent border-none outline-none text-slate-700 placeholder-slate-400 text-base md:text-lg pr-[90px]" oninput="detectRegion()">
-                    
-                    <div class="absolute right-3 flex items-center gap-2">
-                        <button id="clearBtn" onclick="clearInput()" class="hidden text-slate-400 hover:text-red-500 transition-colors p-1" title="Clear input">
-                            <i class="fa-solid fa-circle-xmark text-lg"></i>
-                        </button>
+            <!-- THE TABS -->
+            <div class="flex justify-center items-center gap-2 md:gap-3 mb-6 relative z-20 flex-wrap">
+                <button id="tabShopping" onclick="switchMode('shopping')" class="bg-blue-600 text-white border border-blue-600 font-bold py-2.5 px-6 rounded-full shadow-md transition-all flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-bag-shopping"></i> E-Commerce
+                </button>
+                <button id="tabTravel" onclick="switchMode('travel')" class="bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-plane-departure"></i> Travel & Hotels
+                </button>
+                <button id="tabShipping" onclick="switchMode('shipping')" class="bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-box-open"></i> Shipping
+                </button>
+            </div>
+
+            <!-- SEARCH BOX -->
+            <div class="bg-white p-3 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200 relative z-10 transition-all duration-300">
+                <div class="flex flex-col md:flex-row gap-2">
+                    <div class="flex-1 flex items-center px-5 py-4 bg-slate-50 rounded-2xl border border-transparent focus-within:border-blue-300 focus-within:bg-white transition-all relative">
+                        <i id="inputIcon" class="fa-solid fa-link text-blue-500 mr-3 text-lg"></i>
+                        <input id="productLink" type="text" placeholder="Paste link from Shopee, Lazada, Amazon..." class="w-full bg-transparent border-none outline-none text-slate-700 placeholder-slate-400 text-base md:text-lg pr-[90px]" oninput="detectRegion()">
                         
-                        <div id="regionIndicator" class="hidden items-center gap-1.5 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-200 text-xs font-bold text-slate-600 transition-all">
-                            <span id="regionFlag">🇹🇭</span>
-                            <span id="regionCurrency">THB</span>
+                        <div class="absolute right-4 flex items-center gap-2">
+                            <button id="clearBtn" onclick="clearInput()" class="hidden text-slate-400 hover:text-red-500 transition-colors p-1" title="Clear input">
+                                <i class="fa-solid fa-circle-xmark text-lg"></i>
+                            </button>
+                            <div id="regionIndicator" class="hidden items-center gap-1.5 bg-white px-3 py-1.5 rounded-full shadow-sm border border-slate-200 text-xs font-bold text-slate-600 transition-all">
+                                <span id="regionFlag">🇹🇭</span>
+                                <span id="regionCurrency">THB</span>
+                            </div>
                         </div>
                     </div>
+                    <button onclick="processLink()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-2xl transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-3 text-lg whitespace-nowrap md:w-auto">
+                        <span id="btnText">Run Search</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
-                <button onclick="processLink()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-lg">
-                    <span>Scan for Deals</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
+
+                <!-- Travel Date Pickers (Hidden by default) -->
+                <div id="datePickers" class="date-picker-transition flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-slate-100 pt-3">
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full sm:w-auto">
+                        <i class="fa-regular fa-calendar-check text-indigo-500"></i> Check-in:
+                        <input type="date" id="checkInDate" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full sm:w-auto cursor-pointer">
+                    </div>
+                    <div class="hidden sm:block text-slate-300"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full sm:w-auto">
+                        <i class="fa-regular fa-calendar-xmark text-indigo-500"></i> Check-out:
+                        <input type="date" id="checkOutDate" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full sm:w-auto cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Shipping Destination (Hidden by default) -->
+                <div id="shippingPicker" class="date-picker-transition flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-slate-100 pt-3">
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full md:w-auto">
+                        <i class="fa-solid fa-location-dot text-indigo-500"></i> Delivery to:
+                        <select id="homeDestination" class="bg-slate-50 border border-slate-200 text-slate-700 px-4 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors cursor-pointer w-full md:w-64">
+                            <option value="Cambodia">Cambodia</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="United States">United States</option>
+                            <option value="Other">Other (Select on next page)</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             
             <div id="supportedStores" class="flex flex-wrap justify-center items-center gap-6 mt-10 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-brands fa-amazon text-orange-400"></i> Amazon</div>
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-certificate text-blue-500"></i> Walmart</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-bag-shopping text-orange-500"></i> Shopee</div>
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-heart text-blue-600"></i> Lazada</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane-departure text-sky-500"></i> Skyscanner</div>
+                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane text-cyan-500"></i> Agoda</div>
                 <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-suitcase text-blue-400"></i> Trip.com</div>
                 <div class="flex items-center gap-2 font-bold text-lg bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm ml-2 shadow-sm border border-blue-200">+ 500 More Brands</div>
             </div>
         </div>
 
-        <!-- THE MISSING LOADING STATE IS BACK! -->
         <div id="loadingState" class="hidden max-w-2xl mx-auto bg-white rounded-2xl shadow-xl border border-blue-100 p-8 text-center mt-12 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 bg-[length:200%_100%] animate-[gradient_2s_linear_infinite]"></div>
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-blue-600 mb-6">
@@ -146,33 +206,78 @@
             </div>
         </div>
 
-        <div id="resultsCard" class="hidden max-w-4xl mx-auto mt-12 transform transition-all">
-            <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 md:p-8 relative overflow-hidden">
-                <!-- Header -->
-                <div class="flex justify-between items-end mb-8">
+        <div id="resultsCard" class="hidden max-w-4xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+            <div class="bg-gradient-to-r from-violet-600 to-indigo-600 p-6 flex items-center justify-between relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+                <div class="flex items-center gap-4 text-white relative z-10">
+                    <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-2xl backdrop-blur-md shadow-inner border border-white/20">🎉</div>
                     <div>
-                        <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wide">
-                            <i class="fa-solid fa-shield-check"></i> Verified Optimization
+                        <h3 class="text-xl font-extrabold tracking-tight">Savings Unlocked!</h3>
+                        <p class="text-indigo-100 text-sm font-medium">We found the best active promotions for this store.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/3 flex flex-col">
+                    <div class="border border-slate-100 rounded-2xl p-5 bg-gradient-to-b from-slate-50 to-white shadow-sm relative group overflow-hidden">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-[10px] font-black px-2.5 py-1 rounded-lg shadow-sm border border-slate-100 z-10 flex items-center gap-1.5 text-slate-700 tracking-wider">
+                            <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>VERIFIED
                         </div>
-                        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">Best Available Prices</h3>
-                        <p id="ecommerceItemName" class="text-slate-500 text-sm mt-1">We compared top stores to guarantee your savings.</p>
+                        <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center shadow-sm mb-5 border border-slate-100 p-2 overflow-hidden group-hover:shadow-md transition-shadow">
+                            <img id="ecommerceProductImg" src="" alt="Product" class="w-full h-full object-cover rounded-lg transform group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="text-center">
+                            <div class="flex items-center justify-center gap-2 mb-3">
+                                <div class="w-6 h-6 rounded-full bg-white shadow-sm border border-slate-200 p-0.5 flex items-center justify-center"><img id="merchantLogo" src="" alt="Store" class="w-full h-full object-contain rounded-full"></div>
+                                <span id="merchantNameDisplay" class="text-sm font-black text-slate-800 uppercase tracking-wider">Merchant</span>
+                            </div>
+                            <h3 id="ecommerceItemName" class="text-slate-700 font-bold text-sm mb-2 line-clamp-2 leading-snug">Selected Product</h3>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Dynamic Content Container for E-Commerce -->
-                <div id="ecomCompareList" class="flex flex-col">
-                    <!-- JS injects premium fancy cards here -->
+                <div class="md:w-2/3 flex flex-col justify-center">
+                    <div class="mb-3 text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-tags text-violet-500"></i> Top Available Offers</div>
+                    <div role="button" tabindex="0" onkeydown="handleCouponKeypress(event, 'mainCoupon')" onclick="copyAndRedirect('mainCoupon')" class="relative bg-gradient-to-br from-violet-50 to-indigo-50 border-2 border-violet-200 border-dashed rounded-2xl p-5 mb-4 flex justify-between items-center group hover:bg-violet-100 hover:border-violet-400 transition-all cursor-pointer overflow-hidden shadow-sm hover:shadow-md">
+                        <div class="absolute -right-6 -top-6 w-24 h-24 bg-violet-200 rounded-full blur-xl opacity-40 group-hover:bg-violet-300 transition-colors"></div>
+                        <div class="relative z-10">
+                            <span id="mainCoupon" class="text-3xl font-mono font-black text-violet-700 tracking-widest drop-shadow-sm">CODE</span>
+                            <p id="minSpendText" class="text-xs text-violet-600 mt-1 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle-info text-[10px]"></i> Loading conditions...</p>
+                        </div>
+                        <div class="relative z-10 bg-white border border-violet-200 text-violet-600 group-hover:bg-violet-600 group-hover:text-white font-bold py-2.5 px-5 rounded-xl shadow-sm transition-all text-sm flex items-center gap-2 pointer-events-none"><i class="fa-regular fa-copy"></i> Copy</div>
+                    </div>
+
+                    <div role="button" tabindex="0" onkeydown="handleCouponKeypress(event, 'subCoupon1')" onclick="copyAndRedirect('subCoupon1')" class="flex justify-between items-center p-3.5 mb-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all cursor-pointer shadow-sm group">
+                        <div class="flex items-center gap-3 pointer-events-none">
+                            <div class="bg-green-100 text-green-700 font-bold px-2.5 py-1 rounded-md text-[10px] border border-green-200 tracking-wider uppercase">Free Ship</div>
+                            <span id="subCoupon1" class="font-mono font-bold text-slate-700 text-lg group-hover:text-indigo-700 transition-colors">CODE2</span>
+                        </div>
+                        <div class="text-slate-400 group-hover:text-indigo-600 font-semibold text-xs flex items-center gap-1.5 pointer-events-none transition-colors">Copy <i class="fa-solid fa-arrow-right text-[10px]"></i></div>
+                    </div>
+
+                    <button onclick="triggerRedirect('ecommerce')" class="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-black hover:to-slate-900 text-white font-bold py-4 rounded-xl shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_25px_rgb(0,0,0,0.2)] transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg border border-slate-700">
+                        Apply Code at Checkout <i class="fa-solid fa-arrow-up-right-from-square text-sm opacity-70"></i>
+                    </button>
+                    
+                    <div class="mt-6 border border-slate-200 rounded-xl bg-slate-50 overflow-hidden">
+                        <button onclick="toggleAccordion('ecomCompareAccordion')" class="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors group">
+                            <div class="text-left">
+                                <div class="text-sm font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-slate-400 group-hover:text-blue-500 transition-colors"></i> Check other stores</div>
+                                <div class="text-[11px] text-slate-500 font-medium mt-0.5">Ensure you're getting the best base price</div>
+                            </div>
+                            <i id="ecomCompareIcon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                        </button>
+                        <div id="ecomCompareAccordion" class="accordion-content bg-white">
+                            <div id="ecomCompareList" class="flex flex-col border-t border-slate-100"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <button onclick="resetSearch()" class="w-full mt-8 text-slate-500 hover:text-blue-600 font-bold text-sm transition-colors flex justify-center items-center gap-2">
-                <i class="fa-solid fa-rotate-right"></i> Search Another Product
-            </button>
         </div>
 
         <div id="noCouponCard" class="hidden max-w-4xl mx-auto mt-12 transform transition-all">
             <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 md:p-8 relative overflow-hidden">
-                <!-- Header -->
                 <div class="flex justify-between items-end mb-8">
                     <div>
                         <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wide">
@@ -182,11 +287,7 @@
                         <p class="text-slate-500 text-sm mt-1">We compared top OTAs to guarantee your savings.</p>
                     </div>
                 </div>
-
-                <!-- Dynamic Content Container for Travel -->
-                <div id="googleTravelList" class="flex flex-col">
-                    <!-- JS injects premium fancy cards here -->
-                </div>
+                <div id="googleTravelList" class="flex flex-col"></div>
             </div>
             
             <button onclick="resetSearch()" class="w-full mt-8 text-slate-500 hover:text-blue-600 font-bold text-sm transition-colors flex justify-center items-center gap-2">
@@ -323,12 +424,65 @@
         </div>
     </div>
 
+    <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
     <script>
+        let currentMode = 'shopping';
         let currentCurrencySymbol = '$';
         let redirectUrl = ''; 
         let isTravelLink = false;
+
+        // Auto-set Date Pickers to Today and Tomorrow
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('checkInDate').value = today.toISOString().split('T')[0];
+            document.getElementById('checkOutDate').value = tomorrow.toISOString().split('T')[0];
+        });
+
+        function switchMode(mode) {
+            currentMode = mode;
+            const tabShopping = document.getElementById('tabShopping');
+            const tabTravel = document.getElementById('tabTravel');
+            const tabShipping = document.getElementById('tabShipping');
+            const inputIcon = document.getElementById('inputIcon');
+            const productLink = document.getElementById('productLink');
+            const datePickers = document.getElementById('datePickers');
+            const shippingPicker = document.getElementById('shippingPicker');
+            const btnText = document.getElementById('btnText');
+
+            const inactiveClass = "bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm";
+            const activeClass = "bg-blue-600 text-white border border-blue-600 font-bold py-2.5 px-6 rounded-full shadow-md transition-all flex items-center gap-2 text-sm";
+            
+            tabShopping.className = inactiveClass;
+            tabTravel.className = inactiveClass;
+            tabShipping.className = inactiveClass;
+
+            datePickers.classList.remove('date-picker-visible');
+            shippingPicker.classList.remove('date-picker-visible');
+
+            if (mode === 'shopping') {
+                tabShopping.className = activeClass;
+                inputIcon.className = "fa-solid fa-link text-blue-500 mr-3 text-lg";
+                productLink.placeholder = "Paste link from Shopee, Lazada, Amazon...";
+                btnText.innerText = "Run Search";
+            } else if (mode === 'travel') {
+                tabTravel.className = activeClass;
+                inputIcon.className = "fa-solid fa-plane-departure text-blue-500 mr-3 text-lg";
+                productLink.placeholder = "Paste Agoda, Booking.com, or Expedia link...";
+                btnText.innerText = "Run Search";
+                datePickers.classList.add('date-picker-visible');
+            } else if (mode === 'shipping') {
+                tabShipping.className = activeClass;
+                inputIcon.className = "fa-solid fa-box-open text-blue-500 mr-3 text-lg";
+                productLink.placeholder = "Paste AliExpress, Taobao, or US Store link...";
+                btnText.innerText = "Compare Rates";
+                shippingPicker.classList.add('date-picker-visible');
+            }
+        }
 
         function extractSearchTerm(url) {
             try {
@@ -390,15 +544,15 @@
             }
             indicator.classList.remove('hidden'); indicator.classList.add('flex'); clearBtn.classList.remove('hidden');
             
+            // Travel link detection is handled globally now via the active Tab, but we can fall back to regex if needed.
             const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip.com', 'expedia'];
-            isTravelLink = travelDomains.some(domain => input.includes(domain));
+            isTravelLink = travelDomains.some(domain => input.includes(domain)) || currentMode === 'travel';
 
             if (input.includes('.co.th') || input.includes('.th') || input.includes('thailand')) { flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿'; } 
             else if (input.includes('.sg') || input.includes('singapore')) { flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$'; } 
             else if (input.includes('.com.my') || input.includes('.my') || input.includes('malaysia')) { flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM'; } 
             else if (input.includes('.ph') || input.includes('philippines')) { flag.innerText = '🇵🇭'; currencyTxt.innerText = 'PHP'; currentCurrencySymbol = '₱'; } 
             else if (input.includes('.kh') || input.includes('cambodia') || input.includes('khr')) { flag.innerText = '🇰🇭'; currencyTxt.innerText = 'KHR'; currentCurrencySymbol = 'KHR'; } 
-            else if (input.includes('amazon.com') || input.includes('walmart.com') || input.includes('target.com') || input.includes('bestbuy.com')) { flag.innerText = '🇺🇸'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$'; }
             else { flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$'; }
         }
 
@@ -444,7 +598,6 @@
                             <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest shadow-sm z-10">
                                 🏆 Best Value
                             </div>
-                            
                             <div class="bg-white/80 backdrop-blur-sm rounded-[22px] p-5 relative z-0">
                                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
                                     <div class="flex items-center gap-4">
@@ -458,7 +611,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
                                     <div class="flex items-center md:items-end flex-row md:flex-col justify-between md:justify-center w-full md:w-auto">
                                         <div class="flex flex-col items-start md:items-end">
                                             <span class="text-xs text-slate-400 line-through font-medium mb-[-4px]">${strikePrice}</span>
@@ -469,20 +621,13 @@
                                         </button>
                                     </div>
                                 </div>
-                                
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-blue-100/50">
                                     <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-bold text-slate-800">Deluxe Double Room</span>
-                                            <span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 1 double bed</span>
-                                        </div>
+                                        <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Deluxe Double Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 1 double bed</span></div>
                                         <span class="font-bold text-slate-900">${room1Price}</span>
                                     </div>
                                     <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-bold text-slate-800">Standard Twin Room</span>
-                                            <span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 2 single beds</span>
-                                        </div>
+                                        <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Standard Twin Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 2 single beds</span></div>
                                         <span class="font-bold text-slate-900">${room2Price}</span>
                                     </div>
                                 </div>
@@ -511,17 +656,21 @@
             });
         }
 
-        function populateFakeEcommerceData(merchantName, metaTitle = null, metaImage = null, coupons = []) {
+        function populateFakeEcommerceData(merchantName, metaTitle = null, metaImage = null) {
             const lowerMerchant = merchantName.toLowerCase();
+            document.getElementById('merchantNameDisplay').innerText = merchantName;
             
             const extractedData = extractSearchTerm(redirectUrl);
             const extractedTerm = extractedData.query;
             
-            const itemNameEl = document.getElementById('ecommerceItemName');
-            if (itemNameEl) itemNameEl.innerText = metaTitle ? metaTitle : (extractedData.display ? extractedData.display : 'Selected Product');
+            document.getElementById('ecommerceItemName').innerText = metaTitle || extractedData.display || 'Selected Product';
 
+            const imgEl = document.getElementById('ecommerceProductImg');
+            imgEl.src = metaImage || "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+            
             const compDomain = lowerMerchant.replace(/\s+/g, '') + (lowerMerchant.includes('.com') ? '' : '.com');
             const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${compDomain}`;
+            document.getElementById('merchantLogo').src = logoUrl;
 
             const listContainer = document.getElementById('ecomCompareList');
             if (!listContainer) return;
@@ -537,124 +686,40 @@
             const formatNum = (num) => Math.round(num).toLocaleString();
 
             const alternatives = [];
-            
-            // Logic for E-commerce shipping estimates and alternatives - NOW WITH GLOBAL TAOBAO & ALIBABA
-            if(lowerMerchant.includes('shopee') || lowerMerchant.includes('lazada')) {
-                const mainComp = lowerMerchant.includes('shopee') ? { name: 'Lazada', domain: 'lazada.co.th', link: `https://www.lazada.co.th/catalog/?q=${extractedTerm}` } : { name: 'Shopee', domain: 'shopee.co.th', link: `https://shopee.co.th/search?keyword=${extractedTerm}` };
-                alternatives.push({ name: mainComp.name, domain: mainComp.domain, price: baseUSD * 1.05, link: mainComp.link, shipping: 0, days: '2-3' });
-                alternatives.push({ name: 'Taobao', domain: 'taobao.com', price: baseUSD * 0.45, link: `https://s.taobao.com/search?q=${extractedTerm}`, shipping: 2.50, days: '7-14' });
-                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.65, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 1.50, days: '10-15' });
-            } else if (lowerMerchant.includes('walmart') || lowerMerchant.includes('amazon') || lowerMerchant.includes('target')) {
-                const mainComp = lowerMerchant.includes('amazon') ? 'Walmart' : 'Amazon';
-                const compDomain = mainComp.toLowerCase() + '.com';
-                alternatives.push({ name: mainComp, domain: compDomain, price: baseUSD * 1.02, link: `https://www.${compDomain}/search?q=${extractedTerm}`, shipping: 0, days: '1-2' });
-                alternatives.push({ name: 'Alibaba', domain: 'alibaba.com', price: baseUSD * 0.35, link: `https://www.alibaba.com/trade/search?SearchText=${extractedTerm}`, shipping: 15.00, days: '15-25' });
-                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.55, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}`, shipping: 2.99, days: '12-20' });
-            } else if (lowerMerchant.includes('aliexpress') || lowerMerchant.includes('alibaba') || lowerMerchant.includes('taobao')) {
-                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 2.2, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 0, days: '1-2' });
-                alternatives.push({ name: 'Walmart', domain: 'walmart.com', price: baseUSD * 2.1, link: `https://www.walmart.com/search?q=${extractedTerm}`, shipping: 0, days: '2-3' });
+            if(lowerMerchant.includes('shopee')) {
+                alternatives.push({ name: 'Lazada', domain: 'lazada.co.th', price: baseUSD * 1.05, link: `https://www.lazada.co.th/catalog/?q=${extractedTerm}` });
+                alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.92, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}` });
+            } else if (lowerMerchant.includes('lazada')) {
+                alternatives.push({ name: 'Shopee', domain: 'shopee.co.th', price: baseUSD * 0.98, link: `https://shopee.co.th/search?keyword=${extractedTerm}` });
+                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.15, link: `https://www.amazon.com/s?k=${extractedTerm}` });
             } else {
-                // Global Default Fallback
-                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.10, link: `https://www.amazon.com/s?k=${extractedTerm}`, shipping: 5.00, days: '3-7' });
-                alternatives.push({ name: 'Taobao', domain: 'taobao.com', price: baseUSD * 0.45, link: `https://s.taobao.com/search?q=${extractedTerm}`, shipping: 4.50, days: '7-14' });
-                alternatives.push({ name: 'Alibaba', domain: 'alibaba.com', price: baseUSD * 0.35, link: `https://www.alibaba.com/trade/search?SearchText=${extractedTerm}`, shipping: 18.00, days: '15-25' });
+                alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.05, link: `https://www.amazon.com/s?k=${extractedTerm}` });
+                alternatives.push({ name: 'eBay', domain: 'ebay.com', price: baseUSD * 0.95, link: `https://www.ebay.com/sch/i.html?_nkw=${extractedTerm}` });
             }
 
             const currencyPrefix = currentCurrencySymbol === '$' ? '$' : `${currentCurrencySymbol} `;
 
-            if (!coupons || coupons.length === 0) {
-                coupons = [
-                    { code: merchantName.toUpperCase() + "20", description: "20% Off Code" },
-                    { code: "FREESHIP", description: "Standard Delivery" }
-                ];
-            } else if (coupons.length === 1) {
-                coupons.push({ code: "FREESHIP", description: "Standard Delivery" });
-            }
-
-            const mainPrice = baseUSD;
-            const strikePrice = baseUSD * 1.25;
-            const mainAffiliateLink = `https://invl.me/aff_m?url=${encodeURIComponent(redirectUrl)}`;
-            const fallbackLogo = `https://ui-avatars.com/api/?name=${merchantName}&background=eff6ff&color=2563eb&bold=true`;
-
-            // Main "Best Value" Card rendered just like the Travel Card
-            listContainer.innerHTML += `
-                <div class="bg-gradient-to-br from-blue-50 to-indigo-50/50 border border-blue-100 rounded-3xl p-1 relative overflow-hidden deal-card-hover cursor-pointer mb-6 shadow-sm hover:shadow-md transition-all">
-                    <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest shadow-sm z-10">
-                        🏆 Best Value
-                    </div>
-                    
-                    <div class="bg-white/80 backdrop-blur-sm rounded-[22px] p-5 relative z-0">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5" onclick="window.open('${mainAffiliateLink}', '_blank')">
-                            <div class="flex items-center gap-4">
-                                <div class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-2.5 shrink-0">
-                                    <img src="${logoUrl}" onerror="this.src='${fallbackLogo}'" class="w-full h-full object-contain">
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold text-slate-900">${merchantName}</h4>
-                                    <div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
-                                        <i class="fa-solid fa-check-circle text-green-500"></i> Official Store
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center md:items-end flex-row md:flex-col justify-between md:justify-center w-full md:w-auto">
-                                <div class="flex flex-col items-start md:items-end">
-                                    <span class="text-xs text-slate-400 line-through font-medium mb-[-4px]">${currencyPrefix}${formatNum(strikePrice * multi)}</span>
-                                    <span class="text-3xl font-black text-blue-700 tracking-tight">${currencyPrefix}${formatNum(mainPrice * multi)}</span>
-                                </div>
-                                <button class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg shadow-blue-200 transition-all md:mt-2 shrink-0">
-                                    Lock in Deal
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-blue-100/50">
-                            <div onclick="navigator.clipboard.writeText('${coupons[0].code}'); showToast('Coupon copied!');" class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors group cursor-pointer">
-                                <div class="flex flex-col">
-                                    <span class="text-sm font-bold text-slate-800">Available Promo</span>
-                                    <span class="text-xs text-slate-500"><i class="fa-solid fa-tag text-slate-300 mr-1"></i> ${coupons[0].description}</span>
-                                </div>
-                                <span class="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-colors flex items-center gap-2">${coupons[0].code} <i class="fa-regular fa-copy text-[10px]"></i></span>
-                            </div>
-                            <div onclick="navigator.clipboard.writeText('${coupons[1].code}'); showToast('Code copied!');" class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors group cursor-pointer">
-                                <div class="flex flex-col">
-                                    <span class="text-sm font-bold text-slate-800">Secondary Offer</span>
-                                    <span class="text-xs text-slate-500"><i class="fa-solid fa-truck text-slate-300 mr-1"></i> ${coupons[1].description || 'Extra Savings'}</span>
-                                </div>
-                                <span class="font-mono font-bold text-slate-700 bg-slate-50 px-2 py-1 rounded border border-slate-200 group-hover:bg-slate-700 group-hover:text-white transition-colors flex items-center gap-2">${coupons[1].code} <i class="fa-regular fa-copy text-[10px]"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Competitor alternatives with dynamic shipping costs and delivery times
             alternatives.forEach(alt => {
                 const affiliateLink = `https://invl.me/aff_m?url=${encodeURIComponent(alt.link)}`;
                 const priceStr = `${currencyPrefix}${formatNum(alt.price * multi)}`;
-                
-                const shippingCostNum = alt.shipping * multi;
-                const shippingStr = shippingCostNum === 0 ? 'Free Shipping' : `+${currencyPrefix}${formatNum(shippingCostNum)} ship`;
                 const altLogo = `https://www.google.com/s2/favicons?sz=128&domain=${alt.domain}`;
                 
                 listContainer.innerHTML += `
-                    <div onclick="window.open('${affiliateLink}', '_blank')" class="bg-white rounded-2xl p-4 border border-slate-100 flex flex-col md:flex-row items-start md:items-center justify-between hover:border-blue-300 hover:shadow-md cursor-pointer transition-all mb-3 group gap-4 md:gap-0">
-                        <div class="flex items-center gap-4 w-full md:w-auto">
-                            <div class="w-10 h-10 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center p-2 shrink-0">
-                                <img src="${altLogo}" onerror="this.src='https://ui-avatars.com/api/?name=${alt.name}&background=fff&color=8b5cf6&bold=true'" class="w-full h-full object-contain">
+                    <div onclick="window.open('${affiliateLink}', '_blank')" class="p-4 border-b border-slate-100 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded bg-white shadow-sm border border-slate-200 p-1 flex items-center justify-center">
+                                <img src="${altLogo}" onerror="this.src='https://ui-avatars.com/api/?name=${alt.name}&background=fff&color=8b5cf6&size=128&bold=true'" class="max-w-full max-h-full object-contain rounded-sm">
                             </div>
-                            <div class="flex flex-col">
-                                <span class="font-bold text-slate-800 group-hover:text-blue-700 transition-colors">${alt.name}</span>
-                                <div class="flex items-center gap-1.5 text-[11px] text-slate-500 mt-0.5">
-                                    <span><i class="fa-solid fa-truck-fast text-slate-300"></i> ${shippingStr}</span>
-                                    <span class="mx-0.5">•</span>
-                                    <span><i class="fa-regular fa-calendar text-slate-300"></i> ${alt.days} days</span>
-                                </div>
+                            <div class="flex flex-col text-left">
+                                <span class="font-bold text-slate-800 text-[15px] group-hover:text-violet-700 transition-colors">${alt.name}</span>
+                                <span class="text-[11px] text-slate-400 font-medium">Verified retailer</span>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between w-full md:w-auto gap-4 pl-14 md:pl-0">
-                            <span class="text-lg font-black text-slate-700">${priceStr}</span>
-                            <div class="text-slate-300 group-hover:text-blue-500 transition-colors"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-black text-slate-700 text-[15px] tracking-tight">${priceStr}</span>
+                            <button class="bg-white border border-slate-200 text-violet-600 group-hover:bg-violet-50 group-hover:border-violet-300 font-bold text-[12px] px-3 py-1.5 rounded-lg transition-colors shadow-sm">
+                                View
+                            </button>
                         </div>
                     </div>
                 `;
@@ -674,13 +739,22 @@
             let inputUrl = document.getElementById('productLink').value.trim();
             if(!inputUrl) return;
 
+            // Route shipping requests directly to the dedicated shipping page instantly
+            if (currentMode === 'shipping') {
+                showToast("Routing to logistics engine...", true);
+                const dest = document.getElementById('homeDestination').value;
+                setTimeout(() => {
+                    window.location.href = `shipping.html?url=${encodeURIComponent(inputUrl)}&dest=${encodeURIComponent(dest)}`;
+                }, 600);
+                return;
+            }
+
             redirectUrl = inputUrl.startsWith('http') ? inputUrl : 'https://' + inputUrl;
             document.getElementById('resultsCard').classList.add('hidden');
             document.getElementById('noCouponCard').classList.add('hidden');
             
-            // Re-instated robust check for loadingState
             const loadingState = document.getElementById('loadingState');
-            if(loadingState) loadingState.classList.remove('hidden');
+            loadingState.classList.remove('hidden');
 
             document.getElementById('loadingTitle').innerText = "Analyzing link...";
             document.getElementById('step2').className = "flex items-center gap-3 text-slate-400 transition-all";
@@ -689,7 +763,7 @@
             document.getElementById('step3').innerHTML = '<i class="fa-regular fa-circle"></i> Verifying partner rates';
 
             const coldStartWarning = setTimeout(() => {
-                if (loadingState && !loadingState.classList.contains('hidden')) {
+                if (!loadingState.classList.contains('hidden')) {
                     document.getElementById('loadingSubtitle').innerText = 'Checking verified merchant networks...';
                 }
             }, 3000);
@@ -707,18 +781,18 @@
                 
                 if (data.error) {
                     showToast("Unsupported URL format.");
-                    if(loadingState) loadingState.classList.add('hidden');
+                    loadingState.classList.add('hidden');
                     return;
                 }
 
                 document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
                 document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Extracted from Datafeed';
 
-                if (data.type === "travel") {
+                if (data.type === "travel" || currentMode === 'travel') {
                     renderRealTravelData(data);
                     if(data.cashback) { showToast(`<i class="fa-solid fa-coins text-yellow-400 mr-1"></i> ${data.cashback} unlocked!`); }
                     setTimeout(() => {
-                        if(loadingState) loadingState.classList.add('hidden');
+                        loadingState.classList.add('hidden');
                         document.getElementById('noCouponCard').classList.remove('hidden');
                         document.getElementById('noCouponCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 800);
@@ -726,15 +800,16 @@
                     const merchantName = data.merchant || "Partner Store";
                     redirectUrl = data.affiliateUrl || redirectUrl; 
                     
-                    let passCoupons = [];
                     if(data.coupons && data.coupons.length > 0) {
-                        passCoupons = data.coupons;
+                        document.getElementById('mainCoupon').innerText = data.coupons[0].code;
+                        document.getElementById('minSpendText').innerText = data.coupons[0].minSpend;
+                        if(data.coupons[1]) document.getElementById('subCoupon1').innerText = data.coupons[1].code;
                     }
                     
-                    populateFakeEcommerceData(merchantName, data.metaTitle, data.metaImage, passCoupons);
+                    populateFakeEcommerceData(merchantName, data.metaTitle, data.metaImage);
                     if(data.cashback) { showToast(`<i class="fa-solid fa-coins text-yellow-400 mr-1"></i> ${data.cashback} unlocked!`); }
                     setTimeout(() => {
-                        if(loadingState) loadingState.classList.add('hidden');
+                        loadingState.classList.add('hidden');
                         document.getElementById('resultsCard').classList.remove('hidden');
                         document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 800);
@@ -742,22 +817,19 @@
             } catch (error) {
                 clearTimeout(coldStartWarning);
                 
-                const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip.com', 'expedia'];
-                if (travelDomains.some(domain => redirectUrl.toLowerCase().includes(domain))) {
+                if (isTravelLink || currentMode === 'travel') {
                     renderRealTravelData({ comparablePrices: [] }); 
                     setTimeout(() => {
-                        if(loadingState) loadingState.classList.add('hidden');
+                        loadingState.classList.add('hidden');
                         document.getElementById('noCouponCard').classList.remove('hidden');
                         document.getElementById('noCouponCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 1000);
                 } else {
-                    let fallbackCoupons = [
-                        { code: "SAVE20NOW", description: `Min. spend ${currentCurrencySymbol}50` },
-                        { code: "FREESHIP", description: "Standard Delivery" }
-                    ];
-                    populateFakeEcommerceData("Partner Store", null, null, fallbackCoupons);
+                    document.getElementById('mainCoupon').innerText = "SAVE20NOW";
+                    document.getElementById('minSpendText').innerText = `Min. spend ${currentCurrencySymbol}50`;
+                    populateFakeEcommerceData("Partner Store");
                     setTimeout(() => {
-                        if(loadingState) loadingState.classList.add('hidden');
+                        loadingState.classList.add('hidden');
                         document.getElementById('resultsCard').classList.remove('hidden');
                         document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 1000);
