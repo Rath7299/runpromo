@@ -147,6 +147,7 @@
         let isTravelLink = false;
         let hasDatesInUrl = false;
 
+        // Function to toggle between Shopping and Travel mode UI
         function switchMode(mode) {
             currentMode = mode;
             const tabShopping = document.getElementById('tabShopping');
@@ -175,12 +176,14 @@
             }
         }
 
+        // Helper function to clear input
         function clearInput() {
             document.getElementById('productLink').value = '';
             detectRegion(); 
             document.getElementById('productLink').focus();
         }
 
+        // Helper function to start a new search
         function resetSearch() {
             clearInput();
             document.getElementById('unifiedResultsCard').classList.add('hidden');
@@ -203,9 +206,11 @@
             }
             indicator.classList.remove('hidden'); indicator.classList.add('flex'); clearBtn.classList.remove('hidden');
             
+            // Auto-detect if it's a travel link
             const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip', 'expedia', 'hotel', 'flight'];
             isTravelLink = travelDomains.some(domain => input.includes(domain)) || currentMode === 'travel';
 
+            // Smart Date Detection Logic
             if (isTravelLink) {
                 const dateRegex = /\b(202\d-\d{2}-\d{2}|\d{2}-\d{2}-202\d|checkin|checkout|dep|arr)\b/i;
                 hasDatesInUrl = dateRegex.test(input);
@@ -218,6 +223,7 @@
                 }
             }
 
+            // Flag and Currency Logic
             if (input.includes('.th')) { flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿'; } 
             else if (input.includes('.sg')) { flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$'; } 
             else if (input.includes('.my')) { flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM'; } 
@@ -239,13 +245,16 @@
             listContainer.innerHTML = ''; 
 
             sorted.forEach((comp, index) => {
+                // Formatting domain for favicons
                 const compDomain = comp.ota.toLowerCase().replace(/\s+/g, '') + (comp.ota.toLowerCase().includes('.com') ? '' : '.com');
                 const priceText = `${currentCurrencySymbol}${formatNum(comp.priceUSD * multi)}`;
                 const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${compDomain}`;
 
-                // Route through our custom deep-link redirector
+                // CRITICAL FIX: The Smart Affiliate Deep Link Flow. 
+                // This routes to your exact backend endpoint for guaranteed tracking and date safety.
                 let finalLink = `https://runpromo-backend.vercel.app/api/redirect?ota=${encodeURIComponent(comp.ota)}&query=${encodeURIComponent(data.metaTitle)}&checkin=${checkInVal}&checkout=${checkOutVal}`;
                 
+                // Smart UI Text based on AI type
                 let mainCTA = data.type === 'travel' ? 'Check Live Rate' : 'Lock in Deal';
                 let subCTA = data.type === 'travel' ? 'Check Dates' : 'View Deal';
 
@@ -308,6 +317,7 @@
             document.getElementById('loadingState').classList.remove('hidden');
 
             try {
+                // Ensure this matches your Vercel deployment URL
                 const response = await fetch('https://runpromo-backend.vercel.app/api/optimize-link', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -321,9 +331,9 @@
                 document.getElementById('unifiedResultsCard').classList.remove('hidden');
 
             } catch (error) {
-                console.log("Error contacting backend.");
+                console.log("Error contacting backend.", error);
                 document.getElementById('loadingTitle').innerText = "Oops, something went wrong.";
-                document.getElementById('loadingSubtitle').innerText = "Please try again later.";
+                document.getElementById('loadingSubtitle').innerText = "Please check your backend connection.";
             }
         }
     </script>
