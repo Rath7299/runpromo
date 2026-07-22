@@ -3,17 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RunPromo | Smart Coupon Finder</title>
-    
-    <!-- TRAVELPAYOUTS DRIVE SCRIPT -->
-    <script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1">
-      (function () {
-          var script = document.createElement("script");
-          script.async = 1;
-          script.src = 'https://emrldtp.cc/NTUxMDcw.js?t=551070';
-          document.head.appendChild(script);
-      })();
-    </script>
+    <title>RunPromo | AI Smart Coupon Finder</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -21,48 +11,15 @@
     
     <style>
         body { font-family: 'Inter', sans-serif; }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
-        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
         .animate-float { animation: float 4s ease-in-out infinite; }
-        
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .date-picker-transition {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 0;
-            border-color: transparent;
-        }
-        
-        .date-picker-visible {
-            max-height: 250px;
-            opacity: 1;
-            margin-top: 1rem;
-            border-color: #f1f5f9;
-        }
-
-        @keyframes slideInUp {
-            from { transform: translateY(100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .date-picker-transition { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); margin-top: 0; border-color: transparent; }
+        .date-picker-visible { max-height: 250px; opacity: 1; margin-top: 1rem; border-color: #f1f5f9; }
+        @keyframes slideInUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .toast-enter { animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        
         .deal-card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .deal-card-hover:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            border-color: #93c5fd;
-        }
+        .deal-card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); border-color: #93c5fd; }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col">
@@ -89,9 +46,8 @@
 
     <main id="searchArea" class="flex-grow max-w-6xl mx-auto px-4 py-16 md:py-20 w-full">
         <div class="max-w-3xl mx-auto text-center mb-10">
-            <!-- Animated Banner -->
             <div class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 font-semibold px-5 py-2 rounded-full text-sm mb-8 border border-indigo-100 animate-float shadow-sm">
-                <i class="fa-solid fa-fire text-orange-500 fa-beat" style="--fa-animation-duration: 2s;"></i> Over $50,000 saved by users today
+                <i class="fa-solid fa-robot text-blue-500 fa-beat"></i> Powered by OpenAI
             </div>
 
             <h2 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
@@ -99,22 +55,15 @@
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">ever again.</span>
             </h2>
             
-            <p class="text-lg text-slate-500 mb-10">Paste any product, flight, or hotel link from our network of 500+ global brands. Our proprietary deal scanner will instantly verify and unlock the best active coupons and rates for your region.</p>
-
-            <!-- THE TABS -->
             <div class="flex justify-center items-center gap-2 md:gap-3 mb-6 relative z-20 flex-wrap">
                 <button id="tabShopping" onclick="switchMode('shopping')" class="bg-blue-600 text-white border border-blue-600 font-bold py-2.5 px-6 rounded-full shadow-md transition-all flex items-center gap-2 text-sm">
                     <i class="fa-solid fa-bag-shopping"></i> E-Commerce
                 </button>
-                <button id="tabTravel" onclick="switchMode('travel')" class="bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm">
+                <button id="tabTravel" onclick="switchMode('travel')" class="bg-white text-slate-600 hover:text-blue-600 border border-slate-200 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm">
                     <i class="fa-solid fa-plane-departure"></i> Travel & Hotels
-                </button>
-                <button id="tabShipping" onclick="switchMode('shipping')" class="bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm">
-                    <i class="fa-solid fa-box-open"></i> Shipping
                 </button>
             </div>
 
-            <!-- SEARCH BOX -->
             <div class="bg-white p-3 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200 relative z-10 transition-all duration-300">
                 <div class="flex flex-col md:flex-row gap-2">
                     <div class="flex-1 flex items-center px-5 py-4 bg-slate-50 rounded-2xl border border-transparent focus-within:border-blue-300 focus-within:bg-white transition-all relative">
@@ -131,15 +80,15 @@
                             </div>
                         </div>
                     </div>
-                    <button onclick="processLink()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-2xl transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-3 text-lg whitespace-nowrap md:w-auto">
-                        <span id="btnText">Run Search</span>
-                        <i class="fa-solid fa-arrow-right"></i>
+                    <button onclick="processLink()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-2xl transition-all shadow-lg flex items-center justify-center gap-3 text-lg whitespace-nowrap md:w-auto">
+                        <span id="btnText">AI Search</span>
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
                     </button>
                 </div>
 
                 <!-- Auto Date Notice -->
                 <div id="dateNotice" class="hidden mt-3 text-xs font-bold text-green-600 bg-green-50 py-1.5 px-3 rounded-full inline-flex items-center gap-1.5 border border-green-200">
-                    <i class="fa-solid fa-check-circle"></i> Travel dates automatically detected from link
+                    <i class="fa-solid fa-check-circle"></i> Travel dates automatically detected from link!
                 </div>
 
                 <!-- Travel Date Pickers (Hidden by default) -->
@@ -159,60 +108,22 @@
                         <select id="guestCount" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full md:w-auto cursor-pointer">
                             <option value="1">1 Adult</option>
                             <option value="2" selected>2 Adults, 1 Room</option>
-                            <option value="3">3 Adults</option>
-                            <option value="4">4+ Adults, 2 Rooms</option>
+                            <option value="4">4+ Adults</option>
                         </select>
                     </div>
                 </div>
-
-                <!-- Shipping Destination (Hidden by default) -->
-                <div id="shippingPicker" class="date-picker-transition flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-slate-100 pt-3">
-                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full md:w-auto">
-                        <i class="fa-solid fa-location-dot text-indigo-500"></i> Delivery to:
-                        <select id="homeDestination" class="bg-slate-50 border border-slate-200 text-slate-700 px-4 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors cursor-pointer w-full md:w-64">
-                            <option value="Cambodia">Cambodia</option>
-                            <option value="Malaysia">Malaysia</option>
-                            <option value="Philippines">Philippines</option>
-                            <option value="Singapore">Singapore</option>
-                            <option value="Thailand">Thailand</option>
-                            <option value="United States">United States</option>
-                            <option value="Other">Other (Select on next page)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="supportedStores" class="flex flex-wrap justify-center items-center gap-6 mt-10 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-bag-shopping text-orange-500"></i> Shopee</div>
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-heart text-blue-600"></i> Lazada</div>
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane-departure text-sky-500"></i> Skyscanner</div>
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-plane text-cyan-500"></i> Agoda</div>
-                <div class="flex items-center gap-2 font-bold text-lg"><i class="fa-solid fa-suitcase text-blue-400"></i> Trip.com</div>
-                <div class="flex items-center gap-2 font-bold text-lg bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm ml-2 shadow-sm border border-blue-200">+ 500 More Brands</div>
             </div>
         </div>
 
         <div id="loadingState" class="hidden max-w-2xl mx-auto bg-white rounded-2xl shadow-xl border border-blue-100 p-8 text-center mt-12 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 bg-[length:200%_100%] animate-[gradient_2s_linear_infinite]"></div>
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-blue-600 mb-6">
-                <i class="fa-solid fa-circle-notch fa-spin text-3xl"></i>
+                <i class="fa-solid fa-robot fa-bounce text-3xl"></i>
             </div>
-            <h3 id="loadingTitle" class="text-2xl font-bold text-slate-900 mb-2">Analyzing link...</h3>
-            <p id="loadingSubtitle" class="text-sm text-slate-400 mb-4 h-5"></p>
-            <div class="mt-2 flex flex-col gap-3 text-sm text-left max-w-xs mx-auto">
-                <div id="step1" class="flex items-center gap-3 text-blue-600 font-medium transition-all">
-                    <i class="fa-solid fa-check-circle"></i> Connecting to secure deal network
-                </div>
-                <div id="step2" class="flex items-center gap-3 text-slate-400 transition-all">
-                    <i class="fa-regular fa-circle"></i> Extracting verified details
-                </div>
-                <div id="step3" class="flex items-center gap-3 text-slate-400 transition-all">
-                    <i class="fa-regular fa-circle"></i> Verifying partner rates
-                </div>
-            </div>
+            <h3 id="loadingTitle" class="text-2xl font-bold text-slate-900 mb-2">AI is analyzing your link...</h3>
+            <p id="loadingSubtitle" class="text-sm text-slate-400 mb-4 h-5">Connecting to OpenAI...</p>
         </div>
 
-        <!-- NEW UNIFIED UI -->
         <div id="unifiedResultsCard" class="hidden max-w-4xl mx-auto mt-12 transform transition-all">
             <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 md:p-8 relative overflow-hidden">
                 <div class="flex justify-between items-end mb-8">
@@ -220,149 +131,16 @@
                         <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wide">
                             <i class="fa-solid fa-shield-check"></i> Verified Optimization
                         </div>
-                        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">Best Available Rates</h3>
-                        <p class="text-slate-500 text-sm mt-1">We compared top stores to guarantee your savings.</p>
+                        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight" id="resultTitle">Best Available Rates</h3>
                     </div>
                 </div>
-                <!-- The dynamic list goes here -->
                 <div id="unifiedComparisonList" class="flex flex-col"></div>
             </div>
-            
             <button onclick="resetSearch()" class="w-full mt-8 text-slate-500 hover:text-blue-600 font-bold text-sm transition-colors flex justify-center items-center gap-2">
-                <i class="fa-solid fa-rotate-right"></i> Search Another Product
+                <i class="fa-solid fa-rotate-right"></i> Search Another Link
             </button>
         </div>
     </main>
-
-    <!-- HTML Footer and Modals exactly as they were -->
-    <section id="howItWorks" class="bg-white border-t border-b border-slate-200 py-20 px-4">
-        <div class="max-w-4xl mx-auto">
-            <h3 class="text-3xl font-black text-center text-slate-900 mb-4 tracking-tight">Simple. Intelligent. Instant.</h3>
-            <p class="text-slate-500 text-center max-w-2xl mx-auto mb-16">RunPromo connects you directly to the lowest available retail prices without advertising trackers, memberships, or spyware.</p>
-            
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="text-center">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">1</div>
-                    <h4 class="font-bold text-lg mb-2 text-slate-900">Insert Destination URL</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Paste the link of the exact item or booking you've set your sights on from our supported platforms.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">2</div>
-                    <h4 class="font-bold text-lg mb-2 text-slate-900">Run Optimization</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Our system runs real-time checks across our private verified merchant systems to secure authorized deals.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">3</div>
-                    <h4 class="font-bold text-lg mb-2 text-slate-900">Lock In Vouchers</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Copy the optimized code or follow our secure gateway link to apply the maximum discount directly.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 mt-auto">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid md:grid-cols-3 gap-8 border-b border-slate-800 pb-8 mb-8">
-                <div class="col-span-2">
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-                        <h4 class="text-white font-bold text-lg tracking-wide">RunPromo</h4>
-                    </div>
-                    <p class="text-sm leading-relaxed max-w-xl">
-                        <strong>Affiliate Disclosure:</strong> RunPromo is a reader-supported savings network. When you purchase through links on our site, we may earn an affiliate commission at no extra cost to you. We source data through authorized merchant partnerships.
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="text-white font-bold mb-4">Legal & Support</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><button onclick="openModal('modal-privacy')" class="hover:text-white transition-colors text-left w-full">Privacy Policy</button></li>
-                        <li><button onclick="openModal('modal-terms')" class="hover:text-white transition-colors text-left w-full">Terms of Service</button></li>
-                        <li><button onclick="openModal('modal-verify')" class="hover:text-white transition-colors text-left w-full">How We Verify Deals</button></li>
-                        <li><button onclick="openModal('modal-contact')" class="hover:text-white transition-colors text-left w-full">Contact Us</button></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="text-xs text-slate-500 flex flex-col md:flex-row justify-between items-center">
-                <p>&copy; 2026 RunPromo Network. All rights reserved.</p>
-                <p class="mt-2 md:mt-0">Trademarks belong to their respective owners.</p>
-            </div>
-        </div>
-    </footer>
-
-    <div id="modalBackdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300" onclick="closeAllModals()"></div>
-
-    <div id="modal-privacy" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
-        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i> Privacy Policy</h3>
-            <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
-            <p><strong>Effective Date:</strong> January 1, 2026</p>
-            <p>At RunPromo.net, accessible from our public web properties, protecting the privacy and personal datasets of our online users is our absolute priority.</p>
-            <h4 class="font-bold text-slate-800">1. Information We Collect</h4>
-            <p>We do not require user registrations, logins, names, or email inputs in order to search for valid discount routings. Our servers collect general diagnostic information including IP addresses, browser specifications, and destination domains purely to detect region layouts and optimize currency standards dynamically.</p>
-        </div>
-        <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Understood</button>
-        </div>
-    </div>
-
-    <div id="modal-terms" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
-        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-file-contract text-blue-600 mr-2"></i> Terms of Service</h3>
-            <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
-            <h4 class="font-bold text-slate-800">1. Usage Scope</h4>
-            <p>RunPromo serves as an interactive routing directory designed solely for individual shoppers looking to find applicable coupon codes. Users are strictly prohibited from automating scans of our platform via bots, commercial scrapers, or other software scripts.</p>
-            <h4 class="font-bold text-slate-800">2. Third Party Limitations</h4>
-            <p>All items belong to external e-commerce and booking sites. Any issues concerning product deliveries, payment processing failures, or catalog mistakes must be settled with the merchant directly.</p>
-        </div>
-        <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Accept Terms</button>
-        </div>
-    </div>
-
-    <div id="modal-verify" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
-        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i> How We Verify Deals</h3>
-            <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
-            <h4 class="font-bold text-slate-800">Secure Deal Optimization Routing</h4>
-            <p>Rather than using crowdsourced configurations that lead to stale or fake promotions, RunPromo operates an algorithmic routing network. When you enter a destination product page URL, our platform processes the following layers of verification:</p>
-            <ul class="list-disc pl-5 space-y-2">
-                <li><strong>Merchant Metadata Synthesis:</strong> We query digital routing pathways directly associated with verified retailer systems to confirm that codes are active and valid.</li>
-                <li><strong>Travel Meta-Search Aggregation:</strong> For hotel and flight links, we route requests through specialized meta-search hubs (aggregating OTA inventory) to perform high-speed, deep price comparisons across global databases.</li>
-            </ul>
-        </div>
-        <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Close</button>
-        </div>
-    </div>
-
-    <div id="modal-contact" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
-        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-envelope text-blue-600 mr-2"></i> Contact Us</h3>
-            <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="p-6 space-y-4 text-sm text-slate-600">
-            <p>Have inquiries regarding platform verification methods, compliance issues, or merchant partnerships? Get in touch with our team directly:</p>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <p class="font-bold text-slate-800">✉️ Platform Support Email:</p>
-                <a href="mailto:support@runpromo.net" class="text-blue-600 hover:underline text-lg font-semibold">support@runpromo.net</a>
-            </div>
-        </div>
-        <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button onclick="closeAllModals()" class="bg-slate-600 text-white font-bold py-2 px-5 rounded-xl hover:bg-slate-700 transition">Cancel</button>
-        </div>
-    </div>
-
-    <!-- Toast Notification Container -->
-    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
     <script>
         let currentMode = 'shopping';
@@ -371,79 +149,32 @@
         let isTravelLink = false;
         let hasDatesInUrl = false;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Optional: Pre-fill dates for convenience, or leave blank to force user input.
-            // We will leave them blank to enforce the logic you requested.
-        });
-
         function switchMode(mode) {
             currentMode = mode;
             const tabShopping = document.getElementById('tabShopping');
             const tabTravel = document.getElementById('tabTravel');
-            const tabShipping = document.getElementById('tabShipping');
             const inputIcon = document.getElementById('inputIcon');
             const productLink = document.getElementById('productLink');
             const datePickers = document.getElementById('datePickers');
-            const shippingPicker = document.getElementById('shippingPicker');
-            const btnText = document.getElementById('btnText');
             const dateNotice = document.getElementById('dateNotice');
 
-            const inactiveClass = "bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm";
-            const activeClass = "bg-blue-600 text-white border border-blue-600 font-bold py-2.5 px-6 rounded-full shadow-md transition-all flex items-center gap-2 text-sm";
+            tabShopping.className = "bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm";
+            tabTravel.className = "bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm";
             
-            tabShopping.className = inactiveClass;
-            tabTravel.className = inactiveClass;
-            tabShipping.className = inactiveClass;
-
             datePickers.classList.remove('date-picker-visible');
-            shippingPicker.classList.remove('date-picker-visible');
             dateNotice.classList.add('hidden');
 
             if (mode === 'shopping') {
-                tabShopping.className = activeClass;
-                inputIcon.className = "fa-solid fa-link text-blue-500 mr-3 text-lg";
+                tabShopping.className = "bg-blue-600 text-white border border-blue-600 font-bold py-2.5 px-6 rounded-full shadow-md transition-all flex items-center gap-2 text-sm";
+                inputIcon.className = "fa-solid fa-bag-shopping text-blue-500 mr-3 text-lg";
                 productLink.placeholder = "Paste link from Shopee, Lazada, Amazon...";
-                btnText.innerText = "Run Search";
             } else if (mode === 'travel') {
-                tabTravel.className = activeClass;
+                tabTravel.className = "bg-blue-600 text-white border border-blue-600 font-bold py-2.5 px-6 rounded-full shadow-md transition-all flex items-center gap-2 text-sm";
                 inputIcon.className = "fa-solid fa-plane-departure text-blue-500 mr-3 text-lg";
                 productLink.placeholder = "Paste Agoda, Booking.com, or Expedia link...";
-                btnText.innerText = "Run Search";
-                
-                if (!hasDatesInUrl) {
-                    datePickers.classList.add('date-picker-visible');
-                } else {
-                    dateNotice.classList.remove('hidden');
-                }
-            } else if (mode === 'shipping') {
-                tabShipping.className = activeClass;
-                inputIcon.className = "fa-solid fa-box-open text-blue-500 mr-3 text-lg";
-                productLink.placeholder = "Paste AliExpress, Taobao, or US Store link...";
-                btnText.innerText = "Compare Rates";
-                shippingPicker.classList.add('date-picker-visible');
+                if (!hasDatesInUrl) datePickers.classList.add('date-picker-visible');
+                else dateNotice.classList.remove('hidden');
             }
-        }
-
-        function extractSearchTerm(url) {
-            try {
-                const urlObj = new URL(url);
-                const params = new URLSearchParams(urlObj.search);
-                const searchParam = params.get('keyword') || params.get('q') || params.get('ss') || params.get('text');
-                if (searchParam) return { query: encodeURIComponent(searchParam), display: searchParam };
-
-                const pathParts = urlObj.pathname.split('/').filter(p => p.length > 0);
-                let longestPart = "";
-                const ignoreWords = ['hotel', 'hotels', 'item', 'product', 'en-gb', 'en-us', 'detail', 'details', 'list', 'search', 'flights'];
-                
-                for(let part of pathParts) {
-                    let cleanPart = part.toLowerCase();
-                    if(!ignoreWords.includes(cleanPart) && part.length > longestPart.length) { longestPart = part; }
-                }
-                let cleanName = longestPart.replace(/.html|.htm/g, '').replace(/-/g, ' ').replace(/-i\.\d+\.\d+/g, '').replace(/\d+/g, '').trim(); 
-                if (cleanName.length < 3) return { query: "", display: "" };
-                const displayName = cleanName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                return { query: encodeURIComponent(cleanName), display: displayName };
-            } catch(e) { return { query: "", display: "" }; }
         }
 
         function clearInput() {
@@ -454,11 +185,6 @@
 
         function resetSearch() {
             clearInput();
-            hasDatesInUrl = false;
-            document.getElementById('dateNotice').classList.add('hidden');
-            if (currentMode === 'travel') {
-                document.getElementById('datePickers').classList.add('date-picker-visible');
-            }
             document.getElementById('unifiedResultsCard').classList.add('hidden');
             document.getElementById('searchArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -471,7 +197,7 @@
             const currencyTxt = document.getElementById('regionCurrency');
 
             if (input.length === 0) {
-                indicator.classList.add('hidden'); indicator.classList.remove('flex'); clearBtn.classList.add('hidden'); 
+                indicator.classList.add('hidden'); clearBtn.classList.add('hidden'); 
                 hasDatesInUrl = false;
                 document.getElementById('dateNotice').classList.add('hidden');
                 if (currentMode === 'travel') document.getElementById('datePickers').classList.add('date-picker-visible');
@@ -484,316 +210,114 @@
 
             // SMART DATE SCANNER
             if (isTravelLink) {
-                const dateRegex = /\b(202\d-\d{2}-\d{2}|\d{2}-\d{2}-202\d|checkin|checkout|dep|arr|adults|rooms)\b/i;
+                const dateRegex = /\b(202\d-\d{2}-\d{2}|\d{2}-\d{2}-202\d|checkin|checkout|dep|arr)\b/i;
                 hasDatesInUrl = dateRegex.test(input);
-                const datePickers = document.getElementById('datePickers');
-                const dateNotice = document.getElementById('dateNotice');
-                
                 if (hasDatesInUrl) {
-                    datePickers.classList.remove('date-picker-visible');
-                    dateNotice.classList.remove('hidden');
+                    document.getElementById('datePickers').classList.remove('date-picker-visible');
+                    document.getElementById('dateNotice').classList.remove('hidden');
                 } else {
-                    datePickers.classList.add('date-picker-visible');
-                    dateNotice.classList.add('hidden');
+                    document.getElementById('datePickers').classList.add('date-picker-visible');
+                    document.getElementById('dateNotice').classList.add('hidden');
                 }
             }
 
-            if (input.includes('.co.th') || input.includes('.th') || input.includes('thailand')) { flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿'; } 
-            else if (input.includes('.sg') || input.includes('singapore')) { flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$'; } 
-            else if (input.includes('.com.my') || input.includes('.my') || input.includes('malaysia')) { flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM'; } 
-            else if (input.includes('.ph') || input.includes('philippines')) { flag.innerText = '🇵🇭'; currencyTxt.innerText = 'PHP'; currentCurrencySymbol = '₱'; } 
-            else if (input.includes('.kh') || input.includes('cambodia') || input.includes('khr')) { flag.innerText = '🇰🇭'; currencyTxt.innerText = 'KHR'; currentCurrencySymbol = 'KHR'; } 
+            if (input.includes('.th')) { flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿'; } 
+            else if (input.includes('.sg')) { flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$'; } 
+            else if (input.includes('.my')) { flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM'; } 
             else { flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$'; }
         }
 
-        function showToast(messageHtml, isRedirecting = false) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast-enter bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 font-medium text-sm border border-slate-700';
-            toast.innerHTML = `<i class="${isRedirecting ? 'fa-solid fa-circle-notch fa-spin text-blue-400' : 'fa-solid fa-check-circle text-green-400'} text-lg"></i><span>${messageHtml}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(10px)'; setTimeout(() => toast.remove(), 300); }, 3000); 
-        }
-
         function renderUnifiedData(data) {
-            const multipliers = { 'KHR': 4100, '฿': 35, 'S$': 1.3, 'RM': 4.7, '₱': 56, '$': 1 };
-            const multi = multipliers[currentCurrencySymbol] || 1;
+            const multi = currentCurrencySymbol === '$' ? 1 : (currentCurrencySymbol === '฿' ? 35 : 4);
             const formatNum = (num) => Math.round(num).toLocaleString();
-            const currencyPrefix = currentCurrencySymbol === '$' ? '$' : `${currentCurrencySymbol} `;
+            
+            // Get dates for travel redirect
+            const checkInVal = document.getElementById('checkInDate').value || '';
+            const checkOutVal = document.getElementById('checkOutDate').value || '';
+            
+            document.getElementById('resultTitle').innerText = data.metaTitle || "Best Available Rates";
 
             let prices = data.comparablePrices || [];
-            
-            if (!prices || prices.length === 0) {
-                const baseUSD = data.lowestPriceUSD || 32;
-                const extractedName = extractSearchTerm(redirectUrl).query || 'item';
-                
-                if (data.type === 'travel') {
-                    prices = [
-                        { ota: "Booking.com", priceUSD: Math.floor(baseUSD * 0.99), link: `https://www.booking.com/searchresults.html?ss=${extractedName}` },
-                        { ota: "Trip.com", priceUSD: Math.floor(baseUSD * 1.05), link: "https://trip.com?Allianceid=9426684&SID=325260965&trip_sub1=&trip_sub3=D18815533" },
-                        { ota: "Agoda", priceUSD: Math.floor(basePrice * 1.01), link: `https://www.agoda.com/search?text=${cleanQuery}` }
-                    ];
-                } else {
-                    prices = [
-                        { ota: "Shopee", priceUSD: baseUSD, link: `https://shopee.com/search?keyword=${extractedName}` },
-                        { ota: "Amazon", priceUSD: Math.floor(baseUSD * 1.15), link: `https://www.amazon.com/s?k=${extractedName}` }
-                    ];
-                }
-            }
-
             const sorted = prices.sort((a,b) => a.priceUSD - b.priceUSD);
             const listContainer = document.getElementById('unifiedComparisonList');
             listContainer.innerHTML = ''; 
 
-            const isFlight = (redirectUrl.toLowerCase().includes('flight') || redirectUrl.toLowerCase().includes('skyscanner') || redirectUrl.toLowerCase().includes('aviasales'));
-
             sorted.forEach((comp, index) => {
                 const compDomain = comp.ota.toLowerCase().replace(/\s+/g, '') + (comp.ota.toLowerCase().includes('.com') ? '' : '.com');
-                const priceText = `${currencyPrefix}${formatNum(comp.priceUSD * multi)}`;
+                const priceText = `${currentCurrencySymbol}${formatNum(comp.priceUSD * multi)}`;
                 const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${compDomain}`;
-                const fallbackLogo = `https://ui-avatars.com/api/?name=${comp.ota}&background=eff6ff&color=2563eb&bold=true`;
 
-                // Main CTA logic mapped properly for Travel vs E-commerce
+                // ROUTE DIRECTLY TO YOUR BACKEND REDIRECTOR (Step 6 -> Step 7)
+                let finalLink = `https://runpromo-backend.vercel.app/api/redirect?ota=${encodeURIComponent(comp.ota)}&query=${encodeURIComponent(data.metaTitle)}&checkin=${checkInVal}&checkout=${checkOutVal}`;
+                
                 let mainCTA = data.type === 'travel' ? 'Check Live Rate' : 'Lock in Deal';
                 let subCTA = data.type === 'travel' ? 'Check Dates' : 'View Deal';
 
                 if (index === 0) {
-                    const strikePrice = `${currencyPrefix}${formatNum((comp.priceUSD * 1.35) * multi)}`;
-                    
-                    let bottomGridHtml = "";
-                    if (data.type === 'travel') {
-                        if (isFlight) {
-                            bottomGridHtml = `
-                                <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
-                                    <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Economy Standard</span><span class="text-xs text-slate-500"><i class="fa-solid fa-suitcase-rolling text-slate-300 mr-1"></i> Cabin bag included</span></div>
-                                    <span class="font-bold text-slate-900">${priceText}</span>
-                                </div>
-                            `;
-                        } else {
-                            const room1Price = `${currencyPrefix}${formatNum((comp.priceUSD) * multi)}`;
-                            const room2Price = `${currencyPrefix}${formatNum((comp.priceUSD * 1.15) * multi)}`;
-                            bottomGridHtml = `
-                                <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
-                                    <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Standard Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 1 Double / 2 Twin</span></div>
-                                    <span class="font-bold text-slate-900">${room1Price}</span>
-                                </div>
-                                <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
-                                    <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Premium Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-mug-hot text-slate-300 mr-1"></i> Breakfast Included</span></div>
-                                    <span class="font-bold text-slate-900">${room2Price}</span>
-                                </div>
-                            `;
-                        }
-                    } else {
-                        const mainCode = (data.coupons && data.coupons[0]) ? data.coupons[0].code : "SAVE20";
-                        const subCode = (data.coupons && data.coupons[1]) ? data.coupons[1].code : "FREESHIP";
-                        bottomGridHtml = `
-                            <div onclick="copyAndRedirect('${mainCode}')" class="bg-violet-50 rounded-xl p-3 border border-violet-200 flex items-center justify-between hover:bg-violet-100 hover:border-violet-300 cursor-pointer transition-colors group">
-                                <div class="flex flex-col"><span class="text-sm font-black text-violet-700 tracking-wider">${mainCode}</span><span class="text-[10px] text-violet-500 uppercase font-bold">20% Off Minimum Spend</span></div>
-                                <div class="bg-white text-violet-600 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm group-hover:bg-violet-600 group-hover:text-white transition-all">Copy</div>
-                            </div>
-                            <div onclick="copyAndRedirect('${subCode}')" class="bg-emerald-50 rounded-xl p-3 border border-emerald-200 flex items-center justify-between hover:bg-emerald-100 hover:border-emerald-300 cursor-pointer transition-colors group">
-                                <div class="flex flex-col"><span class="text-sm font-black text-emerald-700 tracking-wider">${subCode}</span><span class="text-[10px] text-emerald-500 uppercase font-bold">Free Delivery</span></div>
-                                <div class="bg-white text-emerald-600 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all">Copy</div>
-                            </div>
-                        `;
-                    }
-
                     listContainer.innerHTML += `
-                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50/50 border border-blue-100 rounded-3xl p-1 relative overflow-hidden deal-card-hover cursor-pointer mb-6 shadow-sm hover:shadow-md transition-all">
-                            <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest shadow-sm z-10">
-                                🏆 Best Value
-                            </div>
-                            <div class="bg-white/80 backdrop-blur-sm rounded-[22px] p-5 relative z-0">
-                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5" onclick="window.open('${comp.link}', '_blank')">
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50/50 border border-blue-100 rounded-3xl p-1 relative overflow-hidden deal-card-hover cursor-pointer mb-6 shadow-sm">
+                            <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest z-10">🏆 AI Top Pick</div>
+                            <div class="bg-white/90 backdrop-blur-sm rounded-[22px] p-5">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4" onclick="window.open('${finalLink}', '_blank')">
                                     <div class="flex items-center gap-4">
-                                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-2.5 shrink-0">
-                                            <img src="${logoUrl}" onerror="this.src='${fallbackLogo}'" class="w-full h-full object-contain">
+                                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-2.5">
+                                            <img src="${logoUrl}" class="w-full h-full object-contain">
                                         </div>
                                         <div>
                                             <h4 class="text-xl font-bold text-slate-900">${comp.ota}</h4>
-                                            <div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
-                                                <i class="fa-solid fa-check-circle text-green-500"></i> Official Partner
-                                            </div>
+                                            <div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-check-circle text-green-500"></i> Verified Partner</div>
                                         </div>
                                     </div>
-                                    <div class="flex items-center md:items-end flex-row md:flex-col justify-between md:justify-center w-full md:w-auto">
-                                        <div class="flex flex-col items-start md:items-end">
-                                            <span class="text-xs text-slate-400 line-through font-medium mb-[-4px]">${strikePrice}</span>
-                                            <span class="text-3xl font-black text-blue-700 tracking-tight">${priceText}</span>
-                                        </div>
-                                        <button class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg shadow-blue-200 transition-all md:mt-2 shrink-0">
-                                            ${mainCTA}
-                                        </button>
+                                    <div class="flex items-center md:items-end flex-row md:flex-col justify-between w-full md:w-auto">
+                                        <span class="text-3xl font-black text-blue-700">${priceText}</span>
+                                        <button class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg mt-2">${mainCTA}</button>
                                     </div>
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-blue-100/50">
-                                    ${bottomGridHtml}
                                 </div>
                             </div>
                         </div>
                     `;
                 } else {
                     listContainer.innerHTML += `
-                        <div onclick="window.open('${comp.link}', '_blank')" class="bg-white rounded-2xl p-4 border border-slate-100 flex items-center justify-between hover:border-blue-300 hover:shadow-md cursor-pointer transition-all mb-3 group">
+                        <div onclick="window.open('${finalLink}', '_blank')" class="bg-white rounded-2xl p-4 border border-slate-100 flex items-center justify-between hover:border-blue-300 hover:shadow-md cursor-pointer transition-all mb-3 group">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center p-2">
-                                    <img src="${logoUrl}" onerror="this.src='${fallbackLogo}'" class="w-full h-full object-contain">
-                                </div>
-                                <div class="flex flex-col">
-                                    <span class="font-bold text-slate-800 group-hover:text-blue-700 transition-colors">${comp.ota}</span>
-                                    <span class="text-[11px] text-slate-400 font-medium">Verified retailer</span>
-                                </div>
+                                <img src="${logoUrl}" class="w-8 h-8 object-contain">
+                                <span class="font-bold text-slate-800">${comp.ota}</span>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="text-lg font-black text-slate-700">${priceText}</span>
-                                <button class="bg-white border border-slate-200 text-slate-600 group-hover:bg-blue-50 group-hover:border-blue-300 group-hover:text-blue-600 font-bold text-[12px] px-3 py-1.5 rounded-lg transition-colors shadow-sm hidden md:block">
-                                    ${subCTA}
-                                </button>
-                                <div class="text-slate-300 group-hover:text-blue-500 transition-colors md:hidden"><i class="fa-solid fa-chevron-right"></i></div>
+                                <button class="bg-white border border-slate-200 text-slate-600 font-bold text-[12px] px-3 py-1.5 rounded-lg hidden md:block">${subCTA}</button>
                             </div>
                         </div>
                     `;
                 }
             });
-
-            // Dynamic "See More" link logic based on search type
-            let seeMoreLink = 'https://shopping.google.com';
-            let seeMoreText = 'See 15+ More Availability Options';
-            
-            if (data.type === 'travel') {
-                if (isFlight) {
-                    seeMoreLink = 'https://skyscanner.com';
-                    seeMoreText = 'Compare 20+ More Airlines';
-                } else {
-                    seeMoreLink = 'https://booking.com';
-                    seeMoreText = 'See 15+ More Hotel Options';
-                }
-            } else if (data.type === 'ecommerce') {
-                seeMoreLink = 'https://shopping.google.com';
-                seeMoreText = 'Compare Prices on Google Shopping';
-            }
-            
-            listContainer.innerHTML += `
-                <div class="mt-4 pt-4 border-t border-slate-100 flex justify-center">
-                    <button onclick="window.open('${seeMoreLink}', '_blank')" class="text-slate-500 hover:text-blue-600 font-bold text-sm bg-slate-50 hover:bg-blue-50 px-6 py-2.5 rounded-xl border border-slate-200 transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group"></i> ${seeMoreText}
-                    </button>
-                </div>
-            `;
-        }
-
-        async function copyAndRedirect(codeText) {
-            try {
-                await navigator.clipboard.writeText(codeText);
-                showToast(`Code <b>${codeText}</b> copied!`, false);
-            } catch (err) {
-                console.log("Clipboard failed");
-            }
         }
 
         async function processLink() {
             let inputUrl = document.getElementById('productLink').value.trim();
             if(!inputUrl) return;
             
-            // STRICT DATE VALIDATION
-            if ((currentMode === 'travel' || isTravelLink) && !hasDatesInUrl) {
-                const checkIn = document.getElementById('checkInDate').value;
-                const checkOut = document.getElementById('checkOutDate').value;
-                if (!checkIn || !checkOut) {
-                    showToast("Please enter your Check-in and Check-out dates.", true);
-                    document.getElementById('checkInDate').classList.add('border-red-400', 'bg-red-50');
-                    document.getElementById('checkOutDate').classList.add('border-red-400', 'bg-red-50');
-                    setTimeout(() => {
-                        document.getElementById('checkInDate').classList.remove('border-red-400', 'bg-red-50');
-                        document.getElementById('checkOutDate').classList.remove('border-red-400', 'bg-red-50');
-                    }, 3000);
-                    return;
-                }
-            }
-
-            if (currentMode === 'shipping') {
-                showToast("Routing to logistics engine...", true);
-                const dest = document.getElementById('homeDestination').value;
-                setTimeout(() => {
-                    window.location.href = `shipping.html?url=${encodeURIComponent(inputUrl)}&dest=${encodeURIComponent(dest)}`;
-                }, 600);
-                return;
-            }
-
             redirectUrl = inputUrl.startsWith('http') ? inputUrl : 'https://' + inputUrl;
             document.getElementById('unifiedResultsCard').classList.add('hidden');
-            
-            const loadingState = document.getElementById('loadingState');
-            loadingState.classList.remove('hidden');
-
-            document.getElementById('loadingTitle').innerText = "Analyzing link...";
-            document.getElementById('step2').className = "flex items-center gap-3 text-slate-400 transition-all";
-            document.getElementById('step2').innerHTML = '<i class="fa-regular fa-circle"></i> Extracting verified details';
-            document.getElementById('step3').className = "flex items-center gap-3 text-slate-400 transition-all";
-            document.getElementById('step3').innerHTML = '<i class="fa-regular fa-circle"></i> Verifying partner rates';
-
-            const coldStartWarning = setTimeout(() => {
-                if (!loadingState.classList.contains('hidden')) {
-                    document.getElementById('loadingSubtitle').innerText = 'Checking verified merchant networks...';
-                }
-            }, 3000);
+            document.getElementById('loadingState').classList.remove('hidden');
 
             try {
+                // Call your new OpenAI powered backend!
                 const response = await fetch('https://runpromo-backend.vercel.app/api/optimize-link', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ targetUrl: redirectUrl })
                 });
 
-                clearTimeout(coldStartWarning);
-                if (!response.ok) throw new Error('Backend unavailable');
                 const data = await response.json();
-                
-                if (data.error) {
-                    showToast("Unsupported URL format.");
-                    loadingState.classList.add('hidden');
-                    return;
-                }
-
-                document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
-                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Extracted from Datafeed';
-
-                redirectUrl = data.affiliateUrl || redirectUrl; 
-                
                 renderUnifiedData(data);
                 
-                if(data.cashback) { showToast(`<i class="fa-solid fa-coins text-yellow-400 mr-1"></i> ${data.cashback} unlocked!`); }
-                
-                setTimeout(() => {
-                    loadingState.classList.add('hidden');
-                    document.getElementById('unifiedResultsCard').classList.remove('hidden');
-                    document.getElementById('unifiedResultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 800);
+                document.getElementById('loadingState').classList.add('hidden');
+                document.getElementById('unifiedResultsCard').classList.remove('hidden');
 
             } catch (error) {
-                clearTimeout(coldStartWarning);
-                renderUnifiedData({ type: (isTravelLink || currentMode === 'travel') ? 'travel' : 'ecommerce' }); 
-                setTimeout(() => {
-                    loadingState.classList.add('hidden');
-                    document.getElementById('unifiedResultsCard').classList.remove('hidden');
-                    document.getElementById('unifiedResultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 1000);
+                console.log("Error contacting backend.");
             }
-        }
-        
-        function openModal(modalId) {
-            const backdrop = document.getElementById('modalBackdrop');
-            const modal = document.getElementById(modalId);
-            backdrop.classList.remove('hidden'); modal.classList.remove('hidden');
-            setTimeout(() => { backdrop.classList.remove('opacity-0'); modal.classList.remove('opacity-0', 'scale-95'); modal.classList.add('opacity-100', 'scale-100'); }, 10);
-        }
-
-        function closeAllModals() {
-            const backdrop = document.getElementById('modalBackdrop');
-            const modals = document.querySelectorAll('div[id^="modal-"]');
-            backdrop.classList.add('opacity-0');
-            modals.forEach(modal => { modal.classList.remove('opacity-100', 'scale-100'); modal.classList.add('opacity-0', 'scale-95'); });
-            setTimeout(() => { backdrop.classList.add('hidden'); modals.forEach(modal => modal.classList.add('hidden')); }, 300);
         }
     </script>
 </body>
