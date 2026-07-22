@@ -45,7 +45,7 @@
         }
         
         .date-picker-visible {
-            max-height: 150px;
+            max-height: 250px;
             opacity: 1;
             margin-top: 1rem;
             border-color: #f1f5f9;
@@ -137,16 +137,31 @@
                     </button>
                 </div>
 
+                <!-- Auto Date Notice -->
+                <div id="dateNotice" class="hidden mt-3 text-xs font-bold text-green-600 bg-green-50 py-1.5 px-3 rounded-full inline-flex items-center gap-1.5 border border-green-200">
+                    <i class="fa-solid fa-check-circle"></i> Travel dates automatically detected from link
+                </div>
+
                 <!-- Travel Date Pickers (Hidden by default) -->
-                <div id="datePickers" class="date-picker-transition flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-slate-100 pt-3">
-                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full sm:w-auto">
-                        <i class="fa-regular fa-calendar-check text-indigo-500"></i> Check-in:
-                        <input type="date" id="checkInDate" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full sm:w-auto cursor-pointer">
+                <div id="datePickers" class="date-picker-transition flex flex-col md:flex-row items-center justify-center gap-3 border-t border-slate-100 pt-4">
+                    <div class="flex items-center gap-2 text-sm font-bold text-slate-600 w-full md:w-auto">
+                        <i class="fa-regular fa-calendar-check text-indigo-500 w-4"></i>
+                        <input type="date" id="checkInDate" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full md:w-auto cursor-pointer" placeholder="Check-in">
                     </div>
-                    <div class="hidden sm:block text-slate-300"><i class="fa-solid fa-arrow-right"></i></div>
-                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full sm:w-auto">
-                        <i class="fa-regular fa-calendar-xmark text-indigo-500"></i> Check-out:
-                        <input type="date" id="checkOutDate" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full sm:w-auto cursor-pointer">
+                    <div class="hidden md:block text-slate-300"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="flex items-center gap-2 text-sm font-bold text-slate-600 w-full md:w-auto">
+                        <i class="fa-regular fa-calendar-xmark text-indigo-500 w-4"></i>
+                        <input type="date" id="checkOutDate" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full md:w-auto cursor-pointer" placeholder="Check-out">
+                    </div>
+                    <div class="hidden md:block w-px h-6 bg-slate-200 mx-2"></div>
+                    <div class="flex items-center gap-2 text-sm font-bold text-slate-600 w-full md:w-auto">
+                        <i class="fa-solid fa-user-group text-indigo-500 w-4"></i>
+                        <select id="guestCount" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full md:w-auto cursor-pointer">
+                            <option value="1">1 Adult</option>
+                            <option value="2" selected>2 Adults, 1 Room</option>
+                            <option value="3">3 Adults</option>
+                            <option value="4">4+ Adults, 2 Rooms</option>
+                        </select>
                     </div>
                 </div>
 
@@ -354,14 +369,11 @@
         let currentCurrencySymbol = '$';
         let redirectUrl = ''; 
         let isTravelLink = false;
-        let hasDatesInUrl = false; // NEW: Tracks if dates exist
+        let hasDatesInUrl = false;
 
         document.addEventListener('DOMContentLoaded', () => {
-            const today = new Date();
-            const tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            document.getElementById('checkInDate').value = today.toISOString().split('T')[0];
-            document.getElementById('checkOutDate').value = tomorrow.toISOString().split('T')[0];
+            // Optional: Pre-fill dates for convenience, or leave blank to force user input.
+            // We will leave them blank to enforce the logic you requested.
         });
 
         function switchMode(mode) {
@@ -374,6 +386,7 @@
             const datePickers = document.getElementById('datePickers');
             const shippingPicker = document.getElementById('shippingPicker');
             const btnText = document.getElementById('btnText');
+            const dateNotice = document.getElementById('dateNotice');
 
             const inactiveClass = "bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm";
             const activeClass = "bg-blue-600 text-white border border-blue-600 font-bold py-2.5 px-6 rounded-full shadow-md transition-all flex items-center gap-2 text-sm";
@@ -384,7 +397,7 @@
 
             datePickers.classList.remove('date-picker-visible');
             shippingPicker.classList.remove('date-picker-visible');
-            document.getElementById('dateNotice').classList.add('hidden');
+            dateNotice.classList.add('hidden');
 
             if (mode === 'shopping') {
                 tabShopping.className = activeClass;
@@ -397,11 +410,10 @@
                 productLink.placeholder = "Paste Agoda, Booking.com, or Expedia link...";
                 btnText.innerText = "Run Search";
                 
-                // Keep pickers open if no dates detected yet
                 if (!hasDatesInUrl) {
                     datePickers.classList.add('date-picker-visible');
                 } else {
-                    document.getElementById('dateNotice').classList.remove('hidden');
+                    dateNotice.classList.remove('hidden');
                 }
             } else if (mode === 'shipping') {
                 tabShipping.className = activeClass;
@@ -472,7 +484,6 @@
 
             // SMART DATE SCANNER
             if (isTravelLink) {
-                // Looks for standard date formats, or words like checkin, checkout, adults
                 const dateRegex = /\b(202\d-\d{2}-\d{2}|\d{2}-\d{2}-202\d|checkin|checkout|dep|arr|adults|rooms)\b/i;
                 hasDatesInUrl = dateRegex.test(input);
                 const datePickers = document.getElementById('datePickers');
@@ -520,7 +531,7 @@
                     prices = [
                         { ota: "Booking.com", priceUSD: Math.floor(baseUSD * 0.99), link: `https://www.booking.com/searchresults.html?ss=${extractedName}` },
                         { ota: "Trip.com", priceUSD: Math.floor(baseUSD * 1.05), link: "https://trip.com?Allianceid=9426684&SID=325260965&trip_sub1=&trip_sub3=D18815533" },
-                        { ota: "Klook", priceUSD: Math.floor(baseUSD * 1.02), link: "https://klook.tpo.lv/rjFhysFY" }
+                        { ota: "Agoda", priceUSD: Math.floor(basePrice * 1.01), link: `https://www.agoda.com/search?text=${cleanQuery}` }
                     ];
                 } else {
                     prices = [
@@ -542,7 +553,7 @@
                 const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${compDomain}`;
                 const fallbackLogo = `https://ui-avatars.com/api/?name=${comp.ota}&background=eff6ff&color=2563eb&bold=true`;
 
-                // Main CTA logic
+                // Main CTA logic mapped properly for Travel vs E-commerce
                 let mainCTA = data.type === 'travel' ? 'Check Live Rate' : 'Lock in Deal';
                 let subCTA = data.type === 'travel' ? 'Check Dates' : 'View Deal';
 
@@ -645,7 +656,7 @@
                 }
             });
 
-            // The specific "See More" link logic
+            // Dynamic "See More" link logic based on search type
             let seeMoreLink = 'https://shopping.google.com';
             let seeMoreText = 'See 15+ More Availability Options';
             
@@ -657,6 +668,9 @@
                     seeMoreLink = 'https://booking.com';
                     seeMoreText = 'See 15+ More Hotel Options';
                 }
+            } else if (data.type === 'ecommerce') {
+                seeMoreLink = 'https://shopping.google.com';
+                seeMoreText = 'Compare Prices on Google Shopping';
             }
             
             listContainer.innerHTML += `
@@ -681,12 +695,12 @@
             let inputUrl = document.getElementById('productLink').value.trim();
             if(!inputUrl) return;
             
-            // VALIDATION: Force user to have dates before searching
+            // STRICT DATE VALIDATION
             if ((currentMode === 'travel' || isTravelLink) && !hasDatesInUrl) {
                 const checkIn = document.getElementById('checkInDate').value;
                 const checkOut = document.getElementById('checkOutDate').value;
                 if (!checkIn || !checkOut) {
-                    showToast("Please verify your Check-in and Check-out dates.", true);
+                    showToast("Please enter your Check-in and Check-out dates.", true);
                     document.getElementById('checkInDate').classList.add('border-red-400', 'bg-red-50');
                     document.getElementById('checkOutDate').classList.add('border-red-400', 'bg-red-50');
                     setTimeout(() => {
