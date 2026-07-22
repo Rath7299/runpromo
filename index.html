@@ -354,6 +354,7 @@
         let currentCurrencySymbol = '$';
         let redirectUrl = ''; 
         let isTravelLink = false;
+        let hasDatesInUrl = false; // NEW: Tracks if dates exist
 
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date();
@@ -383,6 +384,7 @@
 
             datePickers.classList.remove('date-picker-visible');
             shippingPicker.classList.remove('date-picker-visible');
+            document.getElementById('dateNotice').classList.add('hidden');
 
             if (mode === 'shopping') {
                 tabShopping.className = activeClass;
@@ -394,7 +396,13 @@
                 inputIcon.className = "fa-solid fa-plane-departure text-blue-500 mr-3 text-lg";
                 productLink.placeholder = "Paste Agoda, Booking.com, or Expedia link...";
                 btnText.innerText = "Run Search";
-                datePickers.classList.add('date-picker-visible');
+                
+                // Keep pickers open if no dates detected yet
+                if (!hasDatesInUrl) {
+                    datePickers.classList.add('date-picker-visible');
+                } else {
+                    document.getElementById('dateNotice').classList.remove('hidden');
+                }
             } else if (mode === 'shipping') {
                 tabShipping.className = activeClass;
                 inputIcon.className = "fa-solid fa-box-open text-blue-500 mr-3 text-lg";
@@ -434,6 +442,11 @@
 
         function resetSearch() {
             clearInput();
+            hasDatesInUrl = false;
+            document.getElementById('dateNotice').classList.add('hidden');
+            if (currentMode === 'travel') {
+                document.getElementById('datePickers').classList.add('date-picker-visible');
+            }
             document.getElementById('unifiedResultsCard').classList.add('hidden');
             document.getElementById('searchArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -446,12 +459,33 @@
             const currencyTxt = document.getElementById('regionCurrency');
 
             if (input.length === 0) {
-                indicator.classList.add('hidden'); indicator.classList.remove('flex'); clearBtn.classList.add('hidden'); return;
+                indicator.classList.add('hidden'); indicator.classList.remove('flex'); clearBtn.classList.add('hidden'); 
+                hasDatesInUrl = false;
+                document.getElementById('dateNotice').classList.add('hidden');
+                if (currentMode === 'travel') document.getElementById('datePickers').classList.add('date-picker-visible');
+                return;
             }
             indicator.classList.remove('hidden'); indicator.classList.add('flex'); clearBtn.classList.remove('hidden');
             
             const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip', 'expedia', 'hotel', 'flight'];
             isTravelLink = travelDomains.some(domain => input.includes(domain)) || currentMode === 'travel';
+
+            // SMART DATE SCANNER
+            if (isTravelLink) {
+                // Looks for standard date formats, or words like checkin, checkout, adults
+                const dateRegex = /\b(202\d-\d{2}-\d{2}|\d{2}-\d{2}-202\d|checkin|checkout|dep|arr|adults|rooms)\b/i;
+                hasDatesInUrl = dateRegex.test(input);
+                const datePickers = document.getElementById('datePickers');
+                const dateNotice = document.getElementById('dateNotice');
+                
+                if (hasDatesInUrl) {
+                    datePickers.classList.remove('date-picker-visible');
+                    dateNotice.classList.remove('hidden');
+                } else {
+                    datePickers.classList.add('date-picker-visible');
+                    dateNotice.classList.add('hidden');
+                }
+            }
 
             if (input.includes('.co.th') || input.includes('.th') || input.includes('thailand')) { flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿'; } 
             else if (input.includes('.sg') || input.includes('singapore')) { flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$'; } 
@@ -646,6 +680,22 @@
         async function processLink() {
             let inputUrl = document.getElementById('productLink').value.trim();
             if(!inputUrl) return;
+            
+            // VALIDATION: Force user to have dates before searching
+            if ((currentMode === 'travel' || isTravelLink) && !hasDatesInUrl) {
+                const checkIn = document.getElementById('checkInDate').value;
+                const checkOut = document.getElementById('checkOutDate').value;
+                if (!checkIn || !checkOut) {
+                    showToast("Please verify your Check-in and Check-out dates.", true);
+                    document.getElementById('checkInDate').classList.add('border-red-400', 'bg-red-50');
+                    document.getElementById('checkOutDate').classList.add('border-red-400', 'bg-red-50');
+                    setTimeout(() => {
+                        document.getElementById('checkInDate').classList.remove('border-red-400', 'bg-red-50');
+                        document.getElementById('checkOutDate').classList.remove('border-red-400', 'bg-red-50');
+                    }, 3000);
+                    return;
+                }
+            }
 
             if (currentMode === 'shipping') {
                 showToast("Routing to logistics engine...", true);
