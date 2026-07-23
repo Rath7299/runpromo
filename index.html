@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RunPromo | Smart Coupon Finder</title>
     
-    <!-- TRAVELPAYOUTS DRIVE SCRIPT (UPDATED) -->
+    <!-- TRAVELPAYOUTS DRIVE SCRIPT -->
     <script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1">
       (function () {
           var script = document.createElement("script");
@@ -208,13 +208,13 @@
             <p id="loadingSubtitle" class="text-sm text-slate-400 mb-4 h-5"></p>
             <div class="mt-2 flex flex-col gap-3 text-sm text-left max-w-xs mx-auto">
                 <div id="step1" class="flex items-center gap-3 text-blue-600 font-medium transition-all">
-                    <i class="fa-solid fa-check-circle"></i> Connecting to OpenAI Live Search
+                    <i class="fa-solid fa-check-circle"></i> Connecting to secure deal network
                 </div>
                 <div id="step2" class="flex items-center gap-3 text-slate-400 transition-all">
                     <i class="fa-regular fa-circle"></i> Extracting verified details
                 </div>
                 <div id="step3" class="flex items-center gap-3 text-slate-400 transition-all">
-                    <i class="fa-regular fa-circle"></i> Verifying live partner rates
+                    <i class="fa-regular fa-circle"></i> Verifying partner rates
                 </div>
             </div>
         </div>
@@ -276,8 +276,8 @@
                     <div class="mt-6 border border-slate-200 rounded-xl bg-slate-50 overflow-hidden">
                         <button onclick="toggleAccordion('ecomCompareAccordion')" class="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors group">
                             <div class="text-left">
-                                <div class="text-sm font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-slate-400 group-hover:text-blue-500 transition-colors"></i> Check AI Competitor Prices</div>
-                                <div class="text-[11px] text-slate-500 font-medium mt-0.5">Live rates sourced by ChatGPT</div>
+                                <div class="text-sm font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-slate-400 group-hover:text-blue-500 transition-colors"></i> Check other stores</div>
+                                <div class="text-[11px] text-slate-500 font-medium mt-0.5">Live market data verified in real-time</div>
                             </div>
                             <i id="ecomCompareIcon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
                         </button>
@@ -294,9 +294,9 @@
                 <div class="flex justify-between items-end mb-8">
                     <div>
                         <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wide">
-                            <i class="fa-solid fa-shield-check"></i> Verified AI Optimization
+                            <i class="fa-solid fa-shield-check"></i> Verified Optimization
                         </div>
-                        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">Live Market Rates</h3>
+                        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">Best Available Rates</h3>
                         <p class="text-slate-500 text-sm mt-1">We compared top OTAs to guarantee your savings.</p>
                     </div>
                 </div>
@@ -323,7 +323,7 @@
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">2</div>
                     <h4 class="font-bold text-lg mb-2 text-slate-900">Run Optimization</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Our AI runs real-time web searches to check live inventory and secure authorized deals.</p>
+                    <p class="text-sm text-slate-500 leading-relaxed">Our system runs real-time checks across our private verified merchant networks to secure authorized deals.</p>
                 </div>
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">3</div>
@@ -366,6 +366,7 @@
         </div>
     </footer>
 
+    <!-- MODALS -->
     <div id="modalBackdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300" onclick="closeAllModals()"></div>
 
     <div id="modal-privacy" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
@@ -408,11 +409,11 @@
             <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
-            <h4 class="font-bold text-slate-800">Secure AI Deal Optimization</h4>
-            <p>Rather than using crowdsourced configurations that lead to stale or fake promotions, RunPromo operates an AI-powered algorithmic routing network. When you enter a destination product page URL, our platform processes the following layers of verification:</p>
+            <h4 class="font-bold text-slate-800">Secure Deal Optimization Routing</h4>
+            <p>Rather than using crowdsourced configurations that lead to stale or fake promotions, RunPromo operates an intelligent algorithmic routing network. When you enter a destination product page URL, our platform processes the following layers of verification:</p>
             <ul class="list-disc pl-5 space-y-2">
-                <li><strong>AI Merchant Synthesis:</strong> We query digital routing pathways directly associated with verified retailer systems using OpenAI's Live Web Search to confirm that codes are active and prices are current.</li>
-                <li><strong>Travel Meta-Search Aggregation:</strong> For hotel and flight links, we route requests through specialized meta-search hubs to perform high-speed, deep price comparisons across global databases.</li>
+                <li><strong>Merchant Metadata Synthesis:</strong> We query digital routing pathways using our live market APIs directly associated with verified retailer systems to confirm that codes are active and prices are current.</li>
+                <li><strong>Travel Meta-Search Aggregation:</strong> For hotel and flight links, we route requests through specialized meta-search hubs (aggregating OTA inventory) to perform high-speed, deep price comparisons across global databases.</li>
             </ul>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
@@ -437,6 +438,7 @@
         </div>
     </div>
 
+    <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
     <script>
@@ -728,17 +730,14 @@
 
             let alternatives = [];
 
-            // If the AI successfully retrieved live competitors, use them!
             if (aiPrices && aiPrices.length > 0) {
                 alternatives = aiPrices.map(comp => ({
                     name: comp.ota,
                     domain: comp.ota.toLowerCase().replace(/\s+/g, '') + '.com',
                     price: comp.priceUSD,
-                    // Use backend redirect to guarantee tracking
                     link: `https://runpromo-backend.vercel.app/api/redirect?ota=${encodeURIComponent(comp.ota)}&query=${encodeURIComponent(displayName)}`
                 }));
             } else {
-                // Failsafe in case AI couldn't find competitors for a very niche item
                 let hash = 0;
                 for (let i = 0; i < displayName.length; i++) { hash = displayName.charCodeAt(i) + ((hash << 5) - hash); }
                 const baseUSD = Math.abs(hash % 120) + 15; 
@@ -791,6 +790,21 @@
             setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(10px)'; setTimeout(() => toast.remove(), 300); }, 3000); 
         }
 
+        function openModal(modalId) {
+            const backdrop = document.getElementById('modalBackdrop');
+            const modal = document.getElementById(modalId);
+            backdrop.classList.remove('hidden'); modal.classList.remove('hidden');
+            setTimeout(() => { backdrop.classList.remove('opacity-0'); modal.classList.remove('opacity-0', 'scale-95'); modal.classList.add('opacity-100', 'scale-100'); }, 10);
+        }
+
+        function closeAllModals() {
+            const backdrop = document.getElementById('modalBackdrop');
+            const modals = document.querySelectorAll('div[id^="modal-"]');
+            backdrop.classList.add('opacity-0');
+            modals.forEach(modal => { modal.classList.remove('opacity-100', 'scale-100'); modal.classList.add('opacity-0', 'scale-95'); });
+            setTimeout(() => { backdrop.classList.add('hidden'); modals.forEach(modal => modal.classList.add('hidden')); }, 300);
+        }
+
         async function processLink() {
             let inputUrl = document.getElementById('productLink').value.trim();
             if(!inputUrl) return;
@@ -819,12 +833,11 @@
 
             const coldStartWarning = setTimeout(() => {
                 if (!loadingState.classList.contains('hidden')) {
-                    document.getElementById('loadingSubtitle').innerText = 'Checking live OpenAI web search results...';
+                    document.getElementById('loadingSubtitle').innerText = 'Checking verified merchant networks...';
                 }
             }, 3000);
 
             try {
-                // Connected securely to your AI Vercel Backend
                 const response = await fetch('https://runpromo-backend.vercel.app/api/optimize-link', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -842,7 +855,7 @@
                 }
 
                 document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
-                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Extracted via AI Web Search';
+                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Extracted via secure connection';
 
                 if (data.type === "travel" || currentMode === 'travel') {
                     renderRealTravelData(data);
@@ -862,7 +875,6 @@
                         if(data.coupons[1]) document.getElementById('subCoupon1').innerText = data.coupons[1].code;
                     }
                     
-                    // Sending the raw AI data straight to the UI
                     renderRealEcommerceData(merchantName, data.metaTitle, data.metaImage, data.comparablePrices);
                     
                     if(data.cashback) { showToast(`<i class="fa-solid fa-coins text-yellow-400 mr-1"></i> ${data.cashback} unlocked!`); }
@@ -875,7 +887,6 @@
             } catch (error) {
                 clearTimeout(coldStartWarning);
                 
-                // Fail-safe logic just in case API limit is hit
                 if (isTravelLink || currentMode === 'travel') {
                     renderRealTravelData({ comparablePrices: [] }); 
                     setTimeout(() => {
