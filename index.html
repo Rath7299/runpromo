@@ -164,10 +164,12 @@
                     <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full sm:w-auto">
                         <i class="fa-solid fa-user-group text-indigo-500"></i> Guests:
                         <select id="guestCount" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors cursor-pointer w-full sm:w-auto">
-                            <option value="1">1 Adult, 1 Room</option>
-                            <option value="2" selected>2 Adults, 1 Room</option>
-                            <option value="3">3 Adults, 1 Room</option>
-                            <option value="4">4 Adults, 2 Rooms</option>
+                            <option value="1,0,1">1 Adult, 1 Room</option>
+                            <option value="2,0,1" selected>2 Adults, 1 Room</option>
+                            <option value="2,1,1">2 Adults, 1 Child, 1 Room</option>
+                            <option value="3,0,1">3 Adults, 1 Room</option>
+                            <option value="4,0,2">4 Adults, 2 Rooms</option>
+                            <option value="4,2,2">4 Adults, 2 Children, 2 Rooms</option>
                         </select>
                     </div>
                 </div>
@@ -570,31 +572,32 @@
         }
 
         function detectRegion() {
-            const input = document.getElementById('productLink').value.trim();
-            detectDatesInUrl(input);
-
-            const inputLower = input.toLowerCase();
+            const input = document.getElementById('productLink').value.toLowerCase().trim();
             const indicator = document.getElementById('regionIndicator');
             const clearBtn = document.getElementById('clearBtn');
             const flag = document.getElementById('regionFlag');
             const currencyTxt = document.getElementById('regionCurrency');
 
-            if (inputLower.length === 0) {
+            // --- AUTO-SWITCH TAB MAGIC ---
+            const travelKeywords = ['agoda', 'booking', 'skyscanner', 'trip', 'expedia', 'hotel', 'flight', 'resort'];
+            const shoppingKeywords = ['shopee', 'lazada', 'amazon', 'aliexpress', 'ebay', 'product', 'item'];
+            
+            if (input.length > 3) {
+                if (travelKeywords.some(keyword => input.includes(keyword)) && currentMode !== 'travel') {
+                    switchMode('travel');
+                } else if (shoppingKeywords.some(keyword => input.includes(keyword)) && currentMode !== 'shopping') {
+                    switchMode('shopping');
+                }
+            }
+            // -----------------------------
+
+            if (input.length === 0) {
                 indicator.classList.add('hidden'); indicator.classList.remove('flex'); clearBtn.classList.add('hidden'); return;
             }
             indicator.classList.remove('hidden'); indicator.classList.add('flex'); clearBtn.classList.remove('hidden');
             
             const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip.com', 'expedia'];
-            isTravelLink = travelDomains.some(domain => inputLower.includes(domain)) || currentMode === 'travel';
-
-            if (inputLower.includes('.co.th') || inputLower.includes('.th') || inputLower.includes('thailand')) { flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿'; } 
-            else if (inputLower.includes('.sg') || inputLower.includes('singapore')) { flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$'; } 
-            else if (inputLower.includes('.com.my') || inputLower.includes('.my') || inputLower.includes('malaysia')) { flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM'; } 
-            else if (inputLower.includes('.ph') || inputLower.includes('philippines')) { flag.innerText = '🇵🇭'; currencyTxt.innerText = 'PHP'; currentCurrencySymbol = '₱'; } 
-            else if (inputLower.includes('.kh') || inputLower.includes('cambodia') || inputLower.includes('khr')) { flag.innerText = '🇰🇭'; currencyTxt.innerText = 'KHR'; currentCurrencySymbol = 'KHR'; } 
-            else { flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$'; }
-        }
-
+            isTravelLink = travelDomains.some(domain => input.includes(domain)) || currentMode === 'travel';
         function renderRealTravelData(data) {
             const multipliers = { 'KHR': 4100, '฿': 35, 'S$': 1.3, 'RM': 4.7, '₱': 56, '$': 1 };
             const multi = multipliers[currentCurrencySymbol] || 1;
@@ -602,23 +605,28 @@
 
             let prices = data.comparablePrices || [];
             
+            // Get Dates and Guest Details
             const ci = document.getElementById('checkInDate').value || '';
             const co = document.getElementById('checkOutDate').value || '';
-            const searchName = data.metaTitle || extractSearchTerm(redirectUrl).display || 'hotel';
+            const guestVal = document.getElementById('guestCount') ? document.getElementById('guestCount').value : "2,0,1";
+            const [adults, children, rooms] = guestVal.split(',');
+
+            const extractedName = extractSearchTerm(redirectUrl).query || data.metaTitle || 'hotel';
             
-            const makeRedirect = (ota) => `https://runpromo-backend.vercel.app/api/redirect?ota=${encodeURIComponent(ota)}&query=${encodeURIComponent(searchName)}&checkin=${ci}&checkout=${co}`;
+            // Pass EVERYTHING to the backend redirect
+            const makeRedirect = (ota) => `https://runpromo-backend.vercel.app/api/redirect?ota=${encodeURIComponent(ota)}&query=${extractedName}&checkin=${ci}&checkout=${co}&adults=${adults}&children=${children}&rooms=${rooms}`;
 
             if (!prices || prices.length === 0) {
                 const baseUSD = data.lowestPriceUSD || 32;
                 prices = [
-                    { ota: "Agoda", priceUSD: baseUSD },
-                    { ota: "Skyscanner", priceUSD: Math.floor(baseUSD * 1.02) },
-                    { ota: "Booking.com", priceUSD: Math.floor(baseUSD * 1.05) },
-                    { ota: "Trip.com", priceUSD: Math.floor(baseUSD * 1.08) }
+                    { ota: "Agoda", priceUSD: baseUSD, link: makeRedirect('Agoda') },
+                    { ota: "Skyscanner", priceUSD: Math.floor(baseUSD * 1.02), link: makeRedirect('Skyscanner') },
+                    { ota: "Booking.com", priceUSD: Math.floor(baseUSD * 1.05), link: makeRedirect('Booking.com') },
+                    { ota: "Trip.com", priceUSD: Math.floor(baseUSD * 1.08), link: makeRedirect('Trip.com') }
                 ];
+            } else {
+                prices = prices.map(p => ({ ...p, link: makeRedirect(p.ota) }));
             }
-            
-            prices = prices.map(p => ({ ...p, link: makeRedirect(p.ota) }));
 
             const sorted = prices.sort((a,b) => a.priceUSD - b.priceUSD);
             const listContainer = document.getElementById('googleTravelList');
