@@ -533,7 +533,7 @@
             const [adults, children, rooms] = guestVal.split(',');
 
             const extractedName = extractSearchTerm(redirectUrl).query || encodeURIComponent(data.metaTitle || 'hotel');
-            const makeRedirect = (ota) => `/api/redirect?ota=${encodeURIComponent(ota)}&query=${extractedName}&checkin=${ci}&checkout=${co}&adults=${adults}&children=${children}&rooms=${rooms}`;
+            const makeRedirect = (ota) => `https://runpromo-backend.vercel.app/api/redirect?ota=${encodeURIComponent(ota)}&query=${extractedName}&checkin=${ci}&checkout=${co}&adults=${adults}&children=${children}&rooms=${rooms}`;
 
             // Clean price conversion to prevent $0 bug
             let prices = rawPrices.map(p => {
@@ -654,7 +654,7 @@
             const guestVal = document.getElementById('guestCount') ? document.getElementById('guestCount').value.split(',') : [2, 0, 1];
 
             try {
-                const response = await fetch('/api/optimize-link', {
+                const response = await fetch('https://runpromo-backend.vercel.app/api/optimize-link', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
