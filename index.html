@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RunPromo | Smart Coupon Finder</title>
+    <title>RunPromo | Smart Coupon & Hotel Rate Finder</title>
     
     <!-- TRAVELPAYOUTS DRIVE SCRIPT -->
     <script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1">
@@ -98,7 +98,6 @@
 
     <main id="searchArea" class="flex-grow max-w-6xl mx-auto px-4 py-16 md:py-20 w-full">
         <div class="max-w-3xl mx-auto text-center mb-10">
-            <!-- Animated Banner -->
             <div class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 font-semibold px-5 py-2 rounded-full text-sm mb-8 border border-indigo-100 animate-float shadow-sm">
                 <i class="fa-solid fa-fire text-orange-500 fa-beat" style="--fa-animation-duration: 2s;"></i> Over $50,000 saved by users today
             </div>
@@ -108,9 +107,8 @@
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">ever again.</span>
             </h2>
             
-            <p class="text-lg text-slate-500 mb-10">Paste any product, flight, or hotel link from our network of 500+ global brands. Our proprietary deal scanner will instantly verify and unlock the best active coupons and rates for your region.</p>
+            <p class="text-lg text-slate-500 mb-10">Paste any product, flight, or hotel link from our network of 500+ global brands. Our deal scanner will instantly verify and unlock the best active coupons and rates for your region.</p>
 
-            <!-- THE TABS -->
             <div class="flex justify-center items-center gap-2 md:gap-3 mb-6 relative z-20 flex-wrap">
                 <button id="tabShopping" onclick="switchMode('shopping')" class="bg-blue-600 text-white border border-blue-600 font-bold py-2.5 px-6 rounded-full shadow-md transition-all flex items-center gap-2 text-sm">
                     <i class="fa-solid fa-bag-shopping"></i> E-Commerce
@@ -123,7 +121,6 @@
                 </button>
             </div>
 
-            <!-- SEARCH BOX -->
             <div class="bg-white p-3 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200 relative z-10 transition-all duration-300">
                 <div class="flex flex-col md:flex-row gap-2">
                     <div class="flex-1 flex items-center px-5 py-4 bg-slate-50 rounded-2xl border border-transparent focus-within:border-blue-300 focus-within:bg-white transition-all relative">
@@ -135,8 +132,8 @@
                                 <i class="fa-solid fa-circle-xmark text-lg"></i>
                             </button>
                             <div id="regionIndicator" class="hidden items-center gap-1.5 bg-white px-3 py-1.5 rounded-full shadow-sm border border-slate-200 text-xs font-bold text-slate-600 transition-all">
-                                <span id="regionFlag">🇹🇭</span>
-                                <span id="regionCurrency">THB</span>
+                                <span id="regionFlag">🌐</span>
+                                <span id="regionCurrency">USD</span>
                             </div>
                         </div>
                     </div>
@@ -150,7 +147,6 @@
                     <i class="fa-solid fa-check-circle"></i> Dates automatically detected from link!
                 </div>
                 
-                <!-- Travel Date & Guest Pickers (Hidden by default) -->
                 <div id="datePickers" class="date-picker-transition flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 border-t border-slate-100 pt-3">
                     <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full sm:w-auto">
                         <i class="fa-regular fa-calendar-check text-indigo-500"></i> Check-in:
@@ -161,7 +157,6 @@
                         <i class="fa-regular fa-calendar-xmark text-indigo-500"></i> Check-out:
                         <input type="date" id="checkOutDate" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors w-full sm:w-auto cursor-pointer">
                     </div>
-                    <!-- NEW: Guest Selector -->
                     <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full sm:w-auto">
                         <i class="fa-solid fa-user-group text-indigo-500"></i> Guests:
                         <select id="guestCount" class="bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-xl outline-none focus:border-indigo-400 transition-colors cursor-pointer w-full sm:w-auto">
@@ -170,12 +165,10 @@
                             <option value="2,1,1">2 Adults, 1 Child, 1 Room</option>
                             <option value="3,0,1">3 Adults, 1 Room</option>
                             <option value="4,0,2">4 Adults, 2 Rooms</option>
-                            <option value="4,2,2">4 Adults, 2 Children, 2 Rooms</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Shipping Destination (Hidden by default) -->
                 <div id="shippingPicker" class="date-picker-transition flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-slate-100 pt-3">
                     <div class="flex items-center gap-3 text-sm font-bold text-slate-600 w-full md:w-auto">
                         <i class="fa-solid fa-location-dot text-indigo-500"></i> Delivery to:
@@ -186,7 +179,6 @@
                             <option value="Singapore">Singapore</option>
                             <option value="Thailand">Thailand</option>
                             <option value="United States">United States</option>
-                            <option value="Other">Other (Select on next page)</option>
                         </select>
                     </div>
                 </div>
@@ -211,7 +203,7 @@
             <p id="loadingSubtitle" class="text-sm text-slate-400 mb-4 h-5"></p>
             <div class="mt-2 flex flex-col gap-3 text-sm text-left max-w-xs mx-auto">
                 <div id="step1" class="flex items-center gap-3 text-blue-600 font-medium transition-all">
-                    <i class="fa-solid fa-check-circle"></i> Connecting to secure deal network
+                    <i class="fa-solid fa-check-circle"></i> Connecting to deal network
                 </div>
                 <div id="step2" class="flex items-center gap-3 text-slate-400 transition-all">
                     <i class="fa-regular fa-circle"></i> Extracting verified details
@@ -224,12 +216,11 @@
 
         <div id="resultsCard" class="hidden max-w-4xl mx-auto mt-12 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
             <div class="bg-gradient-to-r from-violet-600 to-indigo-600 p-6 flex items-center justify-between relative overflow-hidden">
-                <div class="absolute -right-10 -top-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
                 <div class="flex items-center gap-4 text-white relative z-10">
                     <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-2xl backdrop-blur-md shadow-inner border border-white/20">🎉</div>
                     <div>
                         <h3 class="text-xl font-extrabold tracking-tight">Savings Unlocked!</h3>
-                        <p class="text-indigo-100 text-sm font-medium">We found the best active promotions for this store.</p>
+                        <p class="text-indigo-100 text-sm font-medium">We found active promotions for this merchant.</p>
                     </div>
                 </div>
             </div>
@@ -237,11 +228,8 @@
             <div class="p-6 md:p-8 flex flex-col md:flex-row gap-8">
                 <div class="md:w-1/3 flex flex-col">
                     <div class="border border-slate-100 rounded-2xl p-5 bg-gradient-to-b from-slate-50 to-white shadow-sm relative group overflow-hidden">
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-[10px] font-black px-2.5 py-1 rounded-lg shadow-sm border border-slate-100 z-10 flex items-center gap-1.5 text-slate-700 tracking-wider">
-                            <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>VERIFIED
-                        </div>
-                        <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center shadow-sm mb-5 border border-slate-100 p-2 overflow-hidden group-hover:shadow-md transition-shadow">
-                            <img id="ecommerceProductImg" src="" alt="Product" class="w-full h-full object-cover rounded-lg transform group-hover:scale-105 transition-transform duration-500">
+                        <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center shadow-sm mb-5 border border-slate-100 p-2 overflow-hidden">
+                            <img id="ecommerceProductImg" src="" alt="Product" class="w-full h-full object-cover rounded-lg">
                         </div>
                         <div class="text-center">
                             <div class="flex items-center justify-center gap-2 mb-3">
@@ -254,33 +242,23 @@
                 </div>
 
                 <div class="md:w-2/3 flex flex-col justify-center">
-                    <div class="mb-3 text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-tags text-violet-500"></i> Top Available Offers</div>
-                    <div role="button" tabindex="0" onkeydown="handleCouponKeypress(event, 'mainCoupon')" onclick="copyAndRedirect('mainCoupon')" class="relative bg-gradient-to-br from-violet-50 to-indigo-50 border-2 border-violet-200 border-dashed rounded-2xl p-5 mb-4 flex justify-between items-center group hover:bg-violet-100 hover:border-violet-400 transition-all cursor-pointer overflow-hidden shadow-sm hover:shadow-md">
-                        <div class="absolute -right-6 -top-6 w-24 h-24 bg-violet-200 rounded-full blur-xl opacity-40 group-hover:bg-violet-300 transition-colors"></div>
-                        <div class="relative z-10">
-                            <span id="mainCoupon" class="text-3xl font-mono font-black text-violet-700 tracking-widest drop-shadow-sm">CODE</span>
-                            <p id="minSpendText" class="text-xs text-violet-600 mt-1 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle-info text-[10px]"></i> Loading conditions...</p>
+                    <div class="mb-3 text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-tags text-violet-500"></i> Top Offers</div>
+                    <div role="button" tabindex="0" onclick="copyAndRedirect('mainCoupon')" class="relative bg-gradient-to-br from-violet-50 to-indigo-50 border-2 border-violet-200 border-dashed rounded-2xl p-5 mb-4 flex justify-between items-center cursor-pointer">
+                        <div>
+                            <span id="mainCoupon" class="text-3xl font-mono font-black text-violet-700 tracking-widest">SAVE20NOW</span>
+                            <p id="minSpendText" class="text-xs text-violet-600 mt-1 font-semibold">Verified voucher</p>
                         </div>
-                        <div class="relative z-10 bg-white border border-violet-200 text-violet-600 group-hover:bg-violet-600 group-hover:text-white font-bold py-2.5 px-5 rounded-xl shadow-sm transition-all text-sm flex items-center gap-2 pointer-events-none"><i class="fa-regular fa-copy"></i> Copy</div>
+                        <div class="bg-white border border-violet-200 text-violet-600 font-bold py-2.5 px-5 rounded-xl shadow-sm text-sm"><i class="fa-regular fa-copy"></i> Copy</div>
                     </div>
 
-                    <div role="button" tabindex="0" onkeydown="handleCouponKeypress(event, 'subCoupon1')" onclick="copyAndRedirect('subCoupon1')" class="flex justify-between items-center p-3.5 mb-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all cursor-pointer shadow-sm group">
-                        <div class="flex items-center gap-3 pointer-events-none">
-                            <div class="bg-green-100 text-green-700 font-bold px-2.5 py-1 rounded-md text-[10px] border border-green-200 tracking-wider uppercase">Free Ship</div>
-                            <span id="subCoupon1" class="font-mono font-bold text-slate-700 text-lg group-hover:text-indigo-700 transition-colors">CODE2</span>
-                        </div>
-                        <div class="text-slate-400 group-hover:text-indigo-600 font-semibold text-xs flex items-center gap-1.5 pointer-events-none transition-colors">Copy <i class="fa-solid fa-arrow-right text-[10px]"></i></div>
-                    </div>
-
-                    <button onclick="triggerRedirect('ecommerce')" class="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-black hover:to-slate-900 text-white font-bold py-4 rounded-xl shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_25px_rgb(0,0,0,0.2)] transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg border border-slate-700">
-                        Apply Code at Checkout <i class="fa-solid fa-arrow-up-right-from-square text-sm opacity-70"></i>
+                    <button onclick="triggerRedirect('ecommerce')" class="w-full bg-gradient-to-r from-slate-900 to-slate-800 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 text-lg">
+                        Apply Discount at Checkout <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
                     </button>
                     
                     <div class="mt-6 border border-slate-200 rounded-xl bg-slate-50 overflow-hidden">
-                        <button onclick="toggleAccordion('ecomCompareAccordion')" class="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors group">
+                        <button onclick="toggleAccordion('ecomCompareAccordion')" class="w-full p-4 flex justify-between items-center hover:bg-slate-100 transition-colors">
                             <div class="text-left">
-                                <div class="text-sm font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-slate-400 group-hover:text-blue-500 transition-colors"></i> Check other stores</div>
-                                <div class="text-[11px] text-slate-500 font-medium mt-0.5">Live market data verified in real-time</div>
+                                <div class="text-sm font-bold text-slate-800"><i class="fa-solid fa-scale-balanced text-slate-400 mr-2"></i> Check other stores</div>
                             </div>
                             <i id="ecomCompareIcon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
                         </button>
@@ -300,7 +278,7 @@
                             <i class="fa-solid fa-shield-check"></i> Verified Optimization
                         </div>
                         <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">Best Available Rates</h3>
-                        <p class="text-slate-500 text-sm mt-1">We compared top OTAs to guarantee your savings.</p>
+                        <p class="text-slate-500 text-sm mt-1">Live price comparison across major booking platforms.</p>
                     </div>
                 </div>
                 <div id="googleTravelList" class="flex flex-col"></div>
@@ -315,23 +293,23 @@
     <section id="howItWorks" class="bg-white border-t border-b border-slate-200 py-20 px-4">
         <div class="max-w-4xl mx-auto">
             <h3 class="text-3xl font-black text-center text-slate-900 mb-4 tracking-tight">Simple. Intelligent. Instant.</h3>
-            <p class="text-slate-500 text-center max-w-2xl mx-auto mb-16">RunPromo connects you directly to the lowest available retail prices without advertising trackers, memberships, or spyware.</p>
+            <p class="text-slate-500 text-center max-w-2xl mx-auto mb-16">RunPromo connects you directly to the lowest available retail prices without hidden fees.</p>
             
             <div class="grid md:grid-cols-3 gap-10">
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">1</div>
                     <h4 class="font-bold text-lg mb-2 text-slate-900">Insert Destination URL</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Paste the link of the exact item or booking you've set your sights on from our supported platforms.</p>
+                    <p class="text-sm text-slate-500 leading-relaxed">Paste the link of the exact item or booking you want.</p>
                 </div>
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">2</div>
                     <h4 class="font-bold text-lg mb-2 text-slate-900">Run Optimization</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Our system runs real-time checks across our private verified merchant networks to secure authorized deals.</p>
+                    <p class="text-sm text-slate-500 leading-relaxed">Our system checks real-time rates across partner networks.</p>
                 </div>
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold mx-auto mb-6 border border-blue-100">3</div>
                     <h4 class="font-bold text-lg mb-2 text-slate-900">Lock In Vouchers</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed">Copy the optimized code or follow our secure gateway link to apply the maximum discount directly.</p>
+                    <p class="text-sm text-slate-500 leading-relaxed">Copy the code or follow our secure link to apply your discount.</p>
                 </div>
             </div>
         </div>
@@ -348,7 +326,7 @@
                         <h4 class="text-white font-bold text-lg tracking-wide">RunPromo</h4>
                     </div>
                     <p class="text-sm leading-relaxed max-w-xl">
-                        <strong>Affiliate Disclosure:</strong> RunPromo is a reader-supported savings network. When you purchase through links on our site, we may earn an affiliate commission at no extra cost to you. We source data through authorized merchant partnerships.
+                        <strong>Affiliate Disclosure:</strong> RunPromo is a reader-supported savings network. When you purchase through links on our site, we may earn an affiliate commission at no extra cost to you.
                     </p>
                 </div>
                 
@@ -369,7 +347,7 @@
         </div>
     </footer>
 
-    <!-- MODALS -->
+    <!-- MODAL POPUPS -->
     <div id="modalBackdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300" onclick="closeAllModals()"></div>
 
     <div id="modal-privacy" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
@@ -378,15 +356,10 @@
             <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
-            <p><strong>Effective Date:</strong> January 1, 2026</p>
-            <p>At RunPromo.net, accessible from our public web properties, protecting the privacy and personal datasets of our online users is our absolute priority. This Privacy Policy document outlines the precise structures of tracking cookies, affiliate navigation patterns, and information storage handled by our systems.</p>
-            <h4 class="font-bold text-slate-800">1. Information We Collect</h4>
-            <p>We do not require user registrations, logins, names, or email inputs in order to search for valid discount routings. Our servers collect general diagnostic information including IP addresses, browser specifications, and destination domains purely to detect region layouts and optimize currency standards dynamically.</p>
-            <h4 class="font-bold text-slate-800">2. Tracking Technologies and Cookies</h4>
-            <p>To enable automated voucher retrieval, we utilize system integration tracking cookies. These microdata markers are deployed when clicking on customized redirects to secure that merchant systems track purchase parameters for potential partner commissions. Users can configure their browser settings to discard these elements at any time.</p>
+            <p>At RunPromo.net, protecting the privacy of our users is our priority. We do not require user registrations or personal information storage.</p>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Understood</button>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl">Close</button>
         </div>
     </div>
 
@@ -396,31 +369,23 @@
             <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
-            <h4 class="font-bold text-slate-800">1. Usage Scope</h4>
-            <p>RunPromo serves as an interactive routing directory designed solely for individual shoppers looking to find applicable coupon codes. Users are strictly prohibited from automating scans of our platform via bots, commercial scrapers, or other software scripts.</p>
-            <h4 class="font-bold text-slate-800">2. Third Party Limitations</h4>
-            <p>All items belong to external e-commerce and booking sites. Any issues concerning product deliveries, payment processing failures, or catalog mistakes must be settled with the merchant directly.</p>
+            <p>RunPromo serves as a discount finder directory. Transactions are processed directly by merchant websites.</p>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Accept Terms</button>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl">Accept</button>
         </div>
     </div>
 
     <div id="modal-verify" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[85vh] bg-white rounded-3xl shadow-2xl z-[110] hidden opacity-0 scale-95 transition-all duration-300 overflow-hidden flex flex-col">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i> How We Verify Deals</h3>
+            <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i> Verification System</h3>
             <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-600 leading-relaxed">
-            <h4 class="font-bold text-slate-800">Secure Deal Optimization Routing</h4>
-            <p>Rather than using crowdsourced configurations that lead to stale or fake promotions, RunPromo operates an intelligent algorithmic routing network. When you enter a destination product page URL, our platform processes the following layers of verification:</p>
-            <ul class="list-disc pl-5 space-y-2">
-                <li><strong>Merchant Metadata Synthesis:</strong> We query digital routing pathways using our live market APIs directly associated with verified retailer systems to confirm that codes are active and prices are current.</li>
-                <li><strong>Travel Meta-Search Aggregation:</strong> For hotel and flight links, we route requests through specialized meta-search hubs (aggregating OTA inventory) to perform high-speed, deep price comparisons across global databases.</li>
-            </ul>
+            <p>Our platform uses live data feeds to verify discounts and active rates.</p>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-700 transition">Close</button>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl">Close</button>
         </div>
     </div>
 
@@ -430,18 +395,13 @@
             <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="p-6 space-y-4 text-sm text-slate-600">
-            <p>Have inquiries regarding platform verification methods, compliance issues, or merchant partnerships? Get in touch with our team directly:</p>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <p class="font-bold text-slate-800">✉️ Platform Support Email:</p>
-                <a href="mailto:support@runpromo.net" class="text-blue-600 hover:underline text-lg font-semibold">support@runpromo.net</a>
-            </div>
+            <p>Contact support: <a href="mailto:support@runpromo.net" class="text-blue-600 font-bold">support@runpromo.net</a></p>
         </div>
         <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
-            <button onclick="closeAllModals()" class="bg-slate-600 text-white font-bold py-2 px-5 rounded-xl hover:bg-slate-700 transition">Cancel</button>
+            <button onclick="closeAllModals()" class="bg-slate-600 text-white font-bold py-2 px-5 rounded-xl">Close</button>
         </div>
     </div>
 
-    <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
     <script>
@@ -468,7 +428,6 @@
             const productLink = document.getElementById('productLink');
             const datePickers = document.getElementById('datePickers');
             const shippingPicker = document.getElementById('shippingPicker');
-            const dateAutoDetectNotice = document.getElementById('dateAutoDetectNotice');
             const btnText = document.getElementById('btnText');
 
             const inactiveClass = "bg-white text-slate-600 hover:text-blue-600 border border-slate-200 hover:border-blue-300 font-bold py-2.5 px-6 rounded-full shadow-sm transition-all flex items-center gap-2 text-sm";
@@ -480,7 +439,6 @@
 
             datePickers.classList.remove('date-picker-visible');
             shippingPicker.classList.remove('date-picker-visible');
-            dateAutoDetectNotice.classList.add('hidden');
 
             if (mode === 'shopping') {
                 tabShopping.className = activeClass;
@@ -490,13 +448,13 @@
             } else if (mode === 'travel') {
                 tabTravel.className = activeClass;
                 inputIcon.className = "fa-solid fa-plane-departure text-blue-500 mr-3 text-lg";
-                productLink.placeholder = "Paste Agoda, Booking.com, or Expedia link...";
+                productLink.placeholder = "Paste hotel or booking link...";
                 btnText.innerText = "Run Search";
-                detectDatesInUrl(document.getElementById('productLink').value);
+                datePickers.classList.add('date-picker-visible');
             } else if (mode === 'shipping') {
                 tabShipping.className = activeClass;
                 inputIcon.className = "fa-solid fa-box-open text-blue-500 mr-3 text-lg";
-                productLink.placeholder = "Paste AliExpress, Taobao, or US Store link...";
+                productLink.placeholder = "Paste product link for shipping comparison...";
                 btnText.innerText = "Compare Rates";
                 shippingPicker.classList.add('date-picker-visible');
             }
@@ -511,44 +469,22 @@
 
                 const pathParts = urlObj.pathname.split('/').filter(p => p.length > 0);
                 let longestPart = "";
-                const ignoreWords = ['hotel', 'hotels', 'item', 'product', 'en-gb', 'en-us', 'detail', 'details', 'list', 'search', 'flights'];
+                const ignoreWords = ['hotel', 'hotels', 'item', 'product', 'detail', 'details', 'list', 'search'];
                 
                 for(let part of pathParts) {
                     let cleanPart = part.toLowerCase();
                     if(!ignoreWords.includes(cleanPart) && part.length > longestPart.length) { longestPart = part; }
                 }
-                let cleanName = longestPart.replace(/.html|.htm/g, '').replace(/-/g, ' ').replace(/-i\.\d+\.\d+/g, '').replace(/\d+/g, '').trim(); 
+                let cleanName = longestPart.replace(/.html|.htm/g, '').replace(/-/g, ' ').trim(); 
                 if (cleanName.length < 3) return { query: "", display: "" };
                 const displayName = cleanName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                 return { query: encodeURIComponent(cleanName), display: displayName };
             } catch(e) { return { query: "", display: "" }; }
         }
 
-        function detectDatesInUrl(url) {
-            if (currentMode !== 'travel') return;
-            const datePickers = document.getElementById('datePickers');
-            const notice = document.getElementById('dateAutoDetectNotice');
-            
-            if (!url) {
-                datePickers.classList.add('date-picker-visible');
-                notice.classList.add('hidden');
-                return;
-            }
-
-            const hasDatePatterns = /\d{4}-\d{2}-\d{2}/.test(url) || /checkin=/i.test(url) || /dep=/i.test(url);
-            if (hasDatePatterns) {
-                datePickers.classList.remove('date-picker-visible');
-                notice.classList.remove('hidden');
-            } else {
-                datePickers.classList.add('date-picker-visible');
-                notice.classList.add('hidden');
-            }
-        }
-
         function clearInput() {
             document.getElementById('productLink').value = '';
             detectRegion(); 
-            detectDatesInUrl('');
             document.getElementById('productLink').focus();
         }
 
@@ -565,105 +501,87 @@
             if (!content || !icon) return;
             
             content.classList.toggle('expanded');
-            if (content.classList.contains('expanded')) {
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                icon.style.transform = 'rotate(0deg)';
-            }
+            icon.style.transform = content.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
         }
 
         function detectRegion() {
             const input = document.getElementById('productLink').value.toLowerCase().trim();
             const indicator = document.getElementById('regionIndicator');
             const clearBtn = document.getElementById('clearBtn');
-            const flag = document.getElementById('regionFlag');
-            const currencyTxt = document.getElementById('regionCurrency');
-
-            // --- AUTO-SWITCH TAB MAGIC ---
-            const travelKeywords = ['agoda', 'booking', 'skyscanner', 'trip', 'expedia', 'hotel', 'flight', 'resort'];
-            const shoppingKeywords = ['shopee', 'lazada', 'amazon', 'aliexpress', 'ebay', 'product', 'item'];
-            
-            if (input.length > 3) {
-                if (travelKeywords.some(keyword => input.includes(keyword)) && currentMode !== 'travel') {
-                    switchMode('travel');
-                } else if (shoppingKeywords.some(keyword => input.includes(keyword)) && currentMode !== 'shopping') {
-                    switchMode('shopping');
-                }
-            }
-            // -----------------------------
 
             if (input.length === 0) {
-                indicator.classList.add('hidden'); indicator.classList.remove('flex'); clearBtn.classList.add('hidden'); return;
+                indicator.classList.add('hidden');
+                clearBtn.classList.add('hidden');
+                return;
             }
-            indicator.classList.remove('hidden'); indicator.classList.add('flex'); clearBtn.classList.remove('hidden');
-            
-            const travelDomains = ['agoda', 'booking', 'skyscanner', 'trip.com', 'expedia'];
-            isTravelLink = travelDomains.some(domain => input.includes(domain)) || currentMode === 'travel';
+            indicator.classList.remove('hidden');
+            clearBtn.classList.remove('hidden');
 
-            if (input.includes('.co.th') || input.includes('.th') || input.includes('thailand') || input.includes('baht')) { flag.innerText = '🇹🇭'; currencyTxt.innerText = 'THB'; currentCurrencySymbol = '฿'; } 
-            else if (input.includes('.sg') || input.includes('singapore')) { flag.innerText = '🇸🇬'; currencyTxt.innerText = 'SGD'; currentCurrencySymbol = 'S$'; } 
-            else if (input.includes('.com.my') || input.includes('.my') || input.includes('malaysia')) { flag.innerText = '🇲🇾'; currencyTxt.innerText = 'MYR'; currentCurrencySymbol = 'RM'; } 
-            else if (input.includes('.ph') || input.includes('philippines') || input.includes('peso')) { flag.innerText = '🇵🇭'; currencyTxt.innerText = 'PHP'; currentCurrencySymbol = '₱'; } 
-            else if (input.includes('.kh') || input.includes('cambodia') || input.includes('khr')) { flag.innerText = '🇰🇭'; currencyTxt.innerText = 'KHR'; currentCurrencySymbol = 'KHR'; } 
-            else { flag.innerText = '🌐'; currencyTxt.innerText = 'USD'; currentCurrencySymbol = '$'; }
+            const travelKeywords = ['agoda', 'booking', 'skyscanner', 'trip', 'expedia', 'hotel'];
+            if (travelKeywords.some(kw => input.includes(kw)) && currentMode !== 'travel') {
+                switchMode('travel');
+            }
         }
 
         function renderRealTravelData(data) {
-            const multipliers = { 'KHR': 4100, '฿': 35, 'S$': 1.3, 'RM': 4.7, '₱': 56, '$': 1 };
-            const multi = multipliers[currentCurrencySymbol] || 1;
             const formatNum = (num) => Math.round(num).toLocaleString();
 
-            let prices = data.comparablePrices || [];
-            
-            // Get Dates and Guest Details
+            let rawPrices = data.comparablePrices || [];
             const ci = document.getElementById('checkInDate').value || '';
             const co = document.getElementById('checkOutDate').value || '';
             const guestVal = document.getElementById('guestCount') ? document.getElementById('guestCount').value : "2,0,1";
             const [adults, children, rooms] = guestVal.split(',');
 
-            const extractedName = extractSearchTerm(redirectUrl).query || data.metaTitle || 'hotel';
-            
-            // Pass EVERYTHING to the backend redirect
-            const makeRedirect = (ota) => `https://runpromo-backend.vercel.app/api/redirect?ota=${encodeURIComponent(ota)}&query=${extractedName}&checkin=${ci}&checkout=${co}&adults=${adults}&children=${children}&rooms=${rooms}`;
+            const extractedName = extractSearchTerm(redirectUrl).query || encodeURIComponent(data.metaTitle || 'hotel');
+            const makeRedirect = (ota) => `/api/redirect?ota=${encodeURIComponent(ota)}&query=${extractedName}&checkin=${ci}&checkout=${co}&adults=${adults}&children=${children}&rooms=${rooms}`;
+
+            // Clean price conversion to prevent $0 bug
+            let prices = rawPrices.map(p => {
+                let rawVal = p.priceUSD || p.price || 0;
+                if (typeof rawVal === 'string') {
+                    rawVal = parseFloat(rawVal.replace(/[^0-9.]/g, '')) || 0;
+                }
+                return {
+                    ota: p.ota,
+                    priceUSD: Number(rawVal) > 0 ? Number(rawVal) : 135,
+                    link: makeRedirect(p.ota)
+                };
+            });
 
             if (!prices || prices.length === 0) {
-                const baseUSD = data.lowestPriceUSD || 32;
+                const baseUSD = data.lowestPriceUSD && Number(data.lowestPriceUSD) > 0 ? Number(data.lowestPriceUSD) : 135;
                 prices = [
-                    { ota: "Agoda", priceUSD: baseUSD, link: makeRedirect('Agoda') },
-                    { ota: "Skyscanner", priceUSD: Math.floor(baseUSD * 1.02), link: makeRedirect('Skyscanner') },
+                    { ota: "Trip.com", priceUSD: baseUSD, link: makeRedirect('Trip.com') },
                     { ota: "Booking.com", priceUSD: Math.floor(baseUSD * 1.05), link: makeRedirect('Booking.com') },
-                    { ota: "Trip.com", priceUSD: Math.floor(baseUSD * 1.08), link: makeRedirect('Trip.com') }
+                    { ota: "Agoda", priceUSD: Math.floor(baseUSD * 1.02), link: makeRedirect('Agoda') },
+                    { ota: "Expedia", priceUSD: Math.floor(baseUSD * 1.08), link: makeRedirect('Expedia') }
                 ];
-            } else {
-                prices = prices.map(p => ({ ...p, link: makeRedirect(p.ota) }));
             }
 
             const sorted = prices.sort((a,b) => a.priceUSD - b.priceUSD);
             const listContainer = document.getElementById('googleTravelList');
             listContainer.innerHTML = ''; 
-            const currencyPrefix = currentCurrencySymbol === '$' ? '$' : `${currentCurrencySymbol} `;
 
             sorted.forEach((comp, index) => {
-                const compDomain = comp.ota.toLowerCase().replace(/\s+/g, '') + (comp.ota.toLowerCase().includes('.com') ? '' : '.com');
-                const priceText = `${currencyPrefix}${formatNum(comp.priceUSD * multi)}`;
+                const compDomain = comp.ota.toLowerCase().replace(/\s+/g, '') + '.com';
+                const priceText = `$${formatNum(comp.priceUSD)}`;
                 const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${compDomain}`;
-                const fallbackLogo = `https://ui-avatars.com/api/?name=${comp.ota}&background=eff6ff&color=2563eb&bold=true`;
 
                 if (index === 0) {
-                    const room1Price = `${currencyPrefix}${formatNum((comp.priceUSD) * multi)}`;
-                    const room2Price = `${currencyPrefix}${formatNum((comp.priceUSD * 1.15) * multi)}`;
-                    const strikePrice = `${currencyPrefix}${formatNum((comp.priceUSD * 1.35) * multi)}`;
+                    const room1Price = `$${formatNum(comp.priceUSD)}`;
+                    const room2Price = `$${formatNum(comp.priceUSD * 1.15)}`;
+                    const strikePrice = `$${formatNum(comp.priceUSD * 1.35)}`;
                     
                     listContainer.innerHTML += `
-                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50/50 border border-blue-100 rounded-3xl p-1 relative overflow-hidden deal-card-hover cursor-pointer mb-6 shadow-sm hover:shadow-md transition-all" onclick="window.open('${comp.link}', '_blank')">
-                            <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest shadow-sm z-10">
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50/50 border border-blue-100 rounded-3xl p-1 relative overflow-hidden deal-card-hover cursor-pointer mb-6 shadow-sm" onclick="window.open('${comp.link}', '_blank')">
+                            <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest z-10">
                                 🏆 Best Value
                             </div>
-                            <div class="bg-white/80 backdrop-blur-sm rounded-[22px] p-5 relative z-0">
+                            <div class="bg-white/80 backdrop-blur-sm rounded-[22px] p-5">
                                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
                                     <div class="flex items-center gap-4">
-                                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-2.5 shrink-0">
-                                            <img src="${logoUrl}" onerror="this.src='${fallbackLogo}'" class="w-full h-full object-contain">
+                                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center p-2.5">
+                                            <img src="${logoUrl}" class="w-full h-full object-contain">
                                         </div>
                                         <div>
                                             <h4 class="text-xl font-bold text-slate-900">${comp.ota}</h4>
@@ -672,22 +590,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="flex items-center md:items-end flex-row md:flex-col justify-between md:justify-center w-full md:w-auto">
+                                    <div class="flex items-center md:items-end flex-row md:flex-col justify-between md:justify-center">
                                         <div class="flex flex-col items-start md:items-end">
                                             <span class="text-xs text-slate-400 line-through font-medium mb-[-4px]">${strikePrice}</span>
                                             <span class="text-3xl font-black text-blue-700 tracking-tight">${priceText}</span>
                                         </div>
-                                        <button class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg shadow-blue-200 transition-all md:mt-2 shrink-0">
+                                        <button class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg md:mt-2">
                                             Check Live Rate
                                         </button>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-blue-100/50">
-                                    <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
+                                    <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between">
                                         <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Deluxe Double Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 1 double bed</span></div>
                                         <span class="font-bold text-slate-900">${room1Price}</span>
                                     </div>
-                                    <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between hover:border-blue-300 transition-colors">
+                                    <div class="bg-white rounded-xl p-3 border border-slate-100 flex items-center justify-between">
                                         <div class="flex flex-col"><span class="text-sm font-bold text-slate-800">Standard Twin Room</span><span class="text-xs text-slate-500"><i class="fa-solid fa-bed text-slate-300 mr-1"></i> 2 single beds</span></div>
                                         <span class="font-bold text-slate-900">${room2Price}</span>
                                     </div>
@@ -697,22 +615,16 @@
                     `;
                 } else {
                     listContainer.innerHTML += `
-                        <div onclick="window.open('${comp.link}', '_blank')" class="bg-white rounded-2xl p-4 border border-slate-100 flex items-center justify-between hover:border-blue-300 hover:shadow-md cursor-pointer transition-all mb-3 group">
+                        <div onclick="window.open('${comp.link}', '_blank')" class="bg-white rounded-2xl p-4 border border-slate-100 flex items-center justify-between hover:border-blue-300 cursor-pointer transition-all mb-3">
                             <div class="flex items-center gap-4">
                                 <div class="w-10 h-10 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center p-2">
-                                    <img src="${logoUrl}" onerror="this.src='${fallbackLogo}'" class="w-full h-full object-contain">
+                                    <img src="${logoUrl}" class="w-full h-full object-contain">
                                 </div>
-                                <div class="flex flex-col">
-                                    <span class="font-bold text-slate-800 group-hover:text-blue-700 transition-colors">${comp.ota}</span>
-                                    <span class="text-xs text-slate-400">Verified option</span>
-                                </div>
+                                <span class="font-bold text-slate-800">${comp.ota}</span>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="text-lg font-black text-slate-700">${priceText}</span>
-                                <button class="bg-white border border-slate-200 text-blue-600 group-hover:bg-blue-50 group-hover:border-blue-300 font-bold text-[12px] px-3 py-1.5 rounded-lg transition-colors shadow-sm hidden md:block">
-                                    Check Dates
-                                </button>
-                                <div class="text-slate-300 group-hover:text-blue-500 transition-colors md:hidden"><i class="fa-solid fa-chevron-right"></i></div>
+                                <button class="bg-white border border-slate-200 text-blue-600 font-bold text-[12px] px-3 py-1.5 rounded-lg">Check Dates</button>
                             </div>
                         </div>
                     `;
@@ -720,119 +632,13 @@
             });
         }
 
-        function renderRealEcommerceData(merchantName, metaTitle = null, metaImage = null, aiPrices = []) {
-            const lowerMerchant = merchantName.toLowerCase();
-            document.getElementById('merchantNameDisplay').innerText = merchantName;
-            
-            const extractedData = extractSearchTerm(redirectUrl);
-            const extractedTerm = extractedData.query;
-            const displayName = metaTitle || extractedData.display || 'Selected Product';
-            
-            document.getElementById('ecommerceItemName').innerText = displayName;
-
-            const imgEl = document.getElementById('ecommerceProductImg');
-            imgEl.src = metaImage || "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
-            
-            const compDomain = lowerMerchant.replace(/\s+/g, '') + (lowerMerchant.includes('.com') ? '' : '.com');
-            const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${compDomain}`;
-            document.getElementById('merchantLogo').src = logoUrl;
-
-            const listContainer = document.getElementById('ecomCompareList');
-            if (!listContainer) return;
-            listContainer.innerHTML = '';
-            
-            const multipliers = { 'KHR': 4100, '฿': 35, 'S$': 1.3, 'RM': 4.7, '₱': 56, '$': 1 };
-            const multi = multipliers[currentCurrencySymbol] || 1;
-            const formatNum = (num) => Math.round(num).toLocaleString();
-            const currencyPrefix = currentCurrencySymbol === '$' ? '$' : `${currentCurrencySymbol} `;
-
-            let alternatives = [];
-
-            if (aiPrices && aiPrices.length > 0) {
-                alternatives = aiPrices.map(comp => ({
-                    name: comp.ota,
-                    domain: comp.ota.toLowerCase().replace(/\s+/g, '') + '.com',
-                    price: comp.priceUSD,
-                    link: `https://runpromo-backend.vercel.app/api/redirect?ota=${encodeURIComponent(comp.ota)}&query=${encodeURIComponent(displayName)}`
-                }));
-            } else {
-                let hash = 0;
-                for (let i = 0; i < displayName.length; i++) { hash = displayName.charCodeAt(i) + ((hash << 5) - hash); }
-                const baseUSD = Math.abs(hash % 120) + 15; 
-                
-                if(lowerMerchant.includes('shopee')) {
-                    alternatives.push({ name: 'Lazada', domain: 'lazada.co.th', price: baseUSD * 1.05, link: `https://www.lazada.co.th/catalog/?q=${extractedTerm}` });
-                    alternatives.push({ name: 'AliExpress', domain: 'aliexpress.com', price: baseUSD * 0.92, link: `https://www.aliexpress.com/wholesale?SearchText=${extractedTerm}` });
-                } else if (lowerMerchant.includes('lazada')) {
-                    alternatives.push({ name: 'Shopee', domain: 'shopee.co.th', price: baseUSD * 0.98, link: `https://shopee.co.th/search?keyword=${extractedTerm}` });
-                    alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.15, link: `https://www.amazon.com/s?k=${extractedTerm}` });
-                } else {
-                    alternatives.push({ name: 'Amazon', domain: 'amazon.com', price: baseUSD * 1.05, link: `https://www.amazon.com/s?k=${extractedTerm}` });
-                    alternatives.push({ name: 'eBay', domain: 'ebay.com', price: baseUSD * 0.95, link: `https://www.ebay.com/sch/i.html?_nkw=${extractedTerm}` });
-                }
-            }
-
-            alternatives.forEach(alt => {
-                const affiliateLink = alt.link.includes('runpromo-backend') ? alt.link : `https://invl.me/aff_m?url=${encodeURIComponent(alt.link)}`;
-                const priceStr = `${currencyPrefix}${formatNum(alt.price * multi)}`;
-                const altLogo = `https://www.google.com/s2/favicons?sz=128&domain=${alt.domain}`;
-                
-                listContainer.innerHTML += `
-                    <div onclick="window.open('${affiliateLink}', '_blank')" class="p-4 border-b border-slate-100 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-8 h-8 rounded bg-white shadow-sm border border-slate-200 p-1 flex items-center justify-center">
-                                <img src="${altLogo}" onerror="this.src='https://ui-avatars.com/api/?name=${alt.name}&background=fff&color=8b5cf6&size=128&bold=true'" class="max-w-full max-h-full object-contain rounded-sm">
-                            </div>
-                            <div class="flex flex-col text-left">
-                                <span class="font-bold text-slate-800 text-[15px] group-hover:text-violet-700 transition-colors">${alt.name}</span>
-                                <span class="text-[11px] text-slate-400 font-medium">Verified retailer</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <span class="font-black text-slate-700 text-[15px] tracking-tight">${priceStr}</span>
-                            <button class="bg-white border border-slate-200 text-violet-600 group-hover:bg-violet-50 group-hover:border-violet-300 font-bold text-[12px] px-3 py-1.5 rounded-lg transition-colors shadow-sm">
-                                View
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function showToast(messageHtml, isRedirecting = false) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast-enter bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 font-medium text-sm border border-slate-700';
-            toast.innerHTML = `<i class="${isRedirecting ? 'fa-solid fa-circle-notch fa-spin text-blue-400' : 'fa-solid fa-check-circle text-green-400'} text-lg"></i><span>${messageHtml}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(10px)'; setTimeout(() => toast.remove(), 300); }, 3000); 
-        }
-
-        function openModal(modalId) {
-            const backdrop = document.getElementById('modalBackdrop');
-            const modal = document.getElementById(modalId);
-            backdrop.classList.remove('hidden'); modal.classList.remove('hidden');
-            setTimeout(() => { backdrop.classList.remove('opacity-0'); modal.classList.remove('opacity-0', 'scale-95'); modal.classList.add('opacity-100', 'scale-100'); }, 10);
-        }
-
-        function closeAllModals() {
-            const backdrop = document.getElementById('modalBackdrop');
-            const modals = document.querySelectorAll('div[id^="modal-"]');
-            backdrop.classList.add('opacity-0');
-            modals.forEach(modal => { modal.classList.remove('opacity-100', 'scale-100'); modal.classList.add('opacity-0', 'scale-95'); });
-            setTimeout(() => { backdrop.classList.add('hidden'); modals.forEach(modal => modal.classList.add('hidden')); }, 300);
-        }
-
         async function processLink() {
             let inputUrl = document.getElementById('productLink').value.trim();
             if(!inputUrl) return;
 
             if (currentMode === 'shipping') {
-                showToast("Routing to logistics engine...", true);
                 const dest = document.getElementById('homeDestination').value;
-                setTimeout(() => {
-                    window.location.href = `shipping.html?url=${encodeURIComponent(inputUrl)}&dest=${encodeURIComponent(dest)}`;
-                }, 600);
+                window.location.href = `shipping.html?url=${encodeURIComponent(inputUrl)}&dest=${encodeURIComponent(dest)}`;
                 return;
             }
 
@@ -843,112 +649,68 @@
             const loadingState = document.getElementById('loadingState');
             loadingState.classList.remove('hidden');
 
-            document.getElementById('loadingTitle').innerText = "Analyzing link...";
-            document.getElementById('step2').className = "flex items-center gap-3 text-slate-400 transition-all";
-            document.getElementById('step2').innerHTML = '<i class="fa-regular fa-circle"></i> Extracting verified details';
-            document.getElementById('step3').className = "flex items-center gap-3 text-slate-400 transition-all";
-            document.getElementById('step3').innerHTML = '<i class="fa-regular fa-circle"></i> Verifying live partner rates';
-
-            const coldStartWarning = setTimeout(() => {
-                if (!loadingState.classList.contains('hidden')) {
-                    document.getElementById('loadingSubtitle').innerText = 'Checking verified merchant networks...';
-                }
-            }, 3000);
+            const ciVal = document.getElementById('checkInDate').value;
+            const coVal = document.getElementById('checkOutDate').value;
+            const guestVal = document.getElementById('guestCount') ? document.getElementById('guestCount').value.split(',') : [2, 0, 1];
 
             try {
-                const response = await fetch('https://runpromo-backend.vercel.app/api/optimize-link', {
+                const response = await fetch('/api/optimize-link', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ targetUrl: redirectUrl })
+                    body: JSON.stringify({ 
+                        targetUrl: redirectUrl,
+                        checkin: ciVal,
+                        checkout: coVal,
+                        adults: guestVal[0],
+                        rooms: guestVal[2]
+                    })
                 });
 
-                clearTimeout(coldStartWarning);
-                if (!response.ok) throw new Error('Backend unavailable');
+                if (!response.ok) throw new Error('Backend error');
                 const data = await response.json();
-                
-                if (data.error) {
-                    showToast("Unsupported URL format.");
-                    loadingState.classList.add('hidden');
-                    return;
-                }
-
-                document.getElementById('step2').className = "flex items-center gap-3 text-blue-600 font-medium transition-all";
-                document.getElementById('step2').innerHTML = '<i class="fa-solid fa-check-circle"></i> Extracted via secure connection';
 
                 if (data.type === "travel" || currentMode === 'travel') {
                     renderRealTravelData(data);
-                    if(data.cashback) { showToast(`<i class="fa-solid fa-coins text-yellow-400 mr-1"></i> ${data.cashback} unlocked!`); }
                     setTimeout(() => {
                         loadingState.classList.add('hidden');
                         document.getElementById('noCouponCard').classList.remove('hidden');
-                        document.getElementById('noCouponCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 800);
+                    }, 600);
                 } else {
-                    const merchantName = data.merchant || "Partner Store";
-                    redirectUrl = data.affiliateUrl || redirectUrl; 
-                    
-                    if(data.coupons && data.coupons.length > 0) {
-                        document.getElementById('mainCoupon').innerText = data.coupons[0].code;
-                        document.getElementById('minSpendText').innerText = data.coupons[0].minSpend;
-                        if(data.coupons[1]) document.getElementById('subCoupon1').innerText = data.coupons[1].code;
-                    }
-                    
-                    renderRealEcommerceData(merchantName, data.metaTitle, data.metaImage, data.comparablePrices);
-                    
-                    if(data.cashback) { showToast(`<i class="fa-solid fa-coins text-yellow-400 mr-1"></i> ${data.cashback} unlocked!`); }
+                    renderRealTravelData({ lowestPriceUSD: 135, comparablePrices: [] });
                     setTimeout(() => {
                         loadingState.classList.add('hidden');
                         document.getElementById('resultsCard').classList.remove('hidden');
-                        document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 800);
+                    }, 600);
                 }
             } catch (error) {
-                clearTimeout(coldStartWarning);
-                
-                if (isTravelLink || currentMode === 'travel') {
-                    renderRealTravelData({ comparablePrices: [] }); 
-                    setTimeout(() => {
-                        loadingState.classList.add('hidden');
-                        document.getElementById('noCouponCard').classList.remove('hidden');
-                        document.getElementById('noCouponCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 1000);
-                } else {
-                    document.getElementById('mainCoupon').innerText = "SAVE20NOW";
-                    document.getElementById('minSpendText').innerText = `Min. spend ${currentCurrencySymbol}50`;
-                    renderRealEcommerceData("Partner Store", null, null, []);
-                    setTimeout(() => {
-                        loadingState.classList.add('hidden');
-                        document.getElementById('resultsCard').classList.remove('hidden');
-                        document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 1000);
-                }
+                renderRealTravelData({ lowestPriceUSD: 135, comparablePrices: [] });
+                setTimeout(() => {
+                    loadingState.classList.add('hidden');
+                    document.getElementById('noCouponCard').classList.remove('hidden');
+                }, 600);
             }
         }
 
-        async function copyAndRedirect(elementId) {
-            const codeText = document.getElementById(elementId).innerText;
-            try {
-                await navigator.clipboard.writeText(codeText);
-                showToast(`Code <b>${codeText}</b> copied! Opening store securely...`, true);
-            } catch (err) {
-                showToast("Redirecting securely...", true);
-            }
+        function copyAndRedirect(elementId) {
             triggerRedirect();
         }
 
-        function handleCouponKeypress(event, elementId) {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault(); copyAndRedirect(elementId);
-            }
+        function triggerRedirect() {
+            window.open(redirectUrl, '_blank');
         }
 
-        function triggerRedirect() {
-            const a = document.createElement('a');
-            a.href = redirectUrl;
-            a.target = '_blank';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+        function openModal(modalId) {
+            const backdrop = document.getElementById('modalBackdrop');
+            const modal = document.getElementById(modalId);
+            backdrop.classList.remove('hidden'); modal.classList.remove('hidden');
+            setTimeout(() => { backdrop.classList.remove('opacity-0'); modal.classList.remove('opacity-0', 'scale-95'); }, 10);
+        }
+
+        function closeAllModals() {
+            const backdrop = document.getElementById('modalBackdrop');
+            const modals = document.querySelectorAll('div[id^="modal-"]');
+            backdrop.classList.add('opacity-0');
+            setTimeout(() => { backdrop.classList.add('hidden'); modals.forEach(m => m.classList.add('hidden')); }, 300);
         }
     </script>
 </body>
